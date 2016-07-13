@@ -1,0 +1,196 @@
+% LaTeX resume using res.cls
+\documentclass{res}
+\usepackage[latin1]{inputenc}
+%\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
+%\usepackage{newcent}   % uses new century schoolbook postscript font 
+\setlength{\textwidth}{5.1in} % set width of text portion
+\addtolength{\textheight}{1.5in}
+\addtolength{\oddsidemargin}{-.0in}
+\topmargin=-0.2in 
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{breqn}
+\usepackage{natbib}
+\usepackage{epstopdf}
+\usepackage{float}
+
+\def\citeapos#1{\citeauthor{#1}\textcolor{blue}{'s} (\citeyear{#1})}
+
+\usepackage[breaklinks]{hyperref}
+
+\hypersetup{
+    colorlinks = true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=cyan
+    }
+
+\begin{document}
+
+% Center the name over the entire width of resume:
+ \moveleft.5\hoffset\centerline{\large\bf David Zarruk Valencia}
+% address begins here
+% Again, the address lines must be centered over entire width of resume:
+ \moveleft.5\hoffset\centerline{135 S. 20th st}
+ \moveleft.5\hoffset\centerline{Philadelphia, PA, 19103}
+ \moveleft.5\hoffset\centerline{+1(267)474-6472}
+ \moveleft.5\hoffset\centerline{\href{mailto:davidza@sas.upenn.edu}{davidza@sas.upenn.edu}}
+% Draw a horizontal line the whole width of resume:
+ \moveleft\hoffset\vbox{\hrule width\resumewidth height 1pt}\smallskip
+\begin{resume}
+\section{EDUCATION} 
+                {\sl MA in economics,} (GPA: 4.68/5), \hfill 2013\\
+                Universidad de los Andes, Bogot\'a, Colombia                
+
+                {\sl BA in mathematics,} (GPA: 4.52/5), \hfill  2013\\
+                Thesis: Solving the Support Vector Machines' optimization problem \\ 
+                through \textit{k-nearest} neighbors search (Grade: 5.0/5.0)\\
+                Universidad de los Andes, Bogot\'a, Colombia
+
+                {\sl BA in economics, cum laude,} (GPA: 4.60/5), \hfill 2011\\
+                Universidad de los Andes, Bogot\'a, Colombia
+
+                {\sl Academic exchange,} (GPA: 27.5/30), \hfill 2009 \\
+                Universit\`a Commerciale Luigi Bocconi, Milan, Italy
+                
+                
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip                
+\section{PERSONAL INTERESTS}
+
+								Macroeconomic theory, development and conflict economics. \\
+
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip
+ 
+\section{WORKING EXPERIENCE} 
+
+								{\sl Research assistant} \hfill March 2011 - June 2013\\
+								Centro de Estudios sobre Desarrollo Econ\'omico - CEDE\\
+								Universidad de los Andes\\
+								
+								\begin{itemize}
+									\item Co-author of a working paper that studies the impact of crime participation on lower school assistance in Colombia. 
+									\item Database construction and consolidation for different projects at CEDE. 
+									\item Regression analysis and estimation for research related to conflict, violence, education and poverty.
+									\item Design, simulation and model calibration to estimate the fiscal burden of programs for the displaced population, prepared for the Ministry of Finance.
+									\item Go through national and international economic literature on conflict economics and rural development.
+									 								
+								\end{itemize}
+								{\sl Research assistant} \hfill October 2009 									- July 2010\\
+								EConcept AEI\\
+
+								\begin{itemize}
+								
+									\item Analyze and prepare weekly conference presentations on Colombian and international economic conjuncture.
+									 
+									\item Participate in the elaboration of monthly and quarterly economic reports on the Colombian economy.
+									
+									\item Elaborate quarterly GDP projections.
+									
+									\item Collect information of the Colombian economy for database construction.
+																								
+								\end{itemize}
+\newpage
+\section{ACADEMIC EXPERIENCE} 
+
+								\underline{{\sl Teaching assistant (for professor Harold Cole):}}
+								
+								Macroeconomic Theory II, \hfill 2014\\
+								PhD in Economics,	University of Pennsylvania
+
+								\underline{{\sl Teaching assistant (for professor Harold Cole):}}
+								
+								Monetary and Fiscal Policy, \hfill 2014\\
+								BA in Economics,	University of Pennsylvania
+
+								\underline{{\sl Professor:}}
+								
+								MATLAB Introductory Course, \hfill 2013\\
+								BA in Economics,	Universidad de los Andes
+
+								\underline{{\sl Graduate instructor:}}
+								
+								Advanced Microeconomics: Game Theory (3.75/4.00),  \hfill 2012\\
+								Advanced Macroeconomics: Long Run (3.78/4.00), \hfill 2011\\
+								MA in Economics,	Universidad de los Andes
+								
+								Linear Algebra I (3.64/4.00), \hfill 2011\\
+								Mathematical Methods for Economists (3.61/4.00), \hfill 2011\\
+								BA in Mathematics, Universidad de los Andes
+                                
+								Microeconomics II (3.45/4.00), \hfill 2011, 2012\\
+								BA in Economics, Universidad de los Andes
+								                
+								Introduction to Asymmetric Information and Auction Theory, \hfill 2010\\
+								Diploma on Economics of Risk and Information, Universidad de los Andes
+
+								{\sl Undergraduate teaching assistant:} 
+								Linear Algebra II, Integral Calculus, Statistics and Probability, Poverty and Wealth.\\
+
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip
+						
+\section{AWARDS}
+
+Best preliminary econometrics exam (8/10) \hfill 2011\\
+PhD in Economics, University of Pennsylvania
+
+Cum Laude degree in economics (GPA: 4.60/5) \hfill 2011\\
+BA in Economics, Universidad de los Andes
+
+Scholarship awarded to the best ECAES of Universidad de los Andes\hfill  2011 \\
+MA in Economics, Universidad de los Andes 
+ 
+Academic excellence scholarship (GPA: 5/5), \hfill 2011\\
+BA in Economics, Universidad de los Andes
+
+Second highest national score in ECAES (Colombian National Exam of \hfill 2010\\       
+Undergraduate Academic Quality), Score: 152
+
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip
+ 						
+\section{RESEARCH} 
+
+								`\textit{Equidad y Eficiencia Rural en Colombia: Una Discusi\'on de Pol\'{i}ticas Para el Acceso a la Tierra}', 2012. \textit{Working paper}, Documento CEDE (2012-38). With Ana Mar\'{i}a Ib\'a\~nez and Margarita G\'afaro.
+
+								`\textit{On the Determinants of Armed Groups' Demobilization: Analysis of the Colombian Case}'. Masters' thesis, 2012. Advisors: Ana Mar\'{i}a Ib\'a\~nez and Daniel Mej\'{i}a.
+
+								`\textit{Solving the Support Vector Machines' optimization problem through \textit{k-nearest} neighbors search}', 2012. \textit{Working paper}. To be published. With Mar�a de los �ngeles Gonz�lez and Adolfo Quiroz.							
+
+								`\textit{The Costs of Crime and Violence in Colombia: Juvenile Crime and Education.}' Working paper, 2012. With Ana Mar\'{i}a Ib\'a\~nez and Catherine Rodriguez. 
+
+								`\textit{T\'opicos en Teor\'{i}a Geom\'etrica de Grupos}'. Non-published manuscript, 2011. With Daniele D'Angeli and others. Available from the author upon request.
+								
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip
+ 
+\section{GRANTS}
+
+								IDB grant for research on the costs of violence and conflict in \hfill 2012\\
+								Latin America and the Caribbean. 
+								%With Ana Mar�a Ib��ez and Catherine Rodriguez. \\
+
+
+% Draw a horizontal line the whole width of resume:
+% \moveleft\hoffset\vbox{\hrule width\resumewidth }\smallskip
+ 
+\section{LANGUAGES}  
+
+English (fluent), italian (proficient), portuguese (proficient), spanish (native).\\
+
+
+
+
+\end{resume}
+\end{document}
+
+
+
+
