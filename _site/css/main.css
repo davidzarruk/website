@@ -172,13 +172,13 @@ pre {
 .site-header {
   border-top: 5px solid #424242;
   border-bottom: 1px solid #ebebeb;
-  min-height: 125px;
+  min-height: 200px;
   position: relative; }
 
 .site-title {
   font-size: 40px;
   font-weight: 300px;
-  line-height: 200px;
+  line-height: 300px;
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left;
@@ -344,38 +344,6 @@ a:hover, a:visited, a:link, a:active {
     @media screen and (max-width: 800px) {
       .post-content h4 {
         font-size: 18px; } }
-
-#typeado {
-  @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500); }
-  #typeado * {
-    padding: 0;
-    margin: 0; }
-  #typeado body {
-    font-family: "Ubuntu", sans-serif;
-    font-size: 100%;
-    background: #f8f8f8; }
-  #typeado a {
-    text-decoration: none;
-    color: #666; }
-  #typeado a:hover {
-    color: #999; }
-  #typeado p {
-    line-height: 2em;
-    margin: 0 0 20px;
-    text-align: center; }
-  #typeado .wrap {
-    max-width: 600px;
-    margin: 150px auto; }
-  #typeado .type-wrap {
-    margin: 10px auto;
-    padding: 20px;
-    background: #f0f0f0;
-    border-radius: 5px;
-    border: #CCC 1px solid; }
-  #typeado .links {
-    margin: 20px 0;
-    font-size: 0.75em;
-    text-align: center; }
 
 /**
  * Syntax highlighting styles
