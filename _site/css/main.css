@@ -175,6 +175,12 @@ pre {
   min-height: 200px;
   position: relative; }
 
+.site-header-sec {
+  border-top: 5px solid #424242;
+  border-bottom: 1px solid #ebebeb;
+  min-height: 120px;
+  position: relative; }
+
 .site-title {
   font-size: 40px;
   font-weight: 300px;
@@ -185,6 +191,18 @@ pre {
   height: 0px;
   text-decoration: none !important; }
   .site-title, .site-title:visited {
+    color: #424242; }
+
+.site-title-sec {
+  font-size: 40px;
+  font-weight: 100px;
+  line-height: 100px;
+  letter-spacing: -1px;
+  margin-bottom: 0;
+  float: left;
+  height: 0px;
+  text-decoration: none !important; }
+  .site-title-sec, .site-title-sec:visited {
     color: #424242; }
 
 .site-nav {
@@ -291,7 +309,7 @@ pre {
   align: center; }
 
 a:hover, a:visited, a:link, a:active {
-  color: inherit; }
+  color: #3F51B5; }
 
 .page-content {
   padding: 30px 0; }
