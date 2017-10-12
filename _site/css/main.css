@@ -202,7 +202,7 @@ pre {
   float: left;
   height: 0px;
   text-decoration: none !important; }
-  .site-title-sec, .site-title-sec:visited {
+  .site-title-sec, .site-title-sec:visited, .site-title-sec:hover, .site-title-sec:focus, .site-title-sec:active {
     color: #424242; }
 
 .site-nav {

@@ -73,7 +73,10 @@
     text-decoration: none !important;
 
     &,
-    &:visited {
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active {
         color: $grey-color-dark;
     }
 }
