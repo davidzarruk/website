@@ -201,8 +201,9 @@ pre {
   margin-bottom: 0;
   float: left;
   height: 0px;
-  text-decoration: none !important;
-  color: #424242; }
+  text-decoration: none !important; }
+  .site-title-sec, .site-title-sec:visited {
+    color: #424242; }
 
 .site-nav {
   float: right;

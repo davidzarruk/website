@@ -72,8 +72,10 @@
     height: 0px;
     text-decoration: none !important;
 
-    color: $grey-color-dark;
-
+    &,
+    &:visited {
+        color: $grey-color-dark;
+    }
 }
 
 .site-nav {
