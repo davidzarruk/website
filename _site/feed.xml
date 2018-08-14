@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 28 Nov 2017 15:48:39 -0500</pubDate>
-    <lastBuildDate>Tue, 28 Nov 2017 15:48:39 -0500</lastBuildDate>
+    <pubDate>Mon, 13 Aug 2018 22:11:51 -0500</pubDate>
+    <lastBuildDate>Mon, 13 Aug 2018 22:11:51 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -26,7 +26,7 @@
 &lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Tue, 12 Jul 2016 17:30:52 -0400</pubDate>
+        <pubDate>Tue, 12 Jul 2016 16:30:52 -0500</pubDate>
         <link>http://localhost:4000/jekyll/update/2016/07/12/welcome-to-jekyll.html</link>
         <guid isPermaLink="true">http://localhost:4000/jekyll/update/2016/07/12/welcome-to-jekyll.html</guid>
         
