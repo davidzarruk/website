@@ -7,11 +7,11 @@
 
 # Site settings
 title: David Zarruk
-email: davidza@sas.upenn.edu
+email: david.zarruk@itam.mx
 description: > # this means to ignore newlines until "baseurl:"
   
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://www.davidzarruk.com/" # the base hostname & protocol for your site
 twitter_username: dzarruk
 github_username:  davidzarruk
 
