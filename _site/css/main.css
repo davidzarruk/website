@@ -168,6 +168,21 @@ pre > code {
   fill: #424242;
 }
 
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 /**
 * Index 
 */
