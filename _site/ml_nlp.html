@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>David Zarruk Valencia</title>
+  <meta name="description" content="">
+
+<!--   <link rel="shortcut icon" href="http://www.lapatria.com/sites/default/files/imagenprincipal/2016/Junio/oncecal.jpg" />
+ -->  <link rel="shortcut icon" href="https://pbs.twimg.com/profile_images/881029184792911872/lHliXW-3_400x400.jpg" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ml_nlp.html">
+  <link rel="alternate" type="application/rss+xml" title="David Zarruk Valencia" href="http://localhost:4000/feed.xml">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-80754518-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+
+  <body>
+
+    
+<head>
+  <meta charset="utf-8">
+  <title>Drop-Down Navigation: Touch-Friendly and Responsive demo by Osvaldas Valutis</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="Demo of Drop-Down Navigation: Touch-Friendly and Responsive">
+  <meta name="robots" content="all">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+  <link rel="canonical" href="/examples/drop-down-navigation-touch-friendly-and-responsive">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../main.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400">
+  <style>
+
+    body
+    {
+      padding: 0.25em; /* 20 */
+    }
+
+    #nav
+    {
+      width: 60em; /* 1000 */
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      margin-left: -30em; /* 30 480 */
+    }
+
+      #nav > a
+      {
+        display: none;
+      }
+
+      #nav li
+      {
+        position: relative;
+      }
+        #nav li a
+        {
+          color: #000000;
+          display: block;
+        }
+        #nav li a:active
+        {
+          background-color: #A9A9A9 !important;
+        }
+
+      #nav span:after
+      {
+        width: 0;
+        height: 0;
+        border: 0.313em solid transparent; /* 5 */
+        border-bottom: none;
+        border-top-color: #A9A9A9;
+        content: '';
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        right: -0.313em; /* 5 */
+      }
+
+      /* first level */
+
+      #nav > ul
+      {
+        height: 3.75em; /* 60 */
+        background-color: #A9A9A9;
+      }
+        #nav > ul > li
+        {
+          width: 25%;
+          height: 100%;
+          float: left;
+        }
+          #nav > ul > li > a
+          {
+            height: 100%;
+            font-size: 1.5em; /* 24 */
+            line-height: 2.5em; /* 60 (24) */
+            text-align: center;
+          }
+            #nav > ul > li:not( :last-child ) > a
+            {
+              border-right: 1px solid #cc470d;
+            }
+            #nav > ul > li:hover > a,
+            #nav > ul:not( :hover ) > li.active > a
+            {
+              background-color: #A9A9A9;
+            }
+
+
+        /* second level */
+
+        #nav li ul
+        {
+          background-color: #A9A9A9;
+          display: none;
+          position: absolute;
+          top: 100%;
+        }
+          #nav li:hover ul
+          {
+            display: block;
+            left: 0;
+            right: 0;
+          }
+            #nav li:not( :first-child ):hover ul
+            {
+              left: -1px;
+            }
+            #nav li ul a
+            {
+              font-size: 1.25em; /* 20 */
+              border-top: 1px solid #000000;
+              padding: 0.75em; /* 15 (20) */
+            }
+              #nav li ul li a:hover,
+              #nav li ul:not( :hover ) li.active a
+              {
+                background-color: #A9A9A9;
+              }
+
+
+    @media only screen and ( max-width: 40em ) /* 1000 */
+    {
+      #nav
+      {
+        width: 40%;
+        position: static;
+        margin: 0;
+      }
+    }
+
+    @media only screen and ( min-width: 40em ) /* 1000 */
+    {
+      #nav
+      {
+        display: none;
+      }
+    }
+
+    @media only screen and ( max-width: 40em ) /* 1000 */
+    {
+      #pc
+      {
+        display: none;
+      }
+    }
+
+    @media only screen and ( max-width: 40em ) /* 640 */
+    {
+      html
+      {
+        font-size: 75%; /* 12 */
+      }
+
+      #nav
+      {
+        position: absolute;
+        top: 0;
+        left: 0.5em;
+      }
+        #nav > a
+        {
+          width: 3.125em; /* 50 */
+          height: 3.125em; /* 50 */
+          text-align: left;
+          text-indent: -9999px;
+          background-color: #A9A9A9;
+          position: relative;
+        }
+          #nav > a:before,
+          #nav > a:after
+          {
+            position: absolute;
+            border: 2px solid #505050;
+            top: 35%;
+            left: 25%;
+            right: 25%;
+            content: '';
+          }
+          #nav > a:after
+          {
+            top: 60%;
+          }
+
+        #nav:not( :target ) > a:first-of-type,
+        #nav:target > a:last-of-type
+        {
+          display: block;
+        }
+
+
+      /* first level */
+
+      #nav > ul
+      {
+        height: auto;
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+        #nav:target > ul
+        {
+          display: block;
+        }
+        #nav > ul > li
+        {
+          width: 100%;
+          float: none;
+        }
+          #nav > ul > li > a
+          {
+            height: auto;
+            text-align: left;
+            padding: 0 0.5em; /* 20 (24) */
+          }
+            #nav > ul > li:not( :last-child ) > a
+            {
+              border-right: none;
+              border-bottom: 1px solid #000000;
+            }
+
+
+        /* second level */
+
+        #nav li ul
+        {
+          position: static;
+          padding: 1.25em; /* 20 */
+          padding-top: 0;
+        }
+    }
+
+  </style>
+<script src="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.es.u_jG6zn4KO8.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=AQ/rs=AGLTcCNZef1shP0T4g21h9fHhJW947gA7Q/cb=gapi.loaded_1" async=""></script><script src="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.es.u_jG6zn4KO8.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=AQ/rs=AGLTcCNZef1shP0T4g21h9fHhJW947gA7Q/cb=gapi.loaded_0" async=""></script><script id="_carbonads_projs" type="text/javascript" src="//srv.carbonads.net/ads/C6AILKT.json?segment=placement:osvaldasinfo&amp;callback=_carbonads_go"></script><script type="text/javascript" charset="utf-8" async="" src="https://platform.twitter.com/js/button.5fcc9823a20311bbb78e6941b0558680.js"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}.fb_shrink_active{opacity:1;transform:scale(1, 1);transition-duration:200ms;transition-timing-function:ease-out}.fb_shrink_active:active{opacity:.5;transform:scale(.75, .75)}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(http://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(http://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style>
+
+</head>
+
+
+
+<header class="site-header-sec">
+
+  <div class="wrapper">
+
+<div id="pc" class="wrap">
+
+    <table >
+    <tr>
+      <td >
+      <p class="site-title-sec"> Teaching </p>
+      </td>
+
+      <td style="width:490px;">
+      <p>  </p>
+      </td>
+      <td >
+    <div style="height:80px;"></div>
+      </td>
+    </tr>
+    <tr>
+      <td >
+      </td>
+      <td style="width:350px;">
+      <p>  </p> </td>
+      <td valign="bottom">
+      <p> <a style="font-size:22px" class="site-title-sec" href="/">Main</a> </p></td>
+      <td style="width:15px;">
+      <p>  </p></td>
+      <td valign="bottom"></td>
+
+      <td valign="bottom">
+      <p> <a target="_blank" style="font-size:22px" class="site-title-sec" href="/files/CV.pdf">CV</a> </p>
+      </td>
+      <td style="width:15px;">
+      <p>  </p></td>
+      <td valign="bottom">
+      <p> <a style="font-size:22px" class="site-title-sec" href="/research.html">Research</a> </p></td>
+      <td style="width:15px;">
+      <p>  </p></td>
+      <td valign="bottom"></td>
+
+      <td valign="bottom">
+      <p> <a style="font-size:22px" class="site-title-sec" href="/other.html">Other</a> </p>
+      </td>
+
+    </tr>
+    </table>
+</div>
+
+    
+
+
+<nav id="nav" role="navigation">
+
+  <a href="#nav" title="Show navigation">Show navigation</a>
+  <a href="#" title="Hide navigation">Hide navigation</a>
+  <ul class="clearfix" style="list-style-type:none">
+    <li><a style="font-size:22px" href="/">Main</a></li>
+    <li><a style="font-size:22px" href="/files/CV.pdf">CV</a></li>
+    <li><a style="font-size:22px" href="/research.html">Research</a></li>
+    <li><a style="font-size:22px" href="/other.html">Other</a></li>
+  </ul>
+
+  <table >
+
+    <tr>
+
+      <td >
+      <p class="site-title-sec"> Teaching </p>
+      </td>
+
+    </tr>
+    </table>
+
+</nav>
+
+<!--     <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <ul>
+            <li><a style="font-size:22px" class="site-title-sec" href="/">Main</a></li>
+            <li><a style="font-size:22px" class="site-title-sec" href="/files/CV.pdf">CV</a></li>
+            <li><a style="font-size:22px" class="site-title-sec" href="/research.html">Research</a> </li>
+            <li><a style="font-size:22px" class="site-title-sec" href="/other.html">Other</a></li></ul>
+        </svg>
+      </a>
+
+      
+    </nav> -->
+
+
+
+
+  </div>
+
+  
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <head>
+<style>
+@media screen and (max-width:600px) and (min-width:10px)
+{
+  #tab1 {
+    display: none;
+    
+  }
+}
+@media screen and (min-width:600px)
+{
+  #tab2 {
+    display: none;
+
+  }
+}
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send GET Request</title>
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<div class="container">
+  <input type="text" id="inputText" placeholder="Enter text">
+  <button id="sendButton">Send GET Request</button>
+  <p>Result: <span id="result"></span></p>
+</div>
+<script src="main.js"></script>
+
+</div>
+
+      </div>
+    </div>
+    <p style="margin-bottom: -1cm;">   </p>
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper" style="text-align: right;">
+
+        Contact information:
+
+        <ul class="social-media-list">
+          
+          <li> Bogotá, Colombia </li>
+          <li> <a href="mailto:davidzarruk@gmail.com">davidzarruk@gmail.com</a> </li>
+          <li style="height:7px"> </li>
+          <li> <a href="https://github.com/davidzarruk"><span class="icon icon--github" target="_blank"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
+<g>
+	<path id="Github__x28_alt_x29_" d="M65.709,10.5c1.17,2.657,1.928,7.07,0.797,10.301c4.625,3.949,6.215,13.549,3.982,21.394
+		C77.08,42.698,84.932,41.953,90,43.976c-4.738-0.609-11.209-1.804-17.32-1.388c-1.158,0.079-2.873-0.044-2.789,1.585
+		c7.074,0.555,14.104,1.16,19.912,2.973c-5.761-0.941-12.754-2.375-19.912-2.574c-2.957,5.835-8.908,8.703-17.123,9.307
+		c0.883,1.922,2.574,2.653,2.987,5.744c0.616,4.618-0.964,11.381,0.595,14.459c0.748,1.475,1.967,1.514,2.789,2.775
+		c-2.012,2.381-7-0.268-7.568-2.775c-0.973-4.295,1.482-10.953-1.192-13.865c0.188,4.685-1.108,11.264,0.199,15.449
+		c0.515,1.646,2.002,2.281,1.593,3.766c-9.352,0.949-5.443-12.104-6.972-19.81c-1.411,0.101-0.791,2.113-0.796,2.972
+		c-0.04,7.524,1.54,17.844-6.57,16.838c-0.237-1.582,1.088-2.119,1.593-3.563c1.479-4.233-0.277-10.542,0.401-15.651
+		c-3.095,2.334,0.325,10.48-1.593,14.657c-1.105,2.404-4.666,3.45-7.367,2.377c0.352-1.79,2.2-1.501,2.984-3.169
+		c1.096-2.324,0.008-5.674,0.399-9.111c-5.729,1.144-10.173-0.166-12.348-3.764c-0.973-1.615-1.214-3.52-2.39-4.951
+		c-1.17-1.432-3.04-1.625-3.582-3.563c7.095-1.708,7.367,7.302,13.739,7.524c1.954,0.071,2.97-0.563,4.778-0.988
+		c0.506-2.272,1.589-3.967,3.186-5.153c-7.929-1.085-14.477-3.554-17.522-9.504c-7.208,0.354-13.804,1.317-19.913,2.771
+		c5.545-2.014,12.384-2.736,19.715-2.973c-0.432-2.596-4.219-1.882-6.57-1.782C8.973,42.781,3.473,43.324,0,43.976
+		c5.034-1.795,12.098-1.571,18.918-1.585c-2.086-6.54-1.363-16.929,3.186-20.798C20.815,18.344,21.215,13.03,22.9,10.5
+		c5.079,0.228,8.159,2.443,11.35,4.557c3.957-1.125,8.118-1.685,13.54-1.387c2.28,0.126,4.651,1.151,6.369,0.989
+		c1.685-0.158,3.542-2.049,5.178-2.771C61.468,10.947,63.271,10.588,65.709,10.5z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span></a>  &nbsp &nbsp
+                <a href="https://twitter.com/dzarruk"><span class="icon icon--twitter" target="_blank"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="430.117px" height="430.117px" viewBox="0 0 430.117 430.117" style="enable-background:new 0 0 430.117 430.117;"
+	 xml:space="preserve">
+<g>
+	<path id="Twitter__x28_alt_x29_" d="M381.384,198.639c24.157-1.993,40.543-12.975,46.849-27.876
+		c-8.714,5.353-35.764,11.189-50.703,5.631c-0.732-3.51-1.55-6.844-2.353-9.854c-11.383-41.798-50.357-75.472-91.194-71.404
+		c3.304-1.334,6.655-2.576,9.996-3.691c4.495-1.61,30.868-5.901,26.715-15.21c-3.5-8.188-35.722,6.188-41.789,8.067
+		c8.009-3.012,21.254-8.193,22.673-17.396c-12.27,1.683-24.315,7.484-33.622,15.919c3.36-3.617,5.909-8.025,6.45-12.769
+		C241.68,90.963,222.563,133.113,207.092,174c-12.148-11.773-22.915-21.044-32.574-26.192
+		c-27.097-14.531-59.496-29.692-110.355-48.572c-1.561,16.827,8.322,39.201,36.8,54.08c-6.17-0.826-17.453,1.017-26.477,3.178
+		c3.675,19.277,15.677,35.159,48.169,42.839c-14.849,0.98-22.523,4.359-29.478,11.642c6.763,13.407,23.266,29.186,52.953,25.947
+		c-33.006,14.226-13.458,40.571,13.399,36.642C113.713,320.887,41.479,317.409,0,277.828
+		c108.299,147.572,343.716,87.274,378.799-54.866c26.285,0.224,41.737-9.105,51.318-19.39
+		C414.973,206.142,393.023,203.486,381.384,198.639z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span></a> &nbsp &nbsp &nbsp
+                <a href="https://co.linkedin.com/in/david-zarruk-valencia-94077730" target="_blank"><span class="icon icon--twitter"><?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="430.117px" height="430.117px" viewBox="0 0 430.117 430.117" style="enable-background:new 0 0 430.117 430.117;"
+	 xml:space="preserve">
+<g>
+	<path id="LinkedIn" d="M430.117,261.543V420.56h-92.188V272.193c0-37.271-13.334-62.707-46.703-62.707
+		c-25.473,0-40.632,17.142-47.301,33.724c-2.432,5.928-3.058,14.179-3.058,22.477V420.56h-92.219c0,0,1.242-251.285,0-277.32h92.21
+		v39.309c-0.187,0.294-0.43,0.611-0.606,0.896h0.606v-0.896c12.251-18.869,34.13-45.824,83.102-45.824
+		C384.633,136.724,430.117,176.361,430.117,261.543z M52.183,9.558C20.635,9.558,0,30.251,0,57.463
+		c0,26.619,20.038,47.94,50.959,47.94h0.616c32.159,0,52.159-21.317,52.159-47.94C103.128,30.251,83.734,9.558,52.183,9.558z
+		 M5.477,420.56h92.184v-277.32H5.477V420.56z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+</span> </a> &nbsp &nbsp 
+
+          </li>
+
+        </ul>
+
+    </div>
+
+
+  </div>
+
+
+
+
+</footer>
+
+
+  </body>
+
+</html>
