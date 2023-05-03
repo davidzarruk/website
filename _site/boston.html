@@ -12,7 +12,7 @@
 <!--   <link rel="shortcut icon" href="http://www.lapatria.com/sites/default/files/imagenprincipal/2016/Junio/oncecal.jpg" />
  -->  <link rel="shortcut icon" href="https://pbs.twimg.com/profile_images/881029184792911872/lHliXW-3_400x400.jpg" />
   <link rel="stylesheet" href="css/main.css">
-  <link rel="canonical" href="http://localhost:4000/ml_nlp.html">
+  <link rel="canonical" href="http://localhost:4000/boston.html">
   <link rel="alternate" type="application/rss+xml" title="David Zarruk Valencia" href="http://localhost:4000/feed.xml">
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -382,65 +382,144 @@
         <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      margin-top: 50px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      max-width: 600px;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-
-    #result {
-      font-weight: bold;
-      font-size: 18px;
-      color: #3f51b5;
-    }
-
-    @media screen and (max-width:600px) and (min-width:10px) {
-      #tab1 {
-        display: none;
-      }
-    }
-
-    @media screen and (min-width:600px) {
-      #tab2 {
-        display: none;
-      }
-    }
-  </style>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send GET Request</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year-based Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
-  <div class="container">
-    <p>Esta página hace un llamado a una API creada en AWS, en el que se envía una URL y la API retorna la probabilidad de que esa URL sea de phishing, usando el modelo construído en la clase de ML y NLP de la Universidad de los Andes y Coursera en 2023:</p>
-    <input type="text" id="apiUrl" placeholder="Enter API URL">
-    <input type="text" id="inputText" placeholder="Enter text">
-    <button id="sendButton">Send GET Request</button>
-    <p>Result: <span id="result"></span></p>
-  </div>
-  <script src="/javascripts/main.js"></script>
+
+    <div>
+        <label for="year">Enter a year:</label>
+        <input type="number" id="year" min="1900" max="2021" value="2021">
+    </div>
+    <div>
+        <label for="hh">HH:</label>
+        <input type="text" id="hh" size="2" maxlength="2" value="00">
+        <label for="mm">MM:</label>
+        <input type="text" id="mm" size="2" maxlength="2" value="00">
+        <label for="ss">SS:</label>
+        <input type="text" id="ss" size="2" maxlength="2" value="00">
+        <button type="button" id="updateButton">Update</button>
+    </div>
+    <div id="plot"></div>
+
+    <style>
+        #plot {
+            width: 80%;
+            height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script>
+const endpoint = "https://f4jgub4jig.execute-api.us-east-2.amazonaws.com/prod/prueba/";
+const binStart = 7200;
+const binEnd = 18000;
+const numberOfBins = 100;
+const binStep = (binEnd - binStart) / (numberOfBins - 1);
+
+function fetchData(year) {
+    return $.ajax({
+        url: endpoint + year,
+        method: 'GET',
+        dataType: 'json'
+    }).then(response => response[0]);
+}
+
+
+function processData(data) {
+    let x = Array.from({ length: numberOfBins }, (_, i) => binStart + i * binStep);
+    let y = Array.from({ length: numberOfBins }, (_, i) => data[`bin_${i}_count`]);
+
+    return { x, y };
+}
+
+function plotData(x, y, year) {
+    let trace = {
+        x: x,
+        y: y,
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+            shape: 'spline'
+        }
+    };
+
+    let layout = {
+        title: 'Year-based Data - ' + year,
+        xaxis: {
+            title: 'Time (HH:MM:SS)',
+            tickmode: 'array',
+            tickvals: Array.from({ length: Math.ceil(x[x.length - 1] / 1800) }, (_, i) => i * 1800),
+            ticktext: Array.from({ length: Math.ceil(x[x.length - 1] / 1800) }, (_, i) => {
+                let date = new Date(i * 1800 * 1000);
+                return date.getUTCHours().toString().padStart(2, '0') + ':' + date.getUTCMinutes().toString().padStart(2, '0') + ':' + date.getUTCSeconds().toString().padStart(2, '0');
+            })
+        },
+        yaxis: { title: 'Count' }
+    };
+
+    let updateButton = document.getElementById("updateButton");
+    updateButton.addEventListener("click", function() {
+        let hh = parseInt(document.getElementById("hh").value);
+        let mm = parseInt(document.getElementById("mm").value);
+        let ss = parseInt(document.getElementById("ss").value);
+
+        if (hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59) {
+            let time = hh * 3600 + mm * 60 + ss;
+            let line = {
+                x: [time, time],
+                y: [Math.min(...y), Math.max(...y)],
+                mode: 'lines',
+                line: {
+                    color: 'red',
+                    dash: 'dash',
+                    width: 1
+                }
+            };
+            Plotly.addTraces('plot', line);
+
+            let fillTrace = {
+                x: [time, x[0], ...x.filter(val => val < time), time],
+                y: [Math.min(...y), Math.min(...y), ...y.filter((_, idx) => x[idx] < time), Math.min(...y)],
+                fill: 'toself',
+                type: 'scatter',
+                fillcolor: 'rgba(255, 0, 0, 0.2)',
+                line: {
+                    color: 'rgba(0, 0, 0, 0)'
+                }
+            };
+            Plotly.addTraces('plot', fillTrace);
+        } else {
+            alert("Invalid time entered.");
+        }
+    });
+
+    // Remove all existing traces before adding the new trace
+    Plotly.purge('plot');
+    Plotly.newPlot('plot', [trace], layout);
+}
+
+
+function updatePlot() {
+    let year = $('#year').val();
+    fetchData(year)
+        .then(processData)
+        .then(({ x, y }) => plotData(x, y, year));
+}
+
+
+$(document).ready(() => {
+    $('#year').on('change', updatePlot);
+    $('#hh').on('input', updatePlot);
+    $('#mm').on('input', updatePlot);
+    $('#ss').on('input', updatePlot);
+    updatePlot();
+});
+
+    </script>
 </body>
 </html>
 

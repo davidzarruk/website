@@ -1,0 +1,174 @@
+---
+layout: default_secondary
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Line Chart</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <label for="start-date">Start Date:</label>
+        <select id="start-date">
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018" selected>2018</option>
+        </select>
+    </div>
+    <div>
+        <label for="end-date">End Date:</label>
+        <select id="end-date">
+          <option value="2000">2000</option>
+          <option value="2001">2001</option>
+          <option value="2002">2002</option>
+          <option value="2003">2003</option>
+          <option value="2004">2004</option>
+          <option value="2005">2005</option>
+          <option value="2006">2006</option>
+          <option value="2007">2007</option>
+          <option value="2008">2008</option>
+          <option value="2009">2009</option>
+          <option value="2010">2010</option>
+          <option value="2011">2011</option>
+          <option value="2012">2012</option>
+          <option value="2013">2013</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023" selected>2023</option>
+      </select>
+  </div>
+  <button onclick="fetchDataAndRender()">Fetch Data and Render</button>
+  <div id="chart"></div>
+  <div class="tooltip"></div>
+  <script>
+      const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+      const width = 960 - margin.left - margin.right;
+      const height = 500 - margin.top - margin.bottom;
+
+      const xScale = d3.scaleUtc().range([0, width]);
+      const yScale = d3.scaleLinear().range([height, 0]);
+
+      function fetchDataAndRender() {
+          const startDate = document.getElementById("start-date").value;
+          const endDate = document.getElementById("end-date").value;
+
+          const url = `https://www.inegi.org.mx/app/tabulados/serviciocuadros/wsDataService.svc/listaindicador/669026/false/0700/es/json/${startDate}/${endDate}?_=${Date.now()}`;
+
+          d3.json(url).then((data) => {
+              const observations = data[0].Data[0].Serie.Obs;
+              const parsedData = observations.map((obs) => ({
+                  date: new Date(obs.TimePeriod),
+                  value: +obs.CurrentValue,
+              }));
+
+              renderChart(parsedData);
+          });
+      }
+
+      function renderChart(data) {
+          d3.select("#chart svg").remove();
+
+          const svg = d3.select("#chart")
+              .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+              .attr("transform", `translate(${margin.left},${margin.top})`);
+
+          xScale.domain(d3.extent(data, d => d.date));
+          yScale.domain([0, d3.max(data, d => d.value)]);
+
+            // Axis
+            const xAxis = d3.axisBottom(xScale);
+            const yAxis = d3.axisLeft(yScale);
+
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(xAxis);
+
+            svg.append("g")
+                .call(yAxis);
+
+            // Line
+            const line = d3.line()
+                .x(d => xScale(d.date))
+                .y(d => yScale(d.value));
+
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 2)
+                .attr("d", line);
+
+            // Add invisible overlay for detecting mouse events
+            svg.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .style("fill", "none")
+                .style("pointer-events", "all")
+                .on("mousemove", onMouseMove)
+                .on("mouseout", onMouseOut);
+
+            const tooltip = d3.select(".tooltip");
+
+            function onMouseMove(event) {
+                const bisectDate = d3.bisector(d => d.date).left;
+                const [x] = d3.pointer(event);
+                const x0 = xScale.invert(x);
+                const i = bisectDate(data, x0, 1);
+                const d0 = data[i - 1];
+                const d1 = data[i];
+                const d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+                tooltip.style("display", "block")
+                    .style("left", `${xScale(d.date) + margin.left}px`)
+                    .style("top", `${yScale(d.value) + margin.top}px`)
+                    .text(`${d.date.getFullYear()}: ${d.value}`);
+            }
+
+            function onMouseOut() {
+                tooltip.style("display", "none");
+            }
+        }
+    </script>
+</body>
+</html>

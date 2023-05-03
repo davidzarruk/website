@@ -10,7 +10,7 @@ function customEncodeURIComponent(str) {
   document.getElementById('sendButton').addEventListener('click', async () => {
     const apiUrl = document.getElementById('apiUrl').value;
     const inputText = document.getElementById('inputText').value;
-    const url = `${apiUrl}/predict/?URL=${customEncodeURIComponent(inputText)}`;
+    const url = `${apiUrl}predict/?URL=${customEncodeURIComponent(inputText)}`;
   
     try {
       const response = await fetch(url, { method: 'GET' });

@@ -1,0 +1,292 @@
+---
+layout: default_secondary
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Chart</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 2px;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 80px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+        }
+        #chart {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Line Chart</h1>
+    <div>
+        <label for="start-date">Start Date:</label>
+        <select id="start-date">
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <div>
+        <label for="end-date">End Date:</label>
+        <select id="end-date">
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+    <button id="fetch-data">Fetch Data</button>
+    <div>
+        <label for="input-value">Input Value:</label>
+        <input type="number" id="input-value" placeholder="Enter a value">
+    </div>
+    <button id="draw-line">Draw Line</button>
+    <div id="chart"></div>
+    <div class="tooltip"></div>
+
+    <script>
+        // Generate year options for dropdowns
+        for (let year = 2000; year <= 2023; year++) {
+            const startOption = document.createElement("option");
+            startOption.value = year;
+            startOption.text = year;
+            document.getElementById("start-date").appendChild(startOption);
+
+            const endOption = document.createElement("option");
+            endOption.value = year;
+            endOption.text = year;
+            document.getElementById("end-date").appendChild(endOption);
+        }
+
+        document.getElementById("fetch-data").addEventListener("click", async () => {
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+
+            // Call the API
+            const response = await fetch("http://18.222.255.126:5000/random_values");
+            const data = await response.json();
+
+            // Filter data based on start and end date
+            const filteredData = data.filter(d => d.year >= startDate && d.year <= endDate);
+
+            // Render the chart
+            renderChart(filteredData);
+        });
+
+        document.getElementById("draw-line").addEventListener("click", function() {
+            const inputValue = parseFloat(document.getElementById("input-value").value);
+            if (isNaN(inputValue)) {
+                alert("Please enter a valid number");
+                return;
+            }
+
+            drawVerticalLineAndShadeArea(inputValue);
+        });
+
+        let xScale, yScale, svg, data, width, height;
+
+        function renderChart(inputData) {
+            // Clear any existing chart
+            document.getElementById("chart").innerHTML = "";
+
+            data = inputData;
+
+            // Set the dimensions and margins of the graph
+            const margin = {top: 10, right: 30, bottom: 30, left: 50};
+            width = 800 - margin.left             - margin.right;
+            height = 400 - margin.top - margin.bottom;
+
+            // Append the SVG object to the chart div
+            svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // Add X axis
+            xScale = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.year))
+                .range([0, width]);
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale).ticks(data.length));
+
+            // Add Y axis
+            yScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.value)])
+                .range([height, 0]);
+            svg.append("g")
+                .call(d3.axisLeft(yScale));
+
+            // Add the line
+            const line = d3.line()
+                .x(d => xScale(d.year))
+                .y(d => yScale(d.value))
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+
+            // Add points
+            svg.selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "circle")
+                .attr("cx", d => xScale(d.year))
+                .attr("cy", d => yScale(d.value))
+                .attr("r", 5)
+                .attr("fill", "red")
+                .attr("opacity", 0);
+
+            // Add invisible overlay for detecting mouse events
+            svg.append("rect")
+                .attr("class", "overlay")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "none")
+                .attr("pointer-events", "all")
+                .on("mousemove", function (event) {
+                    const mouseX = d3.pointer(event)[0];
+                    const mouseY = d3.pointer(event)[1];
+                    const mouseYear = Math.round(xScale.invert(mouseX));
+                    const closestData = data.find(d => d.year === mouseYear);
+
+                    if (closestData) {
+                        const tooltip = d3.select(".tooltip");
+                        tooltip
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 25) + "px")
+                            .style("opacity", 1)
+                            .text(`Year: ${closestData.year}, Value: ${closestData.value.toFixed(2)}`);
+
+                        d3.select(".circle")
+                            .attr("cx", xScale(closestData.year))
+                            .attr("cy", yScale(closestData.value))
+                            .attr("opacity", 1);
+                    } else {
+                        d3.select(".circle")
+                            .attr("opacity", 0);
+
+                        d3.select(".tooltip")
+                            .style("opacity", 0);
+                    }
+                })
+                .on("mouseout", function () {
+                    d3.select(".circle")
+                        .attr("opacity", 0);
+
+                    d3.select(".tooltip")
+                        .style("opacity", 0);
+                });
+        }
+
+        function drawVerticalLineAndShadeArea(inputValue) {
+            // Remove existing vertical line and area if present
+            svg.selectAll(".vertical-line, .area").remove();
+
+            // Check if inputValue is within the x-axis range
+            const xRange = xScale.domain();
+            if (inputValue < xRange[0] || inputValue > xRange[1]) {
+                alert("The input value is outside the range of the x-axis.");
+                return;
+            }
+
+            // Draw vertical dashed line
+            svg.append("line")
+                .attr("class", "vertical-line")
+                .attr("x1", xScale(inputValue))
+                .attr("y1", 0)
+                .attr("x2", xScale(inputValue))
+                .attr("y2", height)
+                .style("stroke", "red")
+                .style("stroke-dasharray", "5,5");
+
+            // Define area generator
+            const area = d3.area()
+                .x(d => xScale(d.year))
+                .y0(height)
+                .y1(d => yScale(d.value))
+                .curve(d3.curveCatmullRom.alpha(0.5)) // Add this line to smooth the area
+                .defined(d => d.year <= inputValue);
+
+
+            // Draw the area under the curve to the left of the vertical line
+            svg.append("path")
+                .datum(data)
+                .attr("class", "area")
+                .attr("d", area)
+                .attr("fill", "rgba(255, 0, 0, 0.2)");
+
+            // Add points
+            svg.selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "circle")
+                .attr("cx", d => xScale(d.year))
+                .attr("cy", d => yScale(d.value))
+                .attr("r", 5)
+                .attr("fill", "red")
+                .attr("opacity", 0);
+
+            // Add the tooltip
+            svg.append("rect")
+                .attr("class", "overlay")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "none")
+                .attr("pointer-events", "all")
+                .on("mousemove", function (event) {
+                    const mouseX = d3.pointer(event)[0];
+                    const mouseY = d3.pointer(event)[1];
+                    const mouseYear = Math.round(xScale.invert(mouseX));
+                    const closestData = data.find(d => d.year === mouseYear);
+
+                    if (closestData) {
+                        const tooltip = d3.select(".tooltip");
+                        tooltip
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 25) + "px")
+                            .style("opacity", 1)
+                            .text(`Year: ${closestData.year}, Value: ${closestData.value.toFixed(2)}`);
+
+                        d3.select(".circle")
+                            .attr("cx", xScale(closestData.year))
+                            .attr("cy", yScale(closestData.value))
+                            .attr("opacity", 1);
+                    } else {
+                        d3.select(".circle")
+                            .attr("opacity", 0);
+
+                        d3.select(".tooltip")
+                            .style("opacity", 0);
+                    }
+                })
+                .on("mouseout", function () {
+                    d3.select(".circle")
+                        .attr("opacity", 0);
+
+                    d3.select(".tooltip")
+                        .style("opacity", 0);
+                });
+        }
+    </script>
+</body>
+</html>
