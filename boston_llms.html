@@ -1,5 +1,5 @@
 ---
-layout: default_secondary
+layout: default_running
 ---
 
 <!DOCTYPE html>
@@ -24,98 +24,138 @@ layout: default_secondary
     #loadingIcon {
         position: fixed;
         top: 50%;
-        left: 45%;
+        left: 50%;
         transform: translate(-50%, -50%);
     }
+    @media screen and (max-width:600px) and (min-width:10px)
+    {
+      #tab1 {
+        display: none;
+        
+      }
+    }
+    @media screen and (min-width:600px)
+    {
+      #tab2 {
+        display: none;
+    
+      }
+    }
+
 </style>
+
+
 <body>
-    <h2>¿Qué distribución de tiempos quiere ver?</h2>
-    <div style="display: flex;">
-        <textarea id="textInput" rows="4" cols="50"></textarea>
-        <button type="button" id="sendTextButton">Enviar</button>
-    </div>
 
-    <div id="loadingIcon" style="display: none;">
-        <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon"  width="80">
-    </div>
+    <div style="height:20px;" id="tab1"></div>
 
-    <canvas id="myChart" width="400" height="200"></canvas> <!-- Chart.js canvas -->
+    <table style="width: 100%; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); text-align: center; border-width: 0px; background-color: #fdfdfd;" cellspacing="0" cellpadding="0" style="height:310px;" cellspacing="0" cellpadding="0" id="tab1">
+      <tr>
+        <td style="width:50px;"> </td>
+        <td id="textoprincipal" style="font-size:18px">
+            <p style="margin-bottom: 30px;">   </p>
 
-    <!-- Response will be displayed here -->
-    <div id="responseText"></div>
+        <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b> ¿Qué distribución de tiempos quiere ver?</b>  </p>
+        <div style="display: flex;">
+            <textarea id="textInput" rows="2" cols="50"></textarea>
+            <button type="button" id="sendTextButton">Enviar</button>
+        </div>
 
-    <script>
-    $(document).ready(function() {
-        var myChart; // Declare a global variable to store the chart instance
+        <p style="margin-bottom: 30px;">   </p>
 
-        $('#sendTextButton').on('click', function() {
-            // Destroy existing chart if it exists
-            if (myChart) {
-                myChart.destroy();
-            }
+        <div id="loadingIcon" style="display: none;">
+            <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon"  width="80">
+        </div>
 
-            // Show loading icon
-            $('#loadingIcon').show();
+        <p style="margin-bottom: 30px;">   </p>
 
-            // Get text input
-            var text = $('#textInput').val();
+        <canvas id="myChart" width="450" height="200" style="margin-right: 50px;margin-left: 30px;"> </canvas> <!-- Chart.js canvas -->
 
-            // Make POST request to API
-            $.ajax({
-                url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ body: text }),
-                success: function(response) {
-                    // Hide loading icon
-                    $('#loadingIcon').hide();
+        <script>
+        $(document).ready(function() {
+            var myChart; // Declare a global variable to store the chart instance
 
-                    // Plot new chart
-                    plotChart(response.body);
-
-                    // Show response on the webpage
-                    $('#responseText').html('<p>Response: ' + response.body.content[0].text + '</p>');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending text:', error);
-                    // Hide loading icon
-                    $('#loadingIcon').hide();
+            $('#sendTextButton').on('click', function() {
+                // Destroy existing chart if it exists
+                if (myChart) {
+                    myChart.destroy();
                 }
+
+                // Show loading icon
+                $('#loadingIcon').show();
+
+                // Get text input
+                var text = $('#textInput').val();
+
+                // Make POST request to API
+                $.ajax({
+                    url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ body: text }),
+                    success: function(response) {
+                        // Hide loading icon
+                        $('#loadingIcon').hide();
+
+                        // Plot new chart
+                        plotChart(response.body);
+
+                        // Show response on the webpage
+                        $('#responseText').html('<p>Response: ' + response.body.content[0].text + '</p>');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error sending text:', error);
+                        // Hide loading icon
+                        $('#loadingIcon').hide();
+                    }
+                });
             });
+
+            // Function to plot chart
+            function plotChart(data) {
+                var labels = Object.keys(data);
+                var values = Object.values(data);
+
+                var ctx = document.getElementById('myChart').getContext('2d');
+                myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Values',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Número de corredores'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tiempo (HH:MM:SS)'
+                                }
+                            },
+                        }   
+                    }
+                });
+
+            }
         });
 
-        // Function to plot chart
-        function plotChart(data) {
-            var labels = Object.keys(data);
-            var values = Object.values(data);
-
-            var ctx = document.getElementById('myChart').getContext('2d');
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Values',
-                        data: values,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-        }
-    });
-
-    </script>
+        </script>
+      <p style="margin-bottom: 50px;">   </p>
+    </td> 
+    <td style="width:15px;"> </td>
+    </tr>
+    </table>
 
 </body>
 </html>
