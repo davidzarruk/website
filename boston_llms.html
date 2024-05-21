@@ -1,0 +1,121 @@
+---
+layout: default_secondary
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Filter Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+</head>
+<style>
+    #textInput {
+        flex: 1; /* Take up remaining space */
+        margin-right: 10px; /* Add some space between text input and button */
+    }
+
+    #sendTextButton {
+        flex-shrink: 0; /* Prevent button from shrinking */
+    }
+
+    #loadingIcon {
+        position: fixed;
+        top: 50%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+    <h2>¿Qué distribución de tiempos quiere ver?</h2>
+    <div style="display: flex;">
+        <textarea id="textInput" rows="4" cols="50"></textarea>
+        <button type="button" id="sendTextButton">Enviar</button>
+    </div>
+
+    <div id="loadingIcon" style="display: none;">
+        <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon"  width="80">
+    </div>
+
+    <canvas id="myChart" width="400" height="200"></canvas> <!-- Chart.js canvas -->
+
+    <!-- Response will be displayed here -->
+    <div id="responseText"></div>
+
+    <script>
+    $(document).ready(function() {
+        var myChart; // Declare a global variable to store the chart instance
+
+        $('#sendTextButton').on('click', function() {
+            // Destroy existing chart if it exists
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            // Show loading icon
+            $('#loadingIcon').show();
+
+            // Get text input
+            var text = $('#textInput').val();
+
+            // Make POST request to API
+            $.ajax({
+                url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ body: text }),
+                success: function(response) {
+                    // Hide loading icon
+                    $('#loadingIcon').hide();
+
+                    // Plot new chart
+                    plotChart(response.body);
+
+                    // Show response on the webpage
+                    $('#responseText').html('<p>Response: ' + response.body.content[0].text + '</p>');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending text:', error);
+                    // Hide loading icon
+                    $('#loadingIcon').hide();
+                }
+            });
+        });
+
+        // Function to plot chart
+        function plotChart(data) {
+            var labels = Object.keys(data);
+            var values = Object.values(data);
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Values',
+                        data: values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    });
+
+    </script>
+
+</body>
+</html>
