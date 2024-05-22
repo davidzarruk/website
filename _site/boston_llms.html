@@ -448,83 +448,82 @@
         <canvas id="myChart" width="450" height="200" style="margin-right: 50px;margin-left: 30px;"> </canvas> <!-- Chart.js canvas -->
 
         <script>
-        $(document).ready(function() {
-            var myChart; // Declare a global variable to store the chart instance
+    $(document).ready(function() {
+        var myChart; // Declare a global variable to store the chart instance
 
-            $('#sendTextButton').on('click', function() {
-                // Destroy existing chart if it exists
-                if (myChart) {
-                    myChart.destroy();
-                }
-
-                // Show loading icon
-                $('#loadingIcon').show();
-
-                // Get text input
-                var text = $('#textInput').val();
-
-                // Make POST request to API
-                $.ajax({
-                    url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ body: text }),
-                    success: function(response) {
-                        // Hide loading icon
-                        $('#loadingIcon').hide();
-
-                        // Plot new chart
-                        plotChart(response.body);
-
-                        // Show response on the webpage
-                        $('#responseText').html('<p>Response: ' + response.body.content[0].text + '</p>');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error sending text:', error);
-                        // Hide loading icon
-                        $('#loadingIcon').hide();
-                    }
-                });
-            });
-
-            // Function to plot chart
-            function plotChart(data) {
-                var labels = Object.keys(data);
-                var values = Object.values(data);
-
-                var ctx = document.getElementById('myChart').getContext('2d');
-                myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Values',
-                            data: values,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'Número de corredores'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Tiempo (HH:MM:SS)'
-                                }
-                            },
-                        }   
-                    }
-                });
-
+        $('#sendTextButton').on('click', function() {
+            // Destroy existing chart if it exists
+            if (myChart) {
+                myChart.destroy();
             }
+
+            // Show loading icon
+            $('#loadingIcon').show();
+
+            // Get text input
+            var text = $('#textInput').val();
+
+            // Make POST request to API
+            $.ajax({
+                url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ body: text }),
+                success: function(response) {
+                    // Hide loading icon
+                    $('#loadingIcon').hide();
+
+                    // Plot new chart
+                    plotChart(response.body);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending text:', error);
+                    // Hide loading icon
+                    $('#loadingIcon').hide();
+                }
+            });
         });
+
+        // Function to plot chart
+        function plotChart(data) {
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            // Define an array of colors
+            var colors = ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)', 'rgba(255, 159, 64, 0.6)'];
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data[0]),
+                    datasets: Object.keys(data).map(function(key, index) {
+                        return {
+                            label: 'Series ' + (index + 1),
+                            data: Object.values(data[key]),
+                            backgroundColor: colors[index],
+                            borderColor: colors[index],
+                            borderWidth: 1
+                        };
+                    })
+                },
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Número de corredores'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tiempo (HH:MM:SS)'
+                            }
+                        },
+                    }
+                }
+            });
+        }
+    });
 
         </script>
       <p style="margin-bottom: 50px;">   </p>
