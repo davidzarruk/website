@@ -10,151 +10,249 @@ layout: default_running
     <title>API Filter Form</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <style>
+        #textInput {
+            flex: 1; /* Take up remaining space */
+            margin-right: 10px; /* Add some space between text input and button */
+        }
+
+        #sendTextButton {
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        #loadingIcon {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #chartContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Center vertically */
+        }
+
+        #seriesChecklist {
+            margin-left: 20px;
+            font-size: 14px; /* Adjust font size */
+        }
+
+        #myChart {
+            width: 800px; /* Set a fixed width for the canvas */
+            height: 800px; /* Set a fixed height for the canvas */
+        }
+
+        @media screen and (max-width: 600px) and (min-width: 10px) {
+            #tab1 {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 600px) {
+            #tab2 {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<style>
-    #textInput {
-        flex: 1; /* Take up remaining space */
-        margin-right: 10px; /* Add some space between text input and button */
-    }
-
-    #sendTextButton {
-        flex-shrink: 0; /* Prevent button from shrinking */
-    }
-
-    #loadingIcon {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    @media screen and (max-width:600px) and (min-width:10px)
-    {
-      #tab1 {
-        display: none;
-        
-      }
-    }
-    @media screen and (min-width:600px)
-    {
-      #tab2 {
-        display: none;
-    
-      }
-    }
-
-</style>
-
 
 <body>
 
-    <div style="height:20px;" id="tab1"></div>
+<div style="height:20px;" id="tab1"></div>
 
-    <table style="width: 100%; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); text-align: center; border-width: 0px; background-color: #fdfdfd;" cellspacing="0" cellpadding="0" style="height:310px;" cellspacing="0" cellpadding="0" id="tab1">
-      <tr>
+<table style="width: 100%; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); text-align: center; border-width: 0px; background-color: #fdfdfd;" cellspacing="0" cellpadding="0" style="height:310px;" id="tab1">
+    <tr>
         <td style="width:50px;"> </td>
         <td id="textoprincipal" style="font-size:18px">
-            <p style="margin-bottom: 30px;">   </p>
+            <p style="margin-bottom: 30px;"></p>
 
-        <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b> ¿Qué distribución de tiempos quiere ver?</b>  </p>
-        <div style="display: flex;">
-            <textarea id="textInput" rows="2" cols="50"></textarea>
-            <button type="button" id="sendTextButton">Enviar</button>
-        </div>
+            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b> ¿Qué distribución de tiempos quiere ver?</b></p>
+            <div style="display: flex;">
+                <textarea id="textInput" rows="2" cols="50"></textarea>
+                <button type="button" id="sendTextButton">Enviar</button>
+            </div>
 
-        <p style="margin-bottom: 30px;">   </p>
+            <p style="margin-bottom: 30px;"></p>
 
-        <div id="loadingIcon" style="display: none;">
-            <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon"  width="80">
-        </div>
+            <div id="loadingIcon" style="display: none;">
+                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon" width="80">
+            </div>
 
-        <p style="margin-bottom: 30px;">   </p>
+            <p style="margin-bottom: 30px;"></p>
 
-        <canvas id="myChart" width="450" height="200" style="margin-right: 50px;margin-left: 30px;"> </canvas> <!-- Chart.js canvas -->
+            <div id="chartContainer">
+                <canvas id="myChart"></canvas>
+                <div id="seriesChecklist"></div> <!-- Checklist container -->
+            </div>
 
-        <script>
-    $(document).ready(function() {
-        var myChart; // Declare a global variable to store the chart instance
-
-        $('#sendTextButton').on('click', function() {
-            // Destroy existing chart if it exists
-            if (myChart) {
-                myChart.destroy();
-            }
-
-            // Show loading icon
-            $('#loadingIcon').show();
-
-            // Get text input
-            var text = $('#textInput').val();
-
-            // Make POST request to API
-            $.ajax({
-                url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ body: text }),
-                success: function(response) {
-                    // Hide loading icon
-                    $('#loadingIcon').hide();
-
-                    // Plot new chart
-                    plotChart(response.body);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending text:', error);
-                    // Hide loading icon
-                    $('#loadingIcon').hide();
-                }
-            });
-        });
-
-        // Function to plot chart
-        function plotChart(data) {
-            var ctx = document.getElementById('myChart').getContext('2d');
-
-            // Define an array of colors
-            var colors = ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)', 'rgba(255, 159, 64, 0.6)'];
-
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Object.keys(data[0]),
-                    datasets: Object.keys(data).map(function(key, index) {
-                        return {
-                            label: 'Series ' + (index + 1),
-                            data: Object.values(data[key]),
-                            backgroundColor: colors[index],
-                            borderColor: colors[index],
-                            borderWidth: 1
-                        };
-                    })
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Número de corredores'
+            <script>
+                $(document).ready(function() {
+                    var myChart; // Declare a global variable to store the chart instance
+                    var chartData; // Variable to store the full chart data
+                    var chartTitle; // Variable to store the chart title
+                
+                    // Predefined colors for the chart lines
+                    var colors = [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(199, 199, 199, 0.6)'
+                    ];
+                
+                    $('#sendTextButton').on('click', function() {
+                        // Destroy existing chart if it exists
+                        if (myChart) {
+                            myChart.destroy();
+                        }
+                
+                        // Show loading icon
+                        $('#loadingIcon').show();
+                
+                        // Get text input
+                        var text = $('#textInput').val();
+                
+                        // Make POST request to API
+                        $.ajax({
+                            url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ body: text }),
+                            success: function(response) {
+                                // Hide loading icon
+                                $('#loadingIcon').hide();
+                
+                                // Store full chart data
+                                chartData = response.body;
+                
+                                // Store the title
+                                chartTitle = chartData[0].titulo;
+                
+                                // Generate the checklist for series selection
+                                generateChecklist(Object.keys(chartData));
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error sending text:', error);
+                                // Hide loading icon
+                                $('#loadingIcon').hide();
                             }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Tiempo (HH:MM:SS)'
+                        });
+                    });
+                
+                    // Function to plot chart
+                    function plotChart() {
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                
+                        var selectedSeries = [];
+                        $('#seriesChecklist input:checked').each(function() {
+                            selectedSeries.push($(this).val());
+                        });
+                
+                        if (selectedSeries.length === 0) {
+                            if (myChart) {
+                                myChart.destroy();
                             }
-                        },
+                            return; // No series selected, nothing to plot
+                        }
+                
+                        // Get the labels from the first series (assume all series have the same labels)
+                        var labels = Object.keys(chartData[0]).filter(label => label !== 'leyenda' && label !== 'titulo');
+                
+                        var datasets = selectedSeries.map(function(key, index) {
+                            var data = labels.map(label => chartData[key][label]);
+                            if (selectedSeries.length > 1) {
+                                var maxValue = Math.max(...data);
+                                data = data.map(value => value / maxValue);
+                            }
+                            return {
+                                label: chartData[key].leyenda || 'Series ' + (parseInt(key) + 1), // Use the extracted "leyenda" for the label, fallback to Series #
+                                data: data,
+                                backgroundColor: colors[index % colors.length],
+                                borderColor: colors[index % colors.length],
+                                borderWidth: 1
+                            };
+                        });
+                
+                        var displayTicks = selectedSeries.length === 1;
+                        var yAxisTitle = selectedSeries.length > 1 ? 'Distribución de corredores' : 'Número de corredores';
+                
+                        myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: datasets
+                            },
+                            options: {
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: chartTitle // Use the stored chart title
+                                    },
+                                    legend: {
+                                        position: 'bottom' // Position legend at the bottom
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: yAxisTitle
+                                        },
+                                        ticks: {
+                                            display: displayTicks
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Tiempo (HH:MM:SS)'
+                                        }
+                                    }
+                                },
+                                maintainAspectRatio: false, // Disable maintaining aspect ratio
+                                responsive: true // Ensure the chart remains responsive
+                            }
+                        });
+                
+                        // Set fixed width and height after creating the chart
+                        myChart.canvas.parentNode.style.width = '700px';
+                        myChart.canvas.parentNode.style.height = '450px';
                     }
-                }
-            });
-        }
-    });
-
-        </script>
-      <p style="margin-bottom: 50px;">   </p>
-    </td> 
-    <td style="width:15px;"> </td>
+                
+                    // Function to generate checklist
+                    function generateChecklist(series) {
+                        var checklistHtml = '';
+                        series.forEach(function(key, index) {
+                            if (key !== 'titulo' && key !== 'leyenda') {
+                                var leyenda = chartData[key].leyenda || 'Series ' + (parseInt(key) + 1);
+                                checklistHtml += '<div><input type="checkbox" id="series' + index + '" value="' + key + '" checked><label for="series' + index + '">' + leyenda + '</label></div>';
+                            }
+                        });
+                        $('#seriesChecklist').html(checklistHtml);
+                
+                        // Attach change event to each checkbox
+                        $('#seriesChecklist input').on('change', function() {
+                            if (myChart) {
+                                myChart.destroy();
+                            }
+                            plotChart();
+                        });
+                
+                        // Initially plot the chart with all series selected
+                        plotChart();
+                    }
+                });
+                </script>
+                
+            
+            <p style="margin-bottom: 50px;"></p>
+        </td>
+        <td style="width:15px;"> </td>
     </tr>
-    </table>
+</table>
 
 </body>
 </html>

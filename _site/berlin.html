@@ -12,7 +12,7 @@
 <!--   <link rel="shortcut icon" href="http://www.lapatria.com/sites/default/files/imagenprincipal/2016/Junio/oncecal.jpg" />
  -->  <link rel="shortcut icon" href="https://pbs.twimg.com/profile_images/881029184792911872/lHliXW-3_400x400.jpg" />
   <link rel="stylesheet" href="css/main.css">
-  <link rel="canonical" href="http://localhost:4000/boston_llms.html">
+  <link rel="canonical" href="http://localhost:4000/berlin.html">
   <link rel="alternate" type="application/rss+xml" title="David Zarruk Valencia" href="http://localhost:4000/feed.xml">
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -403,20 +403,11 @@
             transform: translate(-50%, -50%);
         }
 
-        #chartContainer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* Center vertically */
-        }
-
-        #seriesChecklist {
-            margin-left: 20px;
-            font-size: 14px; /* Adjust font size */
-        }
-
-        #myChart {
-            width: 800px; /* Set a fixed width for the canvas */
-            height: 800px; /* Set a fixed height for the canvas */
+        #responseText {
+            margin-top: 20px;
+            font-size: 16px;
+            color: black;
+            text-align: left;
         }
 
         @media screen and (max-width: 600px) and (min-width: 10px) {
@@ -443,7 +434,7 @@
         <td id="textoprincipal" style="font-size:18px">
             <p style="margin-bottom: 30px;"></p>
 
-            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b> ¿Qué distribución de tiempos quiere ver?</b></p>
+            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín:</b></p>
             <div style="display: flex;">
                 <textarea id="textInput" rows="2" cols="50"></textarea>
                 <button type="button" id="sendTextButton">Enviar</button>
@@ -452,177 +443,62 @@
             <p style="margin-bottom: 30px;"></p>
 
             <div id="loadingIcon" style="display: none;">
-                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Running Man Icon" width="80">
+                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
             </div>
 
             <p style="margin-bottom: 30px;"></p>
 
-            <div id="chartContainer">
-                <canvas id="myChart"></canvas>
-                <div id="seriesChecklist"></div> <!-- Checklist container -->
-            </div>
+            <!-- Div to display the API response -->
+            <div id="responseText"></div>
 
             <script>
                 $(document).ready(function() {
                     var myChart; // Declare a global variable to store the chart instance
-                    var chartData; // Variable to store the full chart data
-                    var chartTitle; // Variable to store the chart title
-                
-                    // Predefined colors for the chart lines
-                    var colors = [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)',
-                        'rgba(199, 199, 199, 0.6)'
-                    ];
-                
+
                     $('#sendTextButton').on('click', function() {
                         // Destroy existing chart if it exists
                         if (myChart) {
                             myChart.destroy();
                         }
-                
+
                         // Show loading icon
                         $('#loadingIcon').show();
-                
+
                         // Get text input
                         var text = $('#textInput').val();
-                
+
                         // Make POST request to API
                         $.ajax({
-                            url: 'https://l0h7higyqb.execute-api.us-east-2.amazonaws.com/prod',
+                            url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
                             type: 'POST',
                             contentType: 'application/json',
-                            data: JSON.stringify({ body: text }),
+                            data: JSON.stringify({ question: text }),
                             success: function(response) {
                                 // Hide loading icon
                                 $('#loadingIcon').hide();
-                
-                                // Store full chart data
-                                chartData = response.body;
-                
-                                // Store the title
-                                chartTitle = chartData[0].titulo;
-                
-                                // Generate the checklist for series selection
-                                generateChecklist(Object.keys(chartData));
+
+                                // Extract the text content from the API response
+                                var responseText = response.body.content[0].text;
+
+                                // Replace \n with <br> for line breaks
+                                var formattedText = responseText.replace(/\n/g, '<br>');
+
+                                // Display the formatted text in the div
+                                $('#responseText').html(formattedText);
                             },
                             error: function(xhr, status, error) {
                                 console.error('Error sending text:', error);
+
                                 // Hide loading icon
                                 $('#loadingIcon').hide();
+
+                                // Display an error message
+                                $('#responseText').html('Error retrieving data from the API.');
                             }
                         });
                     });
-                
-                    // Function to plot chart
-                    function plotChart() {
-                        var ctx = document.getElementById('myChart').getContext('2d');
-                
-                        var selectedSeries = [];
-                        $('#seriesChecklist input:checked').each(function() {
-                            selectedSeries.push($(this).val());
-                        });
-                
-                        if (selectedSeries.length === 0) {
-                            if (myChart) {
-                                myChart.destroy();
-                            }
-                            return; // No series selected, nothing to plot
-                        }
-                
-                        // Get the labels from the first series (assume all series have the same labels)
-                        var labels = Object.keys(chartData[0]).filter(label => label !== 'leyenda' && label !== 'titulo');
-                
-                        var datasets = selectedSeries.map(function(key, index) {
-                            var data = labels.map(label => chartData[key][label]);
-                            if (selectedSeries.length > 1) {
-                                var maxValue = Math.max(...data);
-                                data = data.map(value => value / maxValue);
-                            }
-                            return {
-                                label: chartData[key].leyenda || 'Series ' + (parseInt(key) + 1), // Use the extracted "leyenda" for the label, fallback to Series #
-                                data: data,
-                                backgroundColor: colors[index % colors.length],
-                                borderColor: colors[index % colors.length],
-                                borderWidth: 1
-                            };
-                        });
-                
-                        var displayTicks = selectedSeries.length === 1;
-                        var yAxisTitle = selectedSeries.length > 1 ? 'Distribución de corredores' : 'Número de corredores';
-                
-                        myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: labels,
-                                datasets: datasets
-                            },
-                            options: {
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: chartTitle // Use the stored chart title
-                                    },
-                                    legend: {
-                                        position: 'bottom' // Position legend at the bottom
-                                    }
-                                },
-                                scales: {
-                                    y: {
-                                        title: {
-                                            display: true,
-                                            text: yAxisTitle
-                                        },
-                                        ticks: {
-                                            display: displayTicks
-                                        }
-                                    },
-                                    x: {
-                                        title: {
-                                            display: true,
-                                            text: 'Tiempo (HH:MM:SS)'
-                                        }
-                                    }
-                                },
-                                maintainAspectRatio: false, // Disable maintaining aspect ratio
-                                responsive: true // Ensure the chart remains responsive
-                            }
-                        });
-                
-                        // Set fixed width and height after creating the chart
-                        myChart.canvas.parentNode.style.width = '700px';
-                        myChart.canvas.parentNode.style.height = '450px';
-                    }
-                
-                    // Function to generate checklist
-                    function generateChecklist(series) {
-                        var checklistHtml = '';
-                        series.forEach(function(key, index) {
-                            if (key !== 'titulo' && key !== 'leyenda') {
-                                var leyenda = chartData[key].leyenda || 'Series ' + (parseInt(key) + 1);
-                                checklistHtml += '<div><input type="checkbox" id="series' + index + '" value="' + key + '" checked><label for="series' + index + '">' + leyenda + '</label></div>';
-                            }
-                        });
-                        $('#seriesChecklist').html(checklistHtml);
-                
-                        // Attach change event to each checkbox
-                        $('#seriesChecklist input').on('change', function() {
-                            if (myChart) {
-                                myChart.destroy();
-                            }
-                            plotChart();
-                        });
-                
-                        // Initially plot the chart with all series selected
-                        plotChart();
-                    }
                 });
-                </script>
-                
+            </script>
             
             <p style="margin-bottom: 50px;"></p>
         </td>

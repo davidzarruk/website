@@ -1,0 +1,134 @@
+---
+layout: default_running
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Filter Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <style>
+        #textInput {
+            flex: 1; /* Take up remaining space */
+            margin-right: 10px; /* Add some space between text input and button */
+        }
+
+        #sendTextButton {
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        #loadingIcon {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #responseText {
+            margin-top: 20px;
+            font-size: 16px;
+            color: black;
+            text-align: left;
+        }
+
+        @media screen and (max-width: 600px) and (min-width: 10px) {
+            #tab1 {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 600px) {
+            #tab2 {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="height:20px;" id="tab1"></div>
+
+<table style="width: 100%; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); text-align: center; border-width: 0px; background-color: #fdfdfd;" cellspacing="0" cellpadding="0" style="height:310px;" id="tab1">
+    <tr>
+        <td style="width:50px;"> </td>
+        <td id="textoprincipal" style="font-size:18px">
+            <p style="margin-bottom: 30px;"></p>
+
+            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín:</b></p>
+            <div style="display: flex;">
+                <textarea id="textInput" rows="2" cols="50"></textarea>
+                <button type="button" id="sendTextButton">Enviar</button>
+            </div>
+
+            <p style="margin-bottom: 30px;"></p>
+
+            <div id="loadingIcon" style="display: none;">
+                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
+            </div>
+
+            <p style="margin-bottom: 30px;"></p>
+
+            <!-- Div to display the API response -->
+            <div id="responseText"></div>
+
+            <script>
+                $(document).ready(function() {
+                    var myChart; // Declare a global variable to store the chart instance
+
+                    $('#sendTextButton').on('click', function() {
+                        // Destroy existing chart if it exists
+                        if (myChart) {
+                            myChart.destroy();
+                        }
+
+                        // Show loading icon
+                        $('#loadingIcon').show();
+
+                        // Get text input
+                        var text = $('#textInput').val();
+
+                        // Make POST request to API
+                        $.ajax({
+                            url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ question: text }),
+                            success: function(response) {
+                                // Hide loading icon
+                                $('#loadingIcon').hide();
+
+                                // Extract the text content from the API response
+                                var responseText = response.body.content[0].text;
+
+                                // Replace \n with <br> for line breaks
+                                var formattedText = responseText.replace(/\n/g, '<br>');
+
+                                // Display the formatted text in the div
+                                $('#responseText').html(formattedText);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error sending text:', error);
+
+                                // Hide loading icon
+                                $('#loadingIcon').hide();
+
+                                // Display an error message
+                                $('#responseText').html('Error retrieving data from the API.');
+                            }
+                        });
+                    });
+                });
+            </script>
+            
+            <p style="margin-bottom: 50px;"></p>
+        </td>
+        <td style="width:15px;"> </td>
+    </tr>
+</table>
+
+</body>
+</html>
