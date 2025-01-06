@@ -34,6 +34,41 @@ layout: default_running
             text-align: left;
         }
 
+        /* Target the table with class "dataframe" */
+        table.dataframe {
+            border-collapse: collapse; /* Merge adjacent borders */
+            width: 100%; /* Full-width table */
+            margin: 20px auto; /* Center the table with some margin */
+            font-family: Arial, sans-serif; /* Change font */
+            font-size: 14px; /* Set font size */
+        }
+
+        /* Style the table headers */
+        table.dataframe th {
+            background-color: #f4f4f4; /* Light gray background */
+            text-align: left; /* Left-align text */
+            padding: 8px; /* Add padding inside cells */
+            border: 1px solid #ddd; /* Light gray border */
+            font-weight: bold; /* Bold headers */
+        }
+
+        /* Style the table rows */
+        table.dataframe td {
+            padding: 8px; /* Add padding inside cells */
+            border: 1px solid #ddd; /* Light gray border */
+        }
+
+        /* Add alternating row colors for better readability */
+        table.dataframe tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light gray background */
+        }
+
+        /* Add hover effect on rows */
+        table.dataframe tr:hover {
+            background-color: #f1f1f1; /* Slightly darker background */
+        }
+
+
         @media screen and (max-width: 600px) and (min-width: 10px) {
             #tab1 {
                 display: none;
@@ -58,7 +93,7 @@ layout: default_running
         <td id="textoprincipal" style="font-size:18px">
             <p style="margin-bottom: 30px;"></p>
 
-            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín:</b></p>
+            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>¿Qué distribución de tiempos quiere ver?</b></p>
             <div style="display: flex;">
                 <textarea id="textInput" rows="2" cols="50"></textarea>
                 <button type="button" id="sendTextButton">Enviar</button>
@@ -102,12 +137,13 @@ layout: default_running
                                 $('#loadingIcon').hide();
 
                                 // Extract the text content from the API response
-                                var responseText = response.body.content[0].text;
+                                var responseBody = response.body;
 
                                 // Replace \n with <br> for line breaks
-                                var formattedText = responseText.replace(/\n/g, '<br>');
+                                var formattedText = responseBody.replace(/\n/g, '<br>');
+                                var formattedText = responseBody;
 
-                                // Display the formatted text in the div
+                                // Optional: Detect and format tabular data
                                 $('#responseText').html(formattedText);
                             },
                             error: function(xhr, status, error) {
@@ -121,7 +157,39 @@ layout: default_running
                             }
                         });
                     });
+
+                    function formatTable(rawText) {
+                        // Extract the table part from the raw text
+                        var tableText = rawText.split("[50 rows x 4 columns]")[0];
+
+                        // Split into lines
+                        var lines = tableText.split('<br>');
+
+                        // Assume the first line contains headers
+                        var headers = lines[0].split(/\s+/);
+                        var rows = lines.slice(1);
+
+                        // Build the HTML table
+                        var html = '<table border="1" style="margin:auto; text-align:center;"><thead><tr>';
+                        headers.forEach(function(header) {
+                            html += `<th>${header}</th>`;
+                        });
+                        html += '</tr></thead><tbody>';
+
+                        rows.forEach(function(row) {
+                            var columns = row.split(/\s+/);
+                            html += '<tr>';
+                            columns.forEach(function(column) {
+                                html += `<td>${column}</td>`;
+                            });
+                            html += '</tr>';
+                        });
+
+                        html += '</tbody></table>';
+                        return html;
+                    }
                 });
+
             </script>
             
             <p style="margin-bottom: 50px;"></p>
