@@ -11,16 +11,16 @@ layout: default_running
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
     <style>
-        #textInput {
-            flex: 1; /* Take up remaining space */
-            margin-right: 10px; /* Add some space between text input and button */
+        #textInputBrowser, #textInputMobile {
+            flex: 1;
+            margin-right: 10px;
         }
 
-        #sendTextButton {
-            flex-shrink: 0; /* Prevent button from shrinking */
+        #sendTextButtonBrowser, #sendTextButtonMobile {
+            flex-shrink: 0;
         }
 
-        #loadingIcon {
+        #loadingIcon, #loadingIconMobile {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -95,8 +95,8 @@ layout: default_running
 
             <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
             <div style="display: flex;">
-                <textarea id="textInput" rows="2" cols="50"></textarea>
-                <button type="button" id="sendTextButton">Enviar</button>
+                <textarea id="textInputBrowser" rows="2" cols="50"></textarea>
+                <button type="button" id="sendTextButtonBrowser">Enviar</button>
             </div>
 
             <p style="margin-bottom: 30px;"></p>
@@ -105,94 +105,8 @@ layout: default_running
                 <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
             </div>
 
-            <p style="margin-bottom: 30px;"></p>
-
             <!-- Div to display the API response -->
             <div id="responseText"></div>
-
-            <script>
-                $(document).ready(function() {
-                    var myChart; // Declare a global variable to store the chart instance
-
-                    $('#sendTextButton').on('click', function() {
-                        // Destroy existing chart if it exists
-                        if (myChart) {
-                            myChart.destroy();
-                        }
-
-                        // Show loading icon
-                        $('#loadingIcon').show();
-
-                        // Get text input
-                        var text = $('#textInput').val();
-
-                        // Make POST request to API
-                        $.ajax({
-                            url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({ question: text }),
-                            success: function(response) {
-                                // Hide loading icon
-                                $('#loadingIcon').hide();
-
-                                // Extract the text content from the API response
-                                var responseBody = response.body;
-
-                                // Replace \n with <br> for line breaks
-                                var formattedText = responseBody.replace(/\n/g, '<br>');
-                                var formattedText = responseBody;
-
-                                // Optional: Detect and format tabular data
-                                $('#responseText').html(formattedText);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error sending text:', error);
-
-                                // Hide loading icon
-                                $('#loadingIcon').hide();
-
-                                // Display an error message
-                                $('#responseText').html('Error retrieving data from the API.');
-                            }
-                        });
-                    });
-
-                    function formatTable(rawText) {
-                        // Extract the table part from the raw text
-                        var tableText = rawText.split("[50 rows x 4 columns]")[0];
-
-                        // Split into lines
-                        var lines = tableText.split('<br>');
-
-                        // Assume the first line contains headers
-                        var headers = lines[0].split(/\s+/);
-                        var rows = lines.slice(1);
-
-                        // Build the HTML table
-                        var html = '<table border="1" style="margin:auto; text-align:center;"><thead><tr>';
-                        headers.forEach(function(header) {
-                            html += `<th>${header}</th>`;
-                        });
-                        html += '</tr></thead><tbody>';
-
-                        rows.forEach(function(row) {
-                            var columns = row.split(/\s+/);
-                            html += '<tr>';
-                            columns.forEach(function(column) {
-                                html += `<td>${column}</td>`;
-                            });
-                            html += '</tr>';
-                        });
-
-                        html += '</tbody></table>';
-                        return html;
-                    }
-                });
-
-            </script>
-            
-            <p style="margin-bottom: 50px;"></p>
         </td>
         <td style="width:15px;"> </td>
     </tr>
@@ -209,108 +123,65 @@ layout: default_running
 
             <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
             <div style="display: flex;">
-                <textarea id="textInput" rows="2" cols="50"></textarea>
-                <button type="button" id="sendTextButton">Enviar</button>
+                <textarea id="textInputMobile" rows="2" cols="28"></textarea>
+                <button type="button" id="sendTextButtonMobile">Enviar</button>
             </div>
 
             <p style="margin-bottom: 30px;"></p>
 
-            <div id="loadingIcon" style="display: none;">
+            <div id="loadingIconMobile" style="display: none;">
                 <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
             </div>
 
             <p style="margin-bottom: 30px;"></p>
 
             <!-- Div to display the API response -->
-            <div id="responseText"></div>
-
-            <script>
-                $(document).ready(function() {
-                    var myChart; // Declare a global variable to store the chart instance
-
-                    $('#sendTextButton').on('click', function() {
-                        // Destroy existing chart if it exists
-                        if (myChart) {
-                            myChart.destroy();
-                        }
-
-                        // Show loading icon
-                        $('#loadingIcon').show();
-
-                        // Get text input
-                        var text = $('#textInput').val();
-
-                        // Make POST request to API
-                        $.ajax({
-                            url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({ question: text }),
-                            success: function(response) {
-                                // Hide loading icon
-                                $('#loadingIcon').hide();
-
-                                // Extract the text content from the API response
-                                var responseBody = response.body;
-
-                                // Replace \n with <br> for line breaks
-                                var formattedText = responseBody.replace(/\n/g, '<br>');
-                                var formattedText = responseBody;
-
-                                // Optional: Detect and format tabular data
-                                $('#responseText').html(formattedText);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error sending text:', error);
-
-                                // Hide loading icon
-                                $('#loadingIcon').hide();
-
-                                // Display an error message
-                                $('#responseText').html('Error retrieving data from the API.');
-                            }
-                        });
-                    });
-
-                    function formatTable(rawText) {
-                        // Extract the table part from the raw text
-                        var tableText = rawText.split("[50 rows x 4 columns]")[0];
-
-                        // Split into lines
-                        var lines = tableText.split('<br>');
-
-                        // Assume the first line contains headers
-                        var headers = lines[0].split(/\s+/);
-                        var rows = lines.slice(1);
-
-                        // Build the HTML table
-                        var html = '<table border="1" style="margin:auto; text-align:center;"><thead><tr>';
-                        headers.forEach(function(header) {
-                            html += `<th>${header}</th>`;
-                        });
-                        html += '</tr></thead><tbody>';
-
-                        rows.forEach(function(row) {
-                            var columns = row.split(/\s+/);
-                            html += '<tr>';
-                            columns.forEach(function(column) {
-                                html += `<td>${column}</td>`;
-                            });
-                            html += '</tr>';
-                        });
-
-                        html += '</tbody></table>';
-                        return html;
-                    }
-                });
-
-            </script>
+            <div id="responseTextMobile"></div>
             
             <p style="margin-bottom: 50px;"></p>
         </td>
         <td style="width:15px;"> </td>
     </tr>
 </table>
+
+
+
+<script>
+    function setupForm(textInputId, buttonId, loadingId, responseId) {
+        $(document).ready(function () {
+            var myChart;
+
+            $('#' + buttonId).on('click', function () {
+                if (myChart) {
+                    myChart.destroy();
+                }
+
+                $('#' + loadingId).show();
+                var text = $('#' + textInputId).val();
+
+                $.ajax({
+                    url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ question: text }),
+                    success: function (response) {
+                        $('#' + loadingId).hide();
+                        var responseBody = response.body;
+                        var formattedText = responseBody.replace(/\n/g, ' ');
+                        $('#' + responseId).html(formattedText);
+                    },
+                    error: function () {
+                        $('#' + loadingId).hide();
+                        $('#' + responseId).html('Error retrieving data from the API.');
+                    }
+                });
+            });
+        });
+    }
+
+    setupForm('textInputBrowser', 'sendTextButtonBrowser', 'loadingIcon', 'responseText');
+    setupForm('textInputMobile', 'sendTextButtonMobile', 'loadingIconMobile', 'responseTextMobile');
+</script>
 
 
 </body>
