@@ -409,13 +409,23 @@
             color: black;
             text-align: left;
         }
+    
+        /* Match text area styling with the main website's variables */
+        #textInputBrowser, #textInputMobile {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px; /* Matching $base-font-size */
+            line-height: 1.5; /* Matching $base-line-height */
+            font-weight: 400; /* Matching $base-font-weight */
+            color: #111; /* Matching $text-color */
+        }
+
 
         /* Target the table with class "dataframe" */
         table.dataframe {
             border-collapse: collapse; /* Merge adjacent borders */
             width: 100%; /* Full-width table */
             margin: 20px auto; /* Center the table with some margin */
-            font-family: Arial, sans-serif; /* Change font */
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 14px; /* Set font size */
         }
 
