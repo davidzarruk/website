@@ -20,11 +20,18 @@ layout: default_running
             flex-shrink: 0;
         }
 
-        #loadingIcon, #loadingIconMobile {
+        #loadingIcon {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        #loadingIconMobile {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -20%);
         }
 
         #responseText, #responseTextMobile {
@@ -48,7 +55,7 @@ layout: default_running
         /* Target the table with class "dataframe" */
         table.dataframe {
             border-collapse: collapse; /* Merge adjacent borders */
-            width: 100%; /* Full-width table */
+            width: auto; /* Adjust to content width */
             margin: 20px auto; /* Center the table with some margin */
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 14px; /* Set font size */
@@ -58,7 +65,7 @@ layout: default_running
         table.dataframe th {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: #f4f4f4; /* Light gray background */
-            text-align: left; /* Left-align text */
+            text-align: center; /* Center the text */
             padding: 8px; /* Add padding inside cells */
             border: 1px solid #ddd; /* Light gray border */
             font-weight: bold; /* Bold headers */
@@ -69,7 +76,9 @@ layout: default_running
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             padding: 8px; /* Add padding inside cells */
             border: 1px solid #ddd; /* Light gray border */
+            text-align: center; /* Center the text */
         }
+
 
         /* Add alternating row colors for better readability */
         table.dataframe tr:nth-child(even) {
@@ -170,7 +179,7 @@ layout: default_running
                 }
 
                 // Clear the previous response and add extra space
-                $('#' + responseId).html('<p style="margin-bottom: 100px; color: white;">\n \Cargando la respuesta \n</p>'); // Adds extra space
+                $('#' + responseId).html('<p style="margin-bottom: 100px; color: white; text-align: center">\n \Cargando la respuesta \n</p> <p style="margin-bottom: 20px; color: black; text-align: center">\n Calculando respuesta... Tarda aproximadamente 20 segundos... \n</p>'); // Adds extra space
 
                 $('#' + loadingId).show();
                 var text = $('#' + textInputId).val();
@@ -197,6 +206,18 @@ layout: default_running
 
     setupForm('textInputBrowser', 'sendTextButtonBrowser', 'loadingIcon', 'responseText');
     setupForm('textInputMobile', 'sendTextButtonMobile', 'loadingIconMobile', 'responseTextMobile');
+
+    function setupAutoResize(textInputId) {
+        const textarea = document.getElementById(textInputId);
+
+        textarea.addEventListener('input', function () {
+            this.style.height = 'auto'; // Reset the height to recalculate
+            this.style.height = this.scrollHeight + 'px'; // Set to the new calculated height
+        });
+    }
+
+    setupAutoResize('textInputBrowser');
+    setupAutoResize('textInputMobile');
 
 
 </script>
