@@ -405,6 +405,7 @@
 
         #responseText, #responseTextMobile {
             margin-top: 20px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 16px;
             color: black;
             text-align: left;
@@ -413,7 +414,7 @@
         /* Match text area styling with the main website's variables */
         #textInputBrowser, #textInputMobile {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 20px; /* Matching $base-font-size */
+            font-size: 16px; /* Matching $base-font-size */
             line-height: 1.5; /* Matching $base-line-height */
             font-weight: 400; /* Matching $base-font-weight */
             color: #111; /* Matching $text-color */
@@ -431,6 +432,7 @@
 
         /* Style the table headers */
         table.dataframe th {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: #f4f4f4; /* Light gray background */
             text-align: left; /* Left-align text */
             padding: 8px; /* Add padding inside cells */
@@ -440,6 +442,7 @@
 
         /* Style the table rows */
         table.dataframe td {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             padding: 8px; /* Add padding inside cells */
             border: 1px solid #ddd; /* Light gray border */
         }
@@ -479,7 +482,7 @@
         <td id="textoprincipal" style="font-size:18px">
             <p style="margin-bottom: 30px;"></p>
 
-            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
+            <p style="margin-bottom: 0.5cm;font-size:24px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
             <div style="display: flex;">
                 <textarea id="textInputBrowser" rows="2" cols="50"></textarea>
                 <button type="button" id="sendTextButtonBrowser">Enviar</button>
@@ -507,7 +510,7 @@
         <td id="textoprincipal" style="font-size:18px">
             <p style="margin-bottom: 30px;"></p>
 
-            <p style="margin-bottom: 0.5cm;font-size:20px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
+            <p style="margin-bottom: 0.5cm;font-size:24px;color:black"><b>Haz cualquier pregunta sobre la Maratón de Berlín</b></p>
             <div style="display: flex;">
                 <textarea id="textInputMobile" rows="2" cols="28"></textarea>
                 <button type="button" id="sendTextButtonMobile">Enviar</button>
@@ -557,7 +560,7 @@
                         $('#' + loadingId).hide();
                         var responseBody = response.body;
                         var formattedText = responseBody.replace(/\n/g, ' ');
-                        $('#' + responseId).html(formattedText);
+                        $('#' + responseId).html(formattedText + '<p style="margin-bottom: 20px; color: white;">\n \Cargando la respuesta \n</p>');
                     },
                     error: function () {
                         $('#' + loadingId).hide();
