@@ -112,7 +112,7 @@ layout: default_running
             <p style="margin-bottom: 30px;"></p>
 
             <div id="loadingIcon" style="display: none;">
-                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
+                <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZzNWR3OG5kcGZtd3Z3bDd4ZGIyOW9oNmFsNTh2OHU0MDN1dnJ3dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YOSZmoAvRUyUaaeRM1/giphy.webp" alt="Loading Icon" width="120">
             </div>
 
             <!-- Div to display the API response -->
@@ -140,7 +140,7 @@ layout: default_running
             <p style="margin-bottom: 30px;"></p>
 
             <div id="loadingIconMobile" style="display: none;">
-                <img src="https://media.giphy.com/media/iF7cpUV5RU43NktqTs/giphy.gif?cid=790b76112acjimt5swkkqk5soyf7vdh8kbfngj7mk3ipgha4&ep=v1_gifs_search&rid=giphy.gif&ct=s" alt="Loading Icon" width="80">
+                <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZzNWR3OG5kcGZtd3Z3bDd4ZGIyOW9oNmFsNTh2OHU0MDN1dnJ3dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YOSZmoAvRUyUaaeRM1/giphy.webp" alt="Loading Icon" width="120">
             </div>
 
             <p style="margin-bottom: 30px;"></p>
@@ -165,6 +165,9 @@ layout: default_running
                 if (myChart) {
                     myChart.destroy();
                 }
+
+                // Clear the previous response and add extra space
+                $('#' + responseId).html('<p style="margin-bottom: 100px; color: white;">\n \Cargando la respuesta \n</p>'); // Adds extra space
 
                 $('#' + loadingId).show();
                 var text = $('#' + textInputId).val();
@@ -191,6 +194,8 @@ layout: default_running
 
     setupForm('textInputBrowser', 'sendTextButtonBrowser', 'loadingIcon', 'responseText');
     setupForm('textInputMobile', 'sendTextButtonMobile', 'loadingIconMobile', 'responseTextMobile');
+
+
 </script>
 
 
