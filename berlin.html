@@ -178,8 +178,8 @@ layout: default_running
                     myChart.destroy();
                 }
 
-                // Clear the previous response and add extra space
-                $('#' + responseId).html('<p style="margin-bottom: 100px; color: white; text-align: center">\n \Cargando la respuesta \n</p> <p style="margin-bottom: 20px; color: black; text-align: center">\n Calculando respuesta... Tarda aproximadamente 20 segundos... \n</p>'); // Adds extra space
+                // Clear the previous response and show loading message
+                $('#' + responseId).html('<p style="margin-bottom: 100px; color: white; text-align: center">\n Cargando la respuesta... \n</p><p style="margin-bottom: 20px; color: black; text-align: center">\n Esto puede tardar aproximadamente 20 segundos... \n</p>');
 
                 $('#' + loadingId).show();
                 var text = $('#' + textInputId).val();
@@ -191,18 +191,50 @@ layout: default_running
                     data: JSON.stringify({ question: text }),
                     success: function (response) {
                         $('#' + loadingId).hide();
-                        var responseBody = response.body;
-                        var formattedText = responseBody.replace(/\n/g, ' ');
-                        $('#' + responseId).html(formattedText + '<p style="margin-bottom: 20px; color: white;">\n \Cargando la respuesta \n</p>');
+
+                        try {
+                            // Check if the response contains an error message
+                            if (response.errorMessage) {
+                                if (response.errorType === "ThrottlingException") {
+                                    $('#' + responseId).html('<p style="color: black;text-align: center">Hay mucho tráfico. Por favor, envía la pregunta de nuevo.</p><p style="margin-bottom: 20px; color: white">\n C \n</p>');
+                                } else if (response.errorType === "InvalidRequestException") {
+                                    $('#' + responseId).html('<p style="color: black;text-align: center">Hubo un problema con la pregunta. Por favor, intenta reescribirla y enviarla de nuevo.</p><p style="margin-bottom: 20px; color: white">\n C \n</p>');
+                                } else {
+                                    $('#' + responseId).html('<p style="color: black;text-align: center">Hubo un problema con la pregunta. Por favor, intenta de nuevo.</p><p style="margin-bottom: 20px; color: white">\n C \n</p>');
+                                }
+                            } else {
+                                // No errors, display the actual response
+                                var responseBody = response.body;
+                                var formattedText = responseBody.replace(/\n/g, ' ');
+                                $('#' + responseId).html(formattedText + '<p style="margin-bottom: 20px; color: white;">\n \Cargando la respuesta \n</p>');
+                            }
+                        } catch (e) {
+                            $('#' + responseId).html('<p style="color: black;text-align: center">Hubo un problema con la pregunta. Por favor, intenta de nuevo.</p><p style="margin-bottom: 20px; color: white">\n C \n</p>');
+                            console.error("Error while parsing the response:", e);
+                        }
                     },
-                    error: function () {
+                    error: function (xhr) {
+                        // Handling actual HTTP errors (e.g., network issues)
                         $('#' + loadingId).hide();
-                        $('#' + responseId).html('Hubo un error en la pregunta. Por favor, vuelve a intentarlo.');
+                        try {
+                            var errorResponse = JSON.parse(xhr.responseText);
+                            if (errorResponse.errorType === "ThrottlingException") {
+                                $('#' + responseId).html('<p style="color: red;">Too many requests. Please retry after a moment.</p>');
+                            } else if (errorResponse.errorType === "InvalidRequestException") {
+                                $('#' + responseId).html('<p style="color: red;">Invalid request: Please check your query syntax.</p>');
+                            } else {
+                                $('#' + responseId).html('<p style="color: red;">Hubo un error en la pregunta. Por favor, vuelve a intentarlo.</p>');
+                            }
+                        } catch (e) {
+                            $('#' + responseId).html('<p style="color: red;">Unexpected error. Please try again later.</p>');
+                            console.error("Error parsing server error response:", e);
+                        }
                     }
                 });
             });
         });
     }
+
 
     setupForm('textInputBrowser', 'sendTextButtonBrowser', 'loadingIcon', 'responseText');
     setupForm('textInputMobile', 'sendTextButtonMobile', 'loadingIconMobile', 'responseTextMobile');
