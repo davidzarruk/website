@@ -602,7 +602,7 @@
                                 $('#' + responseId).html('<p style="color: red;">Hubo un error en la pregunta. Por favor, vuelve a intentarlo.</p>');
                             }
                         } catch (e) {
-                            $('#' + responseId).html('<p style="color: red;">Unexpected error. Please try again later.</p>');
+                            $('#' + responseId).html('<p style="color: red;">Hubo un error en la pregunta. Por favor, vuelve a intentarlo.</p>');
                             console.error("Error parsing server error response:", e);
                         }
                     }
