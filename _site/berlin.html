@@ -564,7 +564,7 @@
                     url: 'https://j38d9y5pud.execute-api.us-east-2.amazonaws.com/prod/prod',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ question: text }),
+                    data: JSON.stringify({ "question": text }),
                     success: function (response) {
                         $('#' + loadingId).hide();
 
