@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enviar propuesta</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      background-color: #fdfdfd;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.19);
+      border-collapse: collapse;
+    }
+
+    td {
+      text-align: center;
+      padding: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #loadingIcon, #loadingIconMobile {
+      margin-top: 20px;
+    }
+
+    @media screen and (max-width: 600px) {
+      #tab1 {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 601px) {
+      #tab2 {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Desktop form -->
+<table id="tab1">
+  <tr>
+    <td></td>
+    <td>
+      <h2>Envía tu propuesta para la campaña</h2>
+      <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <input type="text" id="nombreInput" placeholder="Nombre">
+        <input type="email" id="correoInput" placeholder="Correo">
+        <textarea id="propuestaInput" placeholder="Propuesta" rows="4"></textarea>
+        <button type="button" id="enviarPropuestaBtn">Enviar propuesta</button>
+      </div>
+      <div id="loadingIcon" style="display: none;">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
+      </div>
+      <div id="propuestaResponseText" style="margin-top: 20px; color: black;"></div>
+      <p style="font-size: 12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+<!-- Mobile form -->
+<table id="tab2">
+  <tr>
+    <td></td>
+    <td>
+      <h2>Envía tu propuesta para la campaña</h2>
+      <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <input type="text" id="nombreInputMobile" placeholder="Nombre">
+        <input type="email" id="correoInputMobile" placeholder="Correo">
+        <textarea id="propuestaInputMobile" placeholder="Propuesta" rows="4"></textarea>
+        <button type="button" id="enviarPropuestaBtnMobile">Enviar propuesta</button>
+      </div>
+      <div id="loadingIconMobile" style="display: none;">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
+      </div>
+      <div id="propuestaResponseTextMobile" style="margin-top: 20px; color: black;"></div>
+      <p style="font-size: 12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+<script>
+  $(document).ready(function () {
+    function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId) {
+      $('#' + buttonId).on('click', function () {
+        const nombre = $('#' + nombreId).val();
+        const correo = $('#' + correoId).val();
+        const propuesta = $('#' + propuestaId).val();
+
+        $('#' + responseId).html('');
+        $('#' + loadingId).show();
+
+        $.ajax({
+          url: 'https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', // Your API endpoint
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ nombre, correo, propuesta }),
+          success: function () {
+            $('#' + loadingId).hide();
+            $('#' + responseId).html('<p><b>Muchas gracias por enviar la propuesta.</b></p>');
+            $('#' + nombreId).val('');
+            $('#' + correoId).val('');
+            $('#' + propuestaId).val('');
+          },
+          error: function () {
+            $('#' + loadingId).hide();
+            $('#' + responseId).html('<p style="color:red;">Hubo un error al enviar la propuesta. Por favor, intenta de nuevo.</p>');
+          }
+        });
+      });
+    }
+
+    handleSubmit('nombreInput', 'correoInput', 'propuestaInput', 'enviarPropuestaBtn', 'loadingIcon', 'propuestaResponseText');
+    handleSubmit('nombreInputMobile', 'correoInputMobile', 'propuestaInputMobile', 'enviarPropuestaBtnMobile', 'loadingIconMobile', 'propuestaResponseTextMobile');
+  });
+</script>
+
+</body>
+</html>
