@@ -336,12 +336,15 @@
   }
 
   // ---------- Enviar propuesta (form) ----------
-  function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId) {
+  function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId, edadId, sexoId, regionId) {
     const textarea = document.getElementById(propuestaId);
     const counter = document.getElementById(counterId);
     const button = document.getElementById(buttonId);
     const nombreInput = document.getElementById(nombreId);
     const correoInput = document.getElementById(correoId);
+    const edadInput = document.getElementById(edadId);
+    const sexoInput = document.getElementById(sexoId);
+    const regionInput = document.getElementById(regionId);
 
     // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -351,7 +354,7 @@
       const isNameValid = nombreInput.value.trim().length > 0;
       const isEmailValid = emailRegex.test(correoInput.value.trim());
       const propLength = textarea.value.trim().length;
-      const isPropValid = propLength >= 140 && propLength <= 1000;
+      const isPropValid = propLength >= 140 && propLength <= 10000;
 
       button.disabled = !(isNameValid && isEmailValid && isPropValid);
       
@@ -368,11 +371,11 @@
       if (length < 140) {
         counter.innerHTML = `${length}/140 caracteres mínimos`;
         counter.classList.add('invalid');
-      } else if (length > 1000) {
-        counter.innerHTML = `${length}/1000 caracteres (máximo excedido)`;
+      } else if (length > 10000) {
+        counter.innerHTML = `${length}/10000 caracteres (máximo excedido)`;
         counter.classList.add('invalid');
       } else {
-        counter.innerHTML = `${length}/1000 caracteres`;
+        counter.innerHTML = `${length}/10000 caracteres`;
         counter.classList.remove('invalid');
       }
       checkFormValidity();
@@ -382,9 +385,10 @@
       const nombre = nombreInput.value.trim();
       const correo = correoInput.value.trim();
       const propuesta = textarea.value.trim();
-      const edad = document.getElementById(edadId).value.trim();
-      const sexo = document.getElementById(sexoId).value.trim();
-      const region = document.getElementById(regionId).value.trim();
+      const edad = edadInput.value.trim();
+      const sexo = sexoInput.value.trim();
+      const region = regionInput.value.trim();
+      const respBox = document.getElementById(responseId);
 
       // Validate name
       if (!nombre) {
@@ -407,8 +411,8 @@
         return;
       }
 
-      if (propuesta.length > 1000) {
-        respBox.innerHTML = '<p style="color:red;">La propuesta no puede exceder los 1000 caracteres.</p>';
+      if (propuesta.length > 10000) {
+        respBox.innerHTML = '<p style="color:red;">La propuesta no puede exceder los 10000 caracteres.</p>';
         textarea.focus();
         return;
       }
@@ -430,12 +434,19 @@
             region: region || null
           })
         });
+        
         if (!res.ok) throw new Error('HTTP ' + res.status);
         loading.style.display = 'none';
         respBox.innerHTML = '<p><b>Muchas gracias por enviar la propuesta.</b></p>';
+        
+        // Clear all fields
         nombreInput.value = '';
         correoInput.value = '';
         textarea.value = '';
+        edadInput.value = '';
+        sexoInput.value = '';
+        regionInput.value = '';
+        
         counter.innerHTML = '0/140 caracteres mínimos';
         counter.classList.add('invalid');
         button.disabled = true;
@@ -448,9 +459,6 @@
 
     // Initial button state
     button.disabled = true;
-
-
-    
   }
 
   handleSubmit(
