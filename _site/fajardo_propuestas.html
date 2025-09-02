@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enviar propuesta</title>
+  <title>Colombia Adelante - Enviar propuesta</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/32x32.png">
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <style>
@@ -23,23 +25,193 @@
     .dl-col { display:flex; flex-direction: column; align-items: center; gap: 8px; }
     .dl-loading, .inline-loading { display:none; font-size:14px; color:#111; }
     .dl-loading img, .inline-loading img { vertical-align: middle; margin-right: 8px; }
-    @media screen and (max-width: 600px) { #tab1 { display: none; } }
-    @media screen and (min-width: 601px) { #tab2 { display: none; } }
+    @media screen and (max-width: 600px) { 
+      #tab1 { display: none; }
+      #internal-tools-note,
+      #enviar-correos-btn,
+      .dl-wrap,
+      section[style*="background:#f9f9f9"],
+      section[style*="padding:40px"] { 
+        display: none !important; 
+      }
+    }
+    @media screen and (min-width: 601px) { 
+      #tab2 { display: none; }
+    }
+    .char-counter {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #666;
+    }
+    .char-counter.invalid {
+      color: #dc2626;
+    }
+
+    .header {
+      background-color: #111827;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin: 10px 0 0;
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .header-image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .optional-label {
+      color: #666;
+      font-size: 0.8em;
+      margin-left: 4px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    select {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    /* Brand colors (keep if you already added) */
+    /* brand colors */
+    :root{
+      --brand: #4E2AA6;   /* purple */
+      --flag-h: 6px;      /* stripe height */
+    }
+
+    /* keep the header purple */
+    .header{
+      background: var(--brand);
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* flag stripe at the bottom of the form sections (desktop + mobile) */
+    #tab1, #tab2 { position: relative; }
+
+    #tab1::after,
+    #tab2::after{
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: var(--flag-h);
+      background: linear-gradient(90deg,
+        #F7C948 0 33.33%,     /* amarillo */
+        #1F3FBF 33.33% 66.66%,/* azul */
+        #CE1126 66.66% 100%   /* rojo */
+      );
+      pointer-events: none;
+    }
+
+    /* make the primary submit buttons match the purple */
+    #enviarPropuestaBtn,
+    #enviarPropuestaBtnMobile{
+      background: var(--brand) !important;
+      color: #fff !important;
+    }
+    #enviarPropuestaBtn:hover,
+    #enviarPropuestaBtnMobile:hover{
+      opacity: .95;
+    }
+    
   </style>
 </head>
 
 <body>
 
+  <div class="header">
+  <h1>Colombia Adelante</h1>
+  <p>Construyamos juntos el futuro de nuestro país</p>
+  </div>
 <!-- Desktop form -->
 <table id="tab1">
   <tr>
     <td></td>
     <td>
-      <h2>Envía tu propuesta para la campaña</h2>
+      <h2>Comparte tu propuesta para Colombia Adelante</h2>
+
       <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <input type="text" id="nombreInput" placeholder="Nombre">
-        <input type="email" id="correoInput" placeholder="Correo">
-        <textarea id="propuestaInput" placeholder="Propuesta" rows="4"></textarea>
+        <input type="text" id="nombreInput" placeholder="Nombre *" required>
+        <input type="email" id="correoInput" placeholder="Correo *" required>
+        
+        <div class="form-group">
+          <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120">
+          
+          <select id="sexoInput">
+            <option value="">Sexo (opcional)</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+            <option value="O">Otro</option>
+            <option value="N">Prefiero no decir</option>
+          </select>
+          
+          <select id="regionInput">
+            <option value="">Región (opcional)</option>
+            <option value="Amazonas">Amazonas</option>
+            <option value="Antioquia">Antioquia</option>
+            <option value="Arauca">Arauca</option>
+            <option value="Atlántico">Atlántico</option>
+            <option value="Bogotá">Bogotá</option>
+            <option value="Bolívar">Bolívar</option>
+            <option value="Boyacá">Boyacá</option>
+            <option value="Caldas">Caldas</option>
+            <option value="Caquetá">Caquetá</option>
+            <option value="Casanare">Casanare</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Cesar">Cesar</option>
+            <option value="Chocó">Chocó</option>
+            <option value="Córdoba">Córdoba</option>
+            <option value="Cundinamarca">Cundinamarca</option>
+            <option value="Guainía">Guainía</option>
+            <option value="Guaviare">Guaviare</option>
+            <option value="Huila">Huila</option>
+            <option value="La Guajira">La Guajira</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Meta">Meta</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Norte de Santander">Norte de Santander</option>
+            <option value="Putumayo">Putumayo</option>
+            <option value="Quindío">Quindío</option>
+            <option value="Risaralda">Risaralda</option>
+            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+            <option value="Santander">Santander</option>
+            <option value="Sucre">Sucre</option>
+            <option value="Tolima">Tolima</option>
+            <option value="Valle del Cauca">Valle del Cauca</option>
+            <option value="Vaupés">Vaupés</option>
+            <option value="Vichada">Vichada</option>
+          </select>
+        </div>
+
+        <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
+        <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
         <button type="button" id="enviarPropuestaBtn" style="background:#111827; color:white;">Enviar propuesta</button>
       </div>
       <div id="loadingIcon" style="display:none;">
@@ -57,11 +229,34 @@
   <tr>
     <td></td>
     <td>
-      <h2>Envía tu propuesta para la campaña</h2>
+      <h2>Comparte tu propuesta para Colombia Adelante</h2>
+
+
       <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <input type="text" id="nombreInputMobile" placeholder="Nombre">
-        <input type="email" id="correoInputMobile" placeholder="Correo">
-        <textarea id="propuestaInputMobile" placeholder="Propuesta" rows="4"></textarea>
+        <input type="text" id="nombreInputMobile" placeholder="Nombre *" required>
+        <input type="email" id="correoInputMobile" placeholder="Correo *" required>
+        
+        <div class="form-group">
+          <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120">
+          
+          <select id="sexoInputMobile">
+            <option value="">Sexo (opcional)</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+            <option value="O">Otro</option>
+            <option value="N">Prefiero no decir</option>
+          </select>
+          
+          <select id="regionInputMobile">
+            <option value="">Región (opcional)</option>
+            <option value="Amazonas">Amazonas</option>
+            <!-- ... same options as desktop ... -->
+            <option value="Vichada">Vichada</option>
+          </select>
+        </div>
+
+        <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
+        <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
         <button type="button" id="enviarPropuestaBtnMobile" style="background:#111827; color:white;">Enviar propuesta</button>
       </div>
       <div id="loadingIconMobile" style="display:none;">
@@ -141,15 +336,84 @@
   }
 
   // ---------- Enviar propuesta (form) ----------
-  function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId) {
-    document.getElementById(buttonId).addEventListener('click', async () => {
-      const nombre = document.getElementById(nombreId).value.trim();
-      const correo = document.getElementById(correoId).value.trim();
-      const propuesta = document.getElementById(propuestaId).value.trim();
+  function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId) {
+    const textarea = document.getElementById(propuestaId);
+    const counter = document.getElementById(counterId);
+    const button = document.getElementById(buttonId);
+    const nombreInput = document.getElementById(nombreId);
+    const correoInput = document.getElementById(correoId);
 
-      const respBox = document.getElementById(responseId);
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Function to check if all fields are valid
+    function checkFormValidity() {
+      const isNameValid = nombreInput.value.trim().length > 0;
+      const isEmailValid = emailRegex.test(correoInput.value.trim());
+      const propLength = textarea.value.trim().length;
+      const isPropValid = propLength >= 140 && propLength <= 1000;
+
+      button.disabled = !(isNameValid && isEmailValid && isPropValid);
+      
+      return isNameValid && isEmailValid && isPropValid;
+    }
+
+    // Add input event listeners for all fields
+    [nombreInput, correoInput].forEach(input => {
+      input.addEventListener('input', checkFormValidity);
+    });
+
+    textarea.addEventListener('input', function() {
+      const length = this.value.trim().length;
+      if (length < 140) {
+        counter.innerHTML = `${length}/140 caracteres mínimos`;
+        counter.classList.add('invalid');
+      } else if (length > 1000) {
+        counter.innerHTML = `${length}/1000 caracteres (máximo excedido)`;
+        counter.classList.add('invalid');
+      } else {
+        counter.innerHTML = `${length}/1000 caracteres`;
+        counter.classList.remove('invalid');
+      }
+      checkFormValidity();
+    });
+
+    button.addEventListener('click', async () => {
+      const nombre = nombreInput.value.trim();
+      const correo = correoInput.value.trim();
+      const propuesta = textarea.value.trim();
+      const edad = document.getElementById(edadId).value.trim();
+      const sexo = document.getElementById(sexoId).value.trim();
+      const region = document.getElementById(regionId).value.trim();
+
+      // Validate name
+      if (!nombre) {
+        respBox.innerHTML = '<p style="color:red;">Por favor, ingresa tu nombre.</p>';
+        nombreInput.focus();
+        return;
+      }
+
+      // Validate email
+      if (!correo || !emailRegex.test(correo)) {
+        respBox.innerHTML = '<p style="color:red;">Por favor, ingresa un correo electrónico válido.</p>';
+        correoInput.focus();
+        return;
+      }
+
+      // Validate proposal length
+      if (propuesta.length < 140) {
+        respBox.innerHTML = '<p style="color:red;">La propuesta debe tener al menos 140 caracteres.</p>';
+        textarea.focus();
+        return;
+      }
+
+      if (propuesta.length > 1000) {
+        respBox.innerHTML = '<p style="color:red;">La propuesta no puede exceder los 1000 caracteres.</p>';
+        textarea.focus();
+        return;
+      }
+
       const loading = document.getElementById(loadingId);
-
       respBox.innerHTML = '';
       loading.style.display = 'block';
 
@@ -157,25 +421,63 @@
         const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ nombre, correo, propuesta })
+          body: JSON.stringify({ 
+            nombre, 
+            correo, 
+            propuesta,
+            edad: edad || null,
+            sexo: sexo || null,
+            region: region || null
+          })
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         loading.style.display = 'none';
         respBox.innerHTML = '<p><b>Muchas gracias por enviar la propuesta.</b></p>';
-        document.getElementById(nombreId).value = '';
-        document.getElementById(correoId).value = '';
-        document.getElementById(propuestaId).value = '';
+        nombreInput.value = '';
+        correoInput.value = '';
+        textarea.value = '';
+        counter.innerHTML = '0/140 caracteres mínimos';
+        counter.classList.add('invalid');
+        button.disabled = true;
       } catch (err) {
         loading.style.display = 'none';
         console.error(err);
         respBox.innerHTML = '<p style="color:red;">Hubo un error al enviar la propuesta. Por favor, intenta de nuevo.</p>';
       }
     });
+
+    // Initial button state
+    button.disabled = true;
+
+
+    
   }
 
-  handleSubmit('nombreInput', 'correoInput', 'propuestaInput', 'enviarPropuestaBtn', 'loadingIcon', 'propuestaResponseText');
-  handleSubmit('nombreInputMobile', 'correoInputMobile', 'propuestaInputMobile', 'enviarPropuestaBtnMobile', 'loadingIconMobile', 'propuestaResponseTextMobile');
+  handleSubmit(
+    'nombreInput', 
+    'correoInput', 
+    'propuestaInput', 
+    'enviarPropuestaBtn', 
+    'loadingIcon', 
+    'propuestaResponseText', 
+    'charCounter',
+    'edadInput',
+    'sexoInput',
+    'regionInput'
+  );
 
+  handleSubmit(
+    'nombreInputMobile', 
+    'correoInputMobile', 
+    'propuestaInputMobile', 
+    'enviarPropuestaBtnMobile', 
+    'loadingIconMobile', 
+    'propuestaResponseTextMobile', 
+    'charCounterMobile',
+    'edadInputMobile',
+    'sexoInputMobile',
+    'regionInputMobile'
+  );
   // ---------- Enviar correos (fire-and-forget) ----------
   async function sendEmails() {
     const btn = document.getElementById('enviar-correos-btn');
