@@ -141,6 +141,43 @@
       opacity: .95;
     }
     
+    .form-group input,
+    .form-group select {
+      flex: 1;
+    }
+
+    .consent-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 10px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+
+    .char-counter {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .consent-grid input[type="checkbox"] {
+      margin-top: 4px;
+      margin-left: 0;
+      justify-self: start;
+    }
+    .consent-grid label {
+      text-align: left;
+      display: block;   /* make the label use full width of its grid cell */
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box; /* ensure padding doesn’t add extra width */
+    }
+
   </style>
 </head>
 
@@ -160,8 +197,10 @@
       <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
         <input type="text" id="nombreInput" placeholder="Nombre *" required>
         <input type="email" id="correoInput" placeholder="Correo *" required>
-        
+
         <div class="form-group">
+          <input type="tel" id="telefonoInput" placeholder="Teléfono (opcional)" 
+                inputmode="tel" autocomplete="tel">
           <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120">
           
           <select id="sexoInput">
@@ -212,6 +251,14 @@
 
         <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
         <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
+
+        <div class="consent-grid">
+          <div><input type="checkbox" id="habeas_data" required></div>
+          <div><label for="habeas_data">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
+          <div><input type="checkbox" id="more_info"></div>
+          <div><label for="more_info">¿Quisieras recibir más información sobre la campaña?</label></div>
+        </div>
+
         <button type="button" id="enviarPropuestaBtn" style="background:#111827; color:white;">Enviar propuesta</button>
       </div>
       <div id="loadingIcon" style="display:none;">
@@ -235,11 +282,13 @@
       <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
         <input type="text" id="nombreInputMobile" placeholder="Nombre *" required>
         <input type="email" id="correoInputMobile" placeholder="Correo *" required>
-        
+
         <div class="form-group">
-          <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120">
+          <input type="tel" id="telefonoInputMobile" placeholder="Teléfono (opcional)" 
+                inputmode="tel" autocomplete="tel">
+          <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120">
           
-          <select id="sexoInputMobile">
+          <select id="sexoInput">
             <option value="">Sexo (opcional)</option>
             <option value="M">Masculino</option>
             <option value="F">Femenino</option>
@@ -247,16 +296,55 @@
             <option value="N">Prefiero no decir</option>
           </select>
           
-          <select id="regionInputMobile">
+          <select id="regionInput">
             <option value="">Región (opcional)</option>
             <option value="Amazonas">Amazonas</option>
-            <!-- ... same options as desktop ... -->
+            <option value="Antioquia">Antioquia</option>
+            <option value="Arauca">Arauca</option>
+            <option value="Atlántico">Atlántico</option>
+            <option value="Bogotá">Bogotá</option>
+            <option value="Bolívar">Bolívar</option>
+            <option value="Boyacá">Boyacá</option>
+            <option value="Caldas">Caldas</option>
+            <option value="Caquetá">Caquetá</option>
+            <option value="Casanare">Casanare</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Cesar">Cesar</option>
+            <option value="Chocó">Chocó</option>
+            <option value="Córdoba">Córdoba</option>
+            <option value="Cundinamarca">Cundinamarca</option>
+            <option value="Guainía">Guainía</option>
+            <option value="Guaviare">Guaviare</option>
+            <option value="Huila">Huila</option>
+            <option value="La Guajira">La Guajira</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Meta">Meta</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Norte de Santander">Norte de Santander</option>
+            <option value="Putumayo">Putumayo</option>
+            <option value="Quindío">Quindío</option>
+            <option value="Risaralda">Risaralda</option>
+            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+            <option value="Santander">Santander</option>
+            <option value="Sucre">Sucre</option>
+            <option value="Tolima">Tolima</option>
+            <option value="Valle del Cauca">Valle del Cauca</option>
+            <option value="Vaupés">Vaupés</option>
             <option value="Vichada">Vichada</option>
           </select>
         </div>
 
         <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
         <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
+
+
+        <div class="consent-grid">
+          <div><input type="checkbox" id="habeas_data_mobile" required></div>
+          <div><label for="habeas_data_mobile">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
+          <div><input type="checkbox" id="more_info_mobile"></div>
+          <div><label for="more_info_mobile">¿Quisieras recibir más información sobre la campaña?</label></div>
+        </div>
+
         <button type="button" id="enviarPropuestaBtnMobile" style="background:#111827; color:white;">Enviar propuesta</button>
       </div>
       <div id="loadingIconMobile" style="display:none;">
@@ -336,32 +424,41 @@
   }
 
   // ---------- Enviar propuesta (form) ----------
-  function handleSubmit(nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId, edadId, sexoId, regionId) {
+  function handleSubmit(
+    nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId,
+    telefonoId,               // 👈 NEW param
+    edadId, sexoId, regionId,
+    habeasId = null, moreInfoId = null
+  ) {
     const textarea = document.getElementById(propuestaId);
     const counter = document.getElementById(counterId);
     const button = document.getElementById(buttonId);
     const nombreInput = document.getElementById(nombreId);
     const correoInput = document.getElementById(correoId);
+    const telefonoInput = document.getElementById(telefonoId);   // 👈 NEW
     const edadInput = document.getElementById(edadId);
     const sexoInput = document.getElementById(sexoId);
     const regionInput = document.getElementById(regionId);
 
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const habeas = habeasId ? document.getElementById(habeasId) : null;
 
-    // Function to check if all fields are valid
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Phone (optional): allows digits, spaces, (), +, - (very permissive)
+    const phoneRegex = /^[0-9()+\-\s]{7,20}$/;
+
     function checkFormValidity() {
       const isNameValid = nombreInput.value.trim().length > 0;
       const isEmailValid = emailRegex.test(correoInput.value.trim());
       const propLength = textarea.value.trim().length;
       const isPropValid = propLength >= 140 && propLength <= 10000;
+      const hasConsent = habeas ? habeas.checked : true;
 
-      button.disabled = !(isNameValid && isEmailValid && isPropValid);
-      
-      return isNameValid && isEmailValid && isPropValid;
+      // Note: teléfono is OPTIONAL — it never blocks enabling button
+      button.disabled = !(isNameValid && isEmailValid && isPropValid && hasConsent);
+      return isNameValid && isEmailValid && isPropValid && hasConsent;
     }
 
-    // Add input event listeners for all fields
     [nombreInput, correoInput].forEach(input => {
       input.addEventListener('input', checkFormValidity);
     });
@@ -381,36 +478,50 @@
       checkFormValidity();
     });
 
+    if (habeas) {
+      habeas.addEventListener('change', checkFormValidity);
+    }
+
     button.addEventListener('click', async () => {
       const nombre = nombreInput.value.trim();
       const correo = correoInput.value.trim();
       const propuesta = textarea.value.trim();
+      const telefono = telefonoInput ? telefonoInput.value.trim() : '';  // 👈 NEW
       const edad = edadInput.value.trim();
       const sexo = sexoInput.value.trim();
       const region = regionInput.value.trim();
       const respBox = document.getElementById(responseId);
 
-      // Validate name
+      if (habeas && !habeas.checked) {
+        respBox.innerHTML = '<p style="color:red;">Debes autorizar el uso de datos personales para continuar.</p>';
+        habeas.focus();
+        return;
+      }
+
       if (!nombre) {
         respBox.innerHTML = '<p style="color:red;">Por favor, ingresa tu nombre.</p>';
         nombreInput.focus();
         return;
       }
 
-      // Validate email
       if (!correo || !emailRegex.test(correo)) {
         respBox.innerHTML = '<p style="color:red;">Por favor, ingresa un correo electrónico válido.</p>';
         correoInput.focus();
         return;
       }
 
-      // Validate proposal length
+      // Optional phone: only validate format if provided
+      if (telefono && !phoneRegex.test(telefono)) {
+        respBox.innerHTML = '<p style="color:red;">Teléfono inválido. Usa solo números, espacios, +, -, () (7–20 caracteres).</p>';
+        if (telefonoInput) telefonoInput.focus();
+        return;
+      }
+
       if (propuesta.length < 140) {
         respBox.innerHTML = '<p style="color:red;">La propuesta debe tener al menos 140 caracteres.</p>';
         textarea.focus();
         return;
       }
-
       if (propuesta.length > 10000) {
         respBox.innerHTML = '<p style="color:red;">La propuesta no puede exceder los 10000 caracteres.</p>';
         textarea.focus();
@@ -425,28 +536,34 @@
         const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ 
-            nombre, 
-            correo, 
-            propuesta,
-            edad: edad || null,
-            sexo: sexo || null,
-            region: region || null
-          })
+            body: JSON.stringify({ 
+              nombre, 
+              correo, 
+              telefono: telefono || null,
+              propuesta,
+              edad: edad || null,
+              sexo: sexo || null,
+              region: region || null,
+              habeas: habeas ? habeas.checked : null,
+              more_info: moreInfo ? moreInfo.checked : null
+            })
+
         });
-        
+
         if (!res.ok) throw new Error('HTTP ' + res.status);
         loading.style.display = 'none';
         respBox.innerHTML = '<p><b>Muchas gracias por enviar la propuesta.</b></p>';
-        
-        // Clear all fields
+
+        // Clear fields
         nombreInput.value = '';
         correoInput.value = '';
+        if (telefonoInput) telefonoInput.value = ''; // 👈 clear phone
         textarea.value = '';
         edadInput.value = '';
         sexoInput.value = '';
         regionInput.value = '';
-        
+        if (habeas) habeas.checked = false;
+
         counter.innerHTML = '0/140 caracteres mínimos';
         counter.classList.add('invalid');
         button.disabled = true;
@@ -457,35 +574,45 @@
       }
     });
 
-    // Initial button state
     button.disabled = true;
   }
 
+
+
+  // Desktop
   handleSubmit(
-    'nombreInput', 
-    'correoInput', 
-    'propuestaInput', 
-    'enviarPropuestaBtn', 
-    'loadingIcon', 
-    'propuestaResponseText', 
+    'nombreInput',
+    'correoInput',
+    'propuestaInput',
+    'enviarPropuestaBtn',
+    'loadingIcon',
+    'propuestaResponseText',
     'charCounter',
+    'telefonoInput',          // 👈 NEW
     'edadInput',
     'sexoInput',
-    'regionInput'
+    'regionInput',
+    'habeas_data',
+    'more_info'
   );
 
+  // Mobile
   handleSubmit(
-    'nombreInputMobile', 
-    'correoInputMobile', 
-    'propuestaInputMobile', 
-    'enviarPropuestaBtnMobile', 
-    'loadingIconMobile', 
-    'propuestaResponseTextMobile', 
+    'nombreInputMobile',
+    'correoInputMobile',
+    'propuestaInputMobile',
+    'enviarPropuestaBtnMobile',
+    'loadingIconMobile',
+    'propuestaResponseTextMobile',
     'charCounterMobile',
+    'telefonoInputMobile',    // 👈 NEW
     'edadInputMobile',
     'sexoInputMobile',
-    'regionInputMobile'
+    'regionInputMobile',
+    'habeas_data_mobile',
+    'more_info_mobile'
   );
+
   // ---------- Enviar correos (fire-and-forget) ----------
   async function sendEmails() {
     const btn = document.getElementById('enviar-correos-btn');
