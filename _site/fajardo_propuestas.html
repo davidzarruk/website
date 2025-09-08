@@ -6,8 +6,6 @@
   <title>Colombia Adelante - Enviar propuesta</title>
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/32x32.png">
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   <style>
     body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
     table {
@@ -25,6 +23,7 @@
     .dl-col { display:flex; flex-direction: column; align-items: center; gap: 8px; }
     .dl-loading, .inline-loading { display:none; font-size:14px; color:#111; }
     .dl-loading img, .inline-loading img { vertical-align: middle; margin-right: 8px; }
+
     @media screen and (max-width: 600px) { 
       #tab1 { display: none; }
       #internal-tools-note,
@@ -38,14 +37,14 @@
     @media screen and (min-width: 601px) { 
       #tab2 { display: none; }
     }
-    .char-counter {
-      font-size: 12px;
-      margin-top: 5px;
-      color: #666;
+
+    /* ÚNICA versión de la regla del contador */
+    .char-counter{
+      font-size:12px;
+      color:#555;
+      margin:5px 0 12px;
     }
-    .char-counter.invalid {
-      color: #dc2626;
-    }
+    .char-counter.invalid{ color:#dc2626; }
 
     .header {
       background-color: #111827;
@@ -54,31 +53,12 @@
       text-align: center;
       margin-bottom: 30px;
     }
+    .header h1 { margin: 0; font-size: 2.5em; font-weight: bold; }
+    .header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
 
-    .header h1 {
-      margin: 0;
-      font-size: 2.5em;
-      font-weight: bold;
-    }
+    .header-image { width: 100%; max-width: 100%; height: auto; display: block; }
 
-    .header p {
-      margin: 10px 0 0;
-      font-size: 1.1em;
-      opacity: 0.9;
-    }
-
-    .header-image {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .optional-label {
-      color: #666;
-      font-size: 0.8em;
-      margin-left: 4px;
-    }
+    .optional-label { color: #666; font-size: 0.8em; margin-left: 4px; }
 
     .form-group {
       display: flex;
@@ -97,14 +77,11 @@
       border-radius: 4px;
     }
 
-    /* Brand colors (keep if you already added) */
-    /* brand colors */
     :root{
       --brand: #4E2AA6;   /* purple */
       --flag-h: 6px;      /* stripe height */
     }
 
-    /* keep the header purple */
     .header{
       background: var(--brand);
       color: #fff;
@@ -113,24 +90,20 @@
       margin-bottom: 30px;
     }
 
-    /* flag stripe at the bottom of the form sections (desktop + mobile) */
     #tab1, #tab2 { position: relative; }
-
-    #tab1::after,
-    #tab2::after{
+    #tab1::after, #tab2::after{
       content: "";
       position: absolute;
       left: 0; right: 0; bottom: 0;
       height: var(--flag-h);
       background: linear-gradient(90deg,
-        #F7C948 0 33.33%,     /* amarillo */
-        #1F3FBF 33.33% 66.66%,/* azul */
-        #CE1126 66.66% 100%   /* rojo */
+        #F7C948 0 33.33%,
+        #1F3FBF 33.33% 66.66%,
+        #CE1126 66.66% 100%
       );
       pointer-events: none;
     }
 
-    /* make the primary submit buttons match the purple */
     #enviarPropuestaBtn,
     #enviarPropuestaBtnMobile{
       background: var(--brand) !important;
@@ -142,9 +115,7 @@
     }
     
     .form-group input,
-    .form-group select {
-      flex: 1;
-    }
+    .form-group select { flex: 1; }
 
     .consent-grid {
       display: grid;
@@ -154,12 +125,6 @@
       margin-bottom: 16px;
     }
 
-    .char-counter {
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 12px;
-    }
-
     .consent-grid input[type="checkbox"] {
       margin-top: 4px;
       margin-left: 0;
@@ -167,7 +132,7 @@
     }
     .consent-grid label {
       text-align: left;
-      display: block;   /* make the label use full width of its grid cell */
+      display: block;
     }
 
     .form-group input,
@@ -175,247 +140,310 @@
     .form-group textarea {
       width: 100%;
       max-width: 400px;
-      box-sizing: border-box; /* ensure padding doesn’t add extra width */
+      box-sizing: border-box;
     }
 
+    /* Banner de estadísticas (desktop + general) */
+    .stats-banner{
+      max-width: 900px;
+      margin: 0 auto 20px;
+      padding: 16px 20px;
+      background:#fff;
+      border:2px solid var(--brand);
+      border-radius:12px;
+      text-align:center;
+      box-shadow: 0 6px 20px rgba(0,0,0,.12);
+      position:relative;
+    }
+    .stats-banner::after{
+      content:"";
+      position:absolute; left:0; right:0; bottom:0;
+      height: var(--flag-h);
+      background: linear-gradient(90deg,#F7C948 0 33.33%,#1F3FBF 33.33% 66.66%,#CE1126 66.66% 100%);
+      border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+    }
+    .stats-line{
+      display:flex; gap:10px; justify-content:center; align-items:baseline;
+      flex-wrap:wrap; font-size:1.1rem; color:#111;
+    }
+    .count{
+      font-size:2.2rem; font-weight:800; color:var(--brand);
+      min-width:3ch; display:inline-block;
+    }
+    .stats-sub{ margin-top:6px; font-size:.95rem; color:#444; }
+
+    /* Contador inline específico para móvil (debajo del botón) */
+    .mobile-inline-stats{ display:none; }
+    @media screen and (max-width:600px){
+      .mobile-inline-stats{
+        display:flex;
+        gap:8px;
+        justify-content:center;
+        align-items:baseline;
+        margin-top:12px;
+        padding:10px 12px;
+        border:1px solid var(--brand);
+        border-radius:10px;
+        background:#fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,.08);
+        font-size:1.05rem;
+        color:#111;
+      }
+      .mobile-inline-stats .spark{ font-size:1.2rem; }
+      .mobile-inline-stats .count{ font-size:1.8rem; }
+    }
   </style>
 </head>
 
 <body>
 
   <div class="header">
-  <h1>Colombia Adelante</h1>
-  <p>Construyamos juntos el futuro de nuestro país</p>
+    <h1>Colombia Adelante</h1>
+    <p>Construyamos juntos el futuro de nuestro país</p>
   </div>
-<!-- Desktop form -->
-<table id="tab1">
-  <tr>
-    <td></td>
-    <td>
-      <h2>Comparte tu propuesta para Colombia Adelante</h2>
 
-      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <input type="text" id="nombreInput" placeholder="Nombre *" required>
-        <input type="email" id="correoInput" placeholder="Correo *" required>
-
-        <div class="form-group">
-          <input type="tel" id="telefonoInput" placeholder="Teléfono (opcional)" 
-                inputmode="tel" autocomplete="tel">
-          <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120">
-          
-          <select id="sexoInput">
-            <option value="">Sexo (opcional)</option>
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-            <option value="O">Otro</option>
-            <option value="N">Prefiero no decir</option>
-          </select>
-          
-          <select id="regionInput">
-            <option value="">Región (opcional)</option>
-            <option value="Amazonas">Amazonas</option>
-            <option value="Antioquia">Antioquia</option>
-            <option value="Arauca">Arauca</option>
-            <option value="Atlántico">Atlántico</option>
-            <option value="Bogotá">Bogotá</option>
-            <option value="Bolívar">Bolívar</option>
-            <option value="Boyacá">Boyacá</option>
-            <option value="Caldas">Caldas</option>
-            <option value="Caquetá">Caquetá</option>
-            <option value="Casanare">Casanare</option>
-            <option value="Cauca">Cauca</option>
-            <option value="Cesar">Cesar</option>
-            <option value="Chocó">Chocó</option>
-            <option value="Córdoba">Córdoba</option>
-            <option value="Cundinamarca">Cundinamarca</option>
-            <option value="Guainía">Guainía</option>
-            <option value="Guaviare">Guaviare</option>
-            <option value="Huila">Huila</option>
-            <option value="La Guajira">La Guajira</option>
-            <option value="Magdalena">Magdalena</option>
-            <option value="Meta">Meta</option>
-            <option value="Nariño">Nariño</option>
-            <option value="Norte de Santander">Norte de Santander</option>
-            <option value="Putumayo">Putumayo</option>
-            <option value="Quindío">Quindío</option>
-            <option value="Risaralda">Risaralda</option>
-            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
-            <option value="Santander">Santander</option>
-            <option value="Sucre">Sucre</option>
-            <option value="Tolima">Tolima</option>
-            <option value="Valle del Cauca">Valle del Cauca</option>
-            <option value="Vaupés">Vaupés</option>
-            <option value="Vichada">Vichada</option>
-          </select>
-        </div>
-
-        <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
-        <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
-
-        <div class="consent-grid">
-          <div><input type="checkbox" id="habeas_data" required></div>
-          <div><label for="habeas_data">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
-          <div><input type="checkbox" id="more_info"></div>
-          <div><label for="more_info">¿Quisieras recibir más información sobre la campaña?</label></div>
-        </div>
-
-        <button type="button" id="enviarPropuestaBtn" style="background:#111827; color:white;">Enviar propuesta</button>
-      </div>
-      <div id="loadingIcon" style="display:none;">
-        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
-      </div>
-      <div id="propuestaResponseText" style="margin-top:20px; color:black;"></div>
-      <p style="font-size:12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
-    </td>
-    <td></td>
-  </tr>
-</table>
-
-<!-- Mobile form -->
-<table id="tab2">
-  <tr>
-    <td></td>
-    <td>
-      <h2>Comparte tu propuesta para Colombia Adelante</h2>
-
-
-      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <input type="text" id="nombreInputMobile" placeholder="Nombre *" required>
-        <input type="email" id="correoInputMobile" placeholder="Correo *" required>
-
-        <div class="form-group">
-          <input type="tel" id="telefonoInputMobile" placeholder="Teléfono (opcional)" 
-                inputmode="tel" autocomplete="tel">
-          <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120">
-          
-          <select id="sexoInputMobile">
-            <option value="">Sexo (opcional)</option>
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-            <option value="O">Otro</option>
-            <option value="N">Prefiero no decir</option>
-          </select>
-          
-          <select id="regionInputMobile">
-            <option value="">Región (opcional)</option>
-            <option value="Amazonas">Amazonas</option>
-            <option value="Antioquia">Antioquia</option>
-            <option value="Arauca">Arauca</option>
-            <option value="Atlántico">Atlántico</option>
-            <option value="Bogotá">Bogotá</option>
-            <option value="Bolívar">Bolívar</option>
-            <option value="Boyacá">Boyacá</option>
-            <option value="Caldas">Caldas</option>
-            <option value="Caquetá">Caquetá</option>
-            <option value="Casanare">Casanare</option>
-            <option value="Cauca">Cauca</option>
-            <option value="Cesar">Cesar</option>
-            <option value="Chocó">Chocó</option>
-            <option value="Córdoba">Córdoba</option>
-            <option value="Cundinamarca">Cundinamarca</option>
-            <option value="Guainía">Guainía</option>
-            <option value="Guaviare">Guaviare</option>
-            <option value="Huila">Huila</option>
-            <option value="La Guajira">La Guajira</option>
-            <option value="Magdalena">Magdalena</option>
-            <option value="Meta">Meta</option>
-            <option value="Nariño">Nariño</option>
-            <option value="Norte de Santander">Norte de Santander</option>
-            <option value="Putumayo">Putumayo</option>
-            <option value="Quindío">Quindío</option>
-            <option value="Risaralda">Risaralda</option>
-            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
-            <option value="Santander">Santander</option>
-            <option value="Sucre">Sucre</option>
-            <option value="Tolima">Tolima</option>
-            <option value="Valle del Cauca">Valle del Cauca</option>
-            <option value="Vaupés">Vaupés</option>
-            <option value="Vichada">Vichada</option>
-          </select>
-        </div>
-
-        <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required></textarea>
-        <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
-
-
-        <div class="consent-grid">
-          <div><input type="checkbox" id="habeas_data_mobile" required></div>
-          <div><label for="habeas_data_mobile">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
-          <div><input type="checkbox" id="more_info_mobile"></div>
-          <div><label for="more_info_mobile">¿Quisieras recibir más información sobre la campaña?</label></div>
-        </div>
-
-        <button type="button" id="enviarPropuestaBtnMobile" style="background:#111827; color:white;">Enviar propuesta</button>
-      </div>
-      <div id="loadingIconMobile" style="display:none;">
-        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
-      </div>
-      <div id="propuestaResponseTextMobile" style="margin-top:20px; color:black;"></div>
-      <p style="font-size:12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
-    </td>
-    <td></td>
-  </tr>
-</table>
-
-<!-- Internal tools notice -->
-<section id="internal-tools-note" style="max-width:900px;margin:24px auto 0;padding:16px 20px;border:1px solid #ffe08a;background:#fff7db;border-radius:8px;font-size:15px;line-height:1.5;color:#5b4a00;">
-  <strong style="display:flex;align-items:center;gap:8px;font-size:16px;">
-    🔒 Herramientas internas
-  </strong>
-  <p style="margin:8px 0 0;">
-    Las siguientes acciones están destinadas <b>solo</b> al equipo interno para ejecuciones manuales o pruebas.
-    En condiciones normales, estas tareas se ejecutan automáticamente mediante un <i>scheduler</i> recurrente.
-  </p>
-  <ul style="margin:10px 0 0 18px;">
-    <li><b>Enviar correos</b>: dispara manualmente el proceso de envío.</li>
-    <li><b>Descargar propuestas / análisis</b>: genera y descarga archivos desde Athena.</li>
-  </ul>
-</section>
-
-<!-- Enviar Correos (fire-and-forget) -->
-<section style="text-align:center; padding:40px 0; background:#f9f9f9;">
-  <div class="dl-col">
-    <button id="enviar-correos-btn" style="background:#0073e6; color:white;">
-      Enviar correos
-    </button>
-    <div id="emailsLoading" class="inline-loading">
-      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="42">
-      Procesando...
+  <section class="stats-banner" aria-live="polite">
+    <div class="stats-line">
+      <span>Hasta el momento hemos recibido</span>
+      <span id="proposalCount" class="count">—</span>
+      <span>propuestas</span>
     </div>
-  </div>
-</section>
+    <div class="stats-sub">¡Súmate con la tuya!</div>
+  </section>
 
-<!-- Descargas -->
-<section style="text-align:center; padding:40px 0;">
-  <div class="dl-wrap">
-    <!-- Propuestas -->
+  <!-- Desktop form -->
+  <table id="tab1">
+    <tr>
+      <td></td>
+      <td>
+        <h2>Comparte tu propuesta para Colombia Adelante</h2>
+
+        <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+          <input type="text" id="nombreInput" placeholder="Nombre *" required aria-label="Nombre">
+          <input type="email" id="correoInput" placeholder="Correo *" required aria-label="Correo electrónico">
+
+          <div class="form-group">
+            <input type="tel" id="telefonoInput" placeholder="Teléfono (opcional)" 
+                   inputmode="tel" autocomplete="tel" aria-label="Teléfono">
+            <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120" aria-label="Edad">
+            
+            <select id="sexoInput" aria-label="Sexo">
+              <option value="">Sexo (opcional)</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+              <option value="O">Otro</option>
+              <option value="N">Prefiero no decir</option>
+            </select>
+            
+            <select id="regionInput" aria-label="Región">
+              <option value="">Región (opcional)</option>
+              <option value="Amazonas">Amazonas</option>
+              <option value="Antioquia">Antioquia</option>
+              <option value="Arauca">Arauca</option>
+              <option value="Atlántico">Atlántico</option>
+              <option value="Bogotá">Bogotá</option>
+              <option value="Bolívar">Bolívar</option>
+              <option value="Boyacá">Boyacá</option>
+              <option value="Caldas">Caldas</option>
+              <option value="Caquetá">Caquetá</option>
+              <option value="Casanare">Casanare</option>
+              <option value="Cauca">Cauca</option>
+              <option value="Cesar">Cesar</option>
+              <option value="Chocó">Chocó</option>
+              <option value="Córdoba">Córdoba</option>
+              <option value="Cundinamarca">Cundinamarca</option>
+              <option value="Guainía">Guainía</option>
+              <option value="Guaviare">Guaviare</option>
+              <option value="Huila">Huila</option>
+              <option value="La Guajira">La Guajira</option>
+              <option value="Magdalena">Magdalena</option>
+              <option value="Meta">Meta</option>
+              <option value="Nariño">Nariño</option>
+              <option value="Norte de Santander">Norte de Santander</option>
+              <option value="Putumayo">Putumayo</option>
+              <option value="Quindío">Quindío</option>
+              <option value="Risaralda">Risaralda</option>
+              <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+              <option value="Santander">Santander</option>
+              <option value="Sucre">Sucre</option>
+              <option value="Tolima">Tolima</option>
+              <option value="Valle del Cauca">Valle del Cauca</option>
+              <option value="Vaupés">Vaupés</option>
+              <option value="Vichada">Vichada</option>
+            </select>
+          </div>
+
+          <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
+          <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
+
+          <div class="consent-grid">
+            <div><input type="checkbox" id="habeas_data" required></div>
+            <div><label for="habeas_data">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
+            <div><input type="checkbox" id="more_info"></div>
+            <div><label for="more_info">¿Quisieras recibir más información sobre la campaña?</label></div>
+          </div>
+
+          <button type="button" id="enviarPropuestaBtn" style="background:#111827; color:white;">Enviar propuesta</button>
+        </div>
+        <div id="loadingIcon" style="display:none;">
+          <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
+        </div>
+        <div id="propuestaResponseText" style="margin-top:20px; color:black;"></div>
+        <p style="font-size:12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+
+  <!-- Mobile form -->
+  <table id="tab2">
+    <tr>
+      <td></td>
+      <td>
+        <h2>Comparte tu propuesta para Colombia Adelante</h2>
+
+        <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+          <input type="text" id="nombreInputMobile" placeholder="Nombre *" required aria-label="Nombre">
+          <input type="email" id="correoInputMobile" placeholder="Correo *" required aria-label="Correo electrónico">
+
+          <div class="form-group">
+            <input type="tel" id="telefonoInputMobile" placeholder="Teléfono (opcional)" 
+                   inputmode="tel" autocomplete="tel" aria-label="Teléfono">
+            <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120" aria-label="Edad">
+            
+            <select id="sexoInputMobile" aria-label="Sexo">
+              <option value="">Sexo (opcional)</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+              <option value="O">Otro</option>
+              <option value="N">Prefiero no decir</option>
+            </select>
+            
+            <select id="regionInputMobile" aria-label="Región">
+              <option value="">Región (opcional)</option>
+              <option value="Amazonas">Amazonas</option>
+              <option value="Antioquia">Antioquia</option>
+              <option value="Arauca">Arauca</option>
+              <option value="Atlántico">Atlántico</option>
+              <option value="Bogotá">Bogotá</option>
+              <option value="Bolívar">Bolívar</option>
+              <option value="Boyacá">Boyacá</option>
+              <option value="Caldas">Caldas</option>
+              <option value="Caquetá">Caquetá</option>
+              <option value="Casanare">Casanare</option>
+              <option value="Cauca">Cauca</option>
+              <option value="Cesar">Cesar</option>
+              <option value="Chocó">Chocó</option>
+              <option value="Córdoba">Córdoba</option>
+              <option value="Cundinamarca">Cundinamarca</option>
+              <option value="Guainía">Guainía</option>
+              <option value="Guaviare">Guaviare</option>
+              <option value="Huila">Huila</option>
+              <option value="La Guajira">La Guajira</option>
+              <option value="Magdalena">Magdalena</option>
+              <option value="Meta">Meta</option>
+              <option value="Nariño">Nariño</option>
+              <option value="Norte de Santander">Norte de Santander</option>
+              <option value="Putumayo">Putumayo</option>
+              <option value="Quindío">Quindío</option>
+              <option value="Risaralda">Risaralda</option>
+              <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+              <option value="Santander">Santander</option>
+              <option value="Sucre">Sucre</option>
+              <option value="Tolima">Tolima</option>
+              <option value="Valle del Cauca">Valle del Cauca</option>
+              <option value="Vaupés">Vaupés</option>
+              <option value="Vichada">Vichada</option>
+            </select>
+          </div>
+
+          <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
+          <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
+
+          <div class="consent-grid">
+            <div><input type="checkbox" id="habeas_data_mobile" required></div>
+            <div><label for="habeas_data_mobile">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
+            <div><input type="checkbox" id="more_info_mobile"></div>
+            <div><label for="more_info_mobile">¿Quisieras recibir más información sobre la campaña?</label></div>
+          </div>
+
+          <button type="button" id="enviarPropuestaBtnMobile" style="background:#111827; color:white;">Enviar propuesta</button>
+
+          <!-- Contador visible bajo el botón en móvil -->
+          <div class="mobile-inline-stats" aria-live="polite">
+            <span class="spark">✨</span>
+            <span>Ya van</span>
+            <span id="proposalCountMobile" class="count">—</span>
+            <span>propuestas</span>
+          </div>
+        </div>
+
+        <div id="loadingIconMobile" style="display:none;">
+          <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Loading" width="100">
+        </div>
+        <div id="propuestaResponseTextMobile" style="margin-top:20px; color:black;"></div>
+        <p style="font-size:12px">Esta es una prueba para recopilar ideas ciudadanas. Tus datos no serán compartidos y serán usados solo con fines informativos.</p>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+
+  <!-- Internal tools notice -->
+  <section id="internal-tools-note" style="max-width:900px;margin:24px auto 0;padding:16px 20px;border:1px solid #ffe08a;background:#fff7db;border-radius:8px;font-size:15px;line-height:1.5;color:#5b4a00;">
+    <strong style="display:flex;align-items:center;gap:8px;font-size:16px;">
+      🔒 Herramientas internas
+    </strong>
+    <p style="margin:8px 0 0;">
+      Las siguientes acciones están destinadas <b>solo</b> al equipo interno para ejecuciones manuales o pruebas.
+      En condiciones normales, estas tareas se ejecutan automáticamente mediante un <i>scheduler</i> recurrente.
+    </p>
+    <ul style="margin:10px 0 0 18px;">
+      <li><b>Enviar correos</b>: dispara manualmente el proceso de envío.</li>
+      <li><b>Descargar propuestas / análisis</b>: genera y descarga archivos desde Athena.</li>
+    </ul>
+  </section>
+
+  <!-- Enviar Correos (fire-and-forget) -->
+  <section style="text-align:center; padding:40px 0; background:#f9f9f9;">
     <div class="dl-col">
-      <button id="download-proposals-btn" style="background:#10b981; color:white;">
-        Descargar propuestas
+      <button id="enviar-correos-btn" style="background:#0073e6; color:white;">
+        Enviar correos
       </button>
-      <div id="downloadLoadingProposals" class="dl-loading">
+      <div id="emailsLoading" class="inline-loading">
         <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="42">
-        Generando archivo...
+        Procesando...
       </div>
     </div>
+  </section>
 
-    <!-- Análisis -->
-    <div class="dl-col">
-      <button id="download-analysis-btn" style="background:#2563eb; color:white;">
-        Descargar análisis
-      </button>
-      <div id="downloadLoadingAnalysis" class="dl-loading">
-        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="42">
-        Generando archivo...
+  <!-- Descargas -->
+  <section style="text-align:center; padding:40px 0;">
+    <div class="dl-wrap">
+      <div class="dl-col">
+        <button id="download-proposals-btn" style="background:#10b981; color:white;">
+          Descargar propuestas
+        </button>
+        <div id="downloadLoadingProposals" class="dl-loading">
+          <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="42">
+          Generando archivo...
+        </div>
+      </div>
+
+      <div class="dl-col">
+        <button id="download-analysis-btn" style="background:#2563eb; color:white;">
+          Descargar análisis
+        </button>
+        <div id="downloadLoadingAnalysis" class="dl-loading">
+          <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="42">
+          Generando archivo...
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 <script>
   // ---------- Helpers comunes ----------
   function unwrapResponse(rawText) {
-    // Acepta JSON plano o wrapper {statusCode, headers, body:"<json>"}
     let obj = JSON.parse(rawText);
     if (obj && typeof obj.body === 'string') {
       try { obj = JSON.parse(obj.body); } catch {}
@@ -423,19 +451,65 @@
     return obj;
   }
 
+  // ------- Contador (carga inicial usando el mismo endpoint de descargas) -------
+  function fmtCO(n){ try { return new Intl.NumberFormat('es-CO').format(n); } catch { return String(n); } }
+
+  async function loadProposalCountOnce(){
+    const bannerEl = document.getElementById('proposalCount');
+    const mobileEl = document.getElementById('proposalCountMobile');
+
+    try{
+      const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/download-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ file: 'proposal_counter' })
+      });
+
+      const raw = await res.text();
+      if (!res.ok) throw new Error('HTTP '+res.status+' '+raw);
+      const data = unwrapResponse(raw);
+
+      let count = null;
+
+      if (data && typeof data.url === 'string' && /^https?:\/\//.test(data.url)){
+        const res2 = await fetch(data.url, { headers: { 'Accept': 'application/json, text/plain' }});
+        const text = await res2.text();
+        try {
+          const obj = JSON.parse(text);
+          count = obj.total ?? obj.count ?? obj.proposals ?? null;
+        } catch {
+          const m = text.match(/\d+/);
+          if (m) count = parseInt(m[0], 10);
+        }
+      } else if (data){
+        count = data.total ?? data.count ?? data.proposals ?? null;
+      }
+
+      if (typeof count === 'number' && !Number.isNaN(count)){
+        if (bannerEl) bannerEl.textContent = fmtCO(count);
+        if (mobileEl) mobileEl.textContent = fmtCO(count);
+      } else {
+        if (bannerEl) bannerEl.textContent = '—';
+        if (mobileEl) mobileEl.textContent = '—';
+      }
+    }catch(e){
+      console.warn('No se pudo cargar el contador:', e);
+      if (bannerEl) bannerEl.textContent = '—';
+      if (mobileEl) mobileEl.textContent = '—';
+    }
+  }
+
   // ---------- Enviar propuesta (form) ----------
   function handleSubmit(
     nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId,
-    telefonoId,               // 👈 NEW param
-    edadId, sexoId, regionId,
-    habeasId = null, moreInfoId = null
+    telefonoId, edadId, sexoId, regionId, habeasId = null, moreInfoId = null
   ) {
     const textarea = document.getElementById(propuestaId);
     const counter = document.getElementById(counterId);
     const button = document.getElementById(buttonId);
     const nombreInput = document.getElementById(nombreId);
     const correoInput = document.getElementById(correoId);
-    const telefonoInput = document.getElementById(telefonoId);   // 👈 NEW
+    const telefonoInput = document.getElementById(telefonoId);
     const edadInput = document.getElementById(edadId);
     const sexoInput = document.getElementById(sexoId);
     const regionInput = document.getElementById(regionId);
@@ -443,9 +517,7 @@
     const habeas = habeasId ? document.getElementById(habeasId) : null;
     const moreInfo = moreInfoId ? document.getElementById(moreInfoId) : null;
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Phone (optional): allows digits, spaces, (), +, - (very permissive)
     const phoneRegex = /^[0-9()+\-\s]{7,20}$/;
 
     function checkFormValidity() {
@@ -455,13 +527,13 @@
       const isPropValid = propLength >= 140 && propLength <= 10000;
       const hasConsent = habeas ? habeas.checked : true;
 
-      // Note: teléfono is OPTIONAL — it never blocks enabling button
       button.disabled = !(isNameValid && isEmailValid && isPropValid && hasConsent);
       return isNameValid && isEmailValid && isPropValid && hasConsent;
     }
 
     [nombreInput, correoInput].forEach(input => {
       input.addEventListener('input', checkFormValidity);
+      input.addEventListener('change', checkFormValidity);
     });
 
     textarea.addEventListener('input', function() {
@@ -483,11 +555,14 @@
       habeas.addEventListener('change', checkFormValidity);
     }
 
+    checkFormValidity();
+    setTimeout(checkFormValidity, 150);
+
     button.addEventListener('click', async () => {
       const nombre = nombreInput.value.trim();
       const correo = correoInput.value.trim();
       const propuesta = textarea.value.trim();
-      const telefono = telefonoInput ? telefonoInput.value.trim() : '';  // 👈 NEW
+      const telefono = telefonoInput ? telefonoInput.value.trim() : '';
       const edad = edadInput.value.trim();
       const sexo = sexoInput.value.trim();
       const region = regionInput.value.trim();
@@ -498,26 +573,21 @@
         habeas.focus();
         return;
       }
-
       if (!nombre) {
         respBox.innerHTML = '<p style="color:red;">Por favor, ingresa tu nombre.</p>';
         nombreInput.focus();
         return;
       }
-
       if (!correo || !emailRegex.test(correo)) {
         respBox.innerHTML = '<p style="color:red;">Por favor, ingresa un correo electrónico válido.</p>';
         correoInput.focus();
         return;
       }
-
-      // Optional phone: only validate format if provided
       if (telefono && !phoneRegex.test(telefono)) {
         respBox.innerHTML = '<p style="color:red;">Teléfono inválido. Usa solo números, espacios, +, -, () (7–20 caracteres).</p>';
         if (telefonoInput) telefonoInput.focus();
         return;
       }
-
       if (propuesta.length < 140) {
         respBox.innerHTML = '<p style="color:red;">La propuesta debe tener al menos 140 caracteres.</p>';
         textarea.focus();
@@ -534,51 +604,60 @@
       loading.style.display = 'block';
 
       try {
-          const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              nombre,
-              correo,
-              telefono: telefono || null,
-              propuesta,
-              edad: edad || null,
-              sexo: sexo || null,
-              region: region || null,
-              habeas: habeas ? habeas.checked : null,
-              more_info: moreInfo ? moreInfo.checked : null   // ← now defined
-            })
-          });
+        const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            nombre,
+            correo,
+            telefono: telefono || null,
+            propuesta,
+            edad: edad || null,
+            sexo: sexo || null,
+            region: region || null,
+            habeas: habeas ? habeas.checked : null,
+            more_info: moreInfo ? moreInfo.checked : null
+          })
+        });
 
         if (!res.ok) throw new Error('HTTP ' + res.status);
         loading.style.display = 'none';
         respBox.innerHTML = '<p><b>Muchas gracias por enviar la propuesta.</b></p>';
 
-        // Clear fields
+        // Limpieza de campos
         nombreInput.value = '';
         correoInput.value = '';
-        if (telefonoInput) telefonoInput.value = ''; // 👈 clear phone
+        if (telefonoInput) telefonoInput.value = '';
         textarea.value = '';
         edadInput.value = '';
         sexoInput.value = '';
         regionInput.value = '';
         if (habeas) habeas.checked = false;
-        if (moreInfo) moreInfo.checked = false; 
+        if (moreInfo) moreInfo.checked = false;
 
         counter.innerHTML = '0/140 caracteres mínimos';
         counter.classList.add('invalid');
         button.disabled = true;
+
+        // Sube el contador en caliente +1 (banner y móvil)
+        const bannerEl = document.getElementById('proposalCount');
+        const mobileEl = document.getElementById('proposalCountMobile');
+        const bump = (el) => {
+          if (!el) return;
+          const raw = el.textContent.replace(/\./g,'').trim();
+          const n = parseInt(raw, 10);
+          if (!Number.isNaN(n)) el.textContent = fmtCO(n + 1);
+        };
+        bump(bannerEl);
+        bump(mobileEl);
+
       } catch (err) {
         loading.style.display = 'none';
         console.error(err);
         respBox.innerHTML = '<p style="color:red;">Hubo un error al enviar la propuesta. Por favor, intenta de nuevo.</p>';
       }
     });
-
-    button.disabled = true;
   }
-
-
 
   // Desktop
   handleSubmit(
@@ -589,7 +668,7 @@
     'loadingIcon',
     'propuestaResponseText',
     'charCounter',
-    'telefonoInput',          // 👈 NEW
+    'telefonoInput',
     'edadInput',
     'sexoInput',
     'regionInput',
@@ -606,13 +685,16 @@
     'loadingIconMobile',
     'propuestaResponseTextMobile',
     'charCounterMobile',
-    'telefonoInputMobile',    // 👈 NEW
+    'telefonoInputMobile',
     'edadInputMobile',
     'sexoInputMobile',
     'regionInputMobile',
     'habeas_data_mobile',
     'more_info_mobile'
   );
+
+  // Cargar contador al iniciar (banner + móvil)
+  loadProposalCountOnce();
 
   // ---------- Enviar correos (fire-and-forget) ----------
   async function sendEmails() {
@@ -622,15 +704,12 @@
     loading.style.display = 'inline-flex';
 
     try {
-      // Usa la misma ruta que ya tienes configurada (con barra final si tu API la requiere)
       await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/store-proposals/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ message: 'Trigger email lambda' })
       });
-      // No parseamos ni mostramos nada: solo terminar cuando la API responde.
     } catch (err) {
-      // Silencioso: solo registro en consola
       console.error('Enviar correos error:', err);
     } finally {
       loading.style.display = 'none';
@@ -661,7 +740,6 @@
       const url = (data && typeof data.url === 'string') ? data.url.trim() : '';
       if (!/^https:\/\/.+/.test(url)) { console.error('Respuesta sin URL válida:', data); return; }
 
-      // Navega a la URL firmada exactamente como llega
       const a = document.createElement('a');
       a.href = url; a.rel = 'noopener'; a.target = '_self';
       document.body.appendChild(a); a.click(); a.remove();
