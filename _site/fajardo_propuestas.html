@@ -286,9 +286,9 @@
         <div class="form-group">
           <input type="tel" id="telefonoInputMobile" placeholder="Teléfono (opcional)" 
                 inputmode="tel" autocomplete="tel">
-          <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120">
+          <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120">
           
-          <select id="sexoInput">
+          <select id="sexoInputMobile">
             <option value="">Sexo (opcional)</option>
             <option value="M">Masculino</option>
             <option value="F">Femenino</option>
@@ -296,7 +296,7 @@
             <option value="N">Prefiero no decir</option>
           </select>
           
-          <select id="regionInput">
+          <select id="regionInputMobile">
             <option value="">Región (opcional)</option>
             <option value="Amazonas">Amazonas</option>
             <option value="Antioquia">Antioquia</option>
@@ -441,6 +441,7 @@
     const regionInput = document.getElementById(regionId);
 
     const habeas = habeasId ? document.getElementById(habeasId) : null;
+    const moreInfo = moreInfoId ? document.getElementById(moreInfoId) : null;
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -533,22 +534,21 @@
       loading.style.display = 'block';
 
       try {
-        const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ 
-              nombre, 
-              correo, 
+          const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              nombre,
+              correo,
               telefono: telefono || null,
               propuesta,
               edad: edad || null,
               sexo: sexo || null,
               region: region || null,
               habeas: habeas ? habeas.checked : null,
-              more_info: moreInfo ? moreInfo.checked : null
+              more_info: moreInfo ? moreInfo.checked : null   // ← now defined
             })
-
-        });
+          });
 
         if (!res.ok) throw new Error('HTTP ' + res.status);
         loading.style.display = 'none';
@@ -563,6 +563,7 @@
         sexoInput.value = '';
         regionInput.value = '';
         if (habeas) habeas.checked = false;
+        if (moreInfo) moreInfo.checked = false; 
 
         counter.innerHTML = '0/140 caracteres mínimos';
         counter.classList.add('invalid');
