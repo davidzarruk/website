@@ -15,7 +15,7 @@
       border-collapse: collapse;
     }
     td { text-align: center; padding: 15px; }
-    input, textarea { width: 100%; max-width: 400px; padding: 10px; font-size: 16px; }
+    input, textarea { width: 100%; max-width: 400px; padding: 10px; font-size: 16px; box-sizing: border-box; }
     button { padding: 12px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 6px; transition: opacity .15s ease; }
     button[disabled] { cursor: not-allowed; opacity: .7; }
     #loadingIcon, #loadingIconMobile { margin-top: 20px; }
@@ -41,7 +41,9 @@
     .char-counter{ font-size:12px; color:#555; margin:5px 0 12px; }
     .char-counter.invalid{ color:#dc2626; }
 
-    .header { background: #4E2AA6; color: #fff; padding: 20px 0; text-align: center; margin-bottom: 30px; }
+    :root{ --brand:#4E2AA6; --flag-h:6px; }
+
+    .header { background: var(--brand); color: #fff; padding: 20px 0; text-align: center; margin-bottom: 30px; }
     .header h1 { margin: 0; font-size: 2.5em; font-weight: bold; }
     .header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
 
@@ -50,17 +52,17 @@
 
     select {
       width: 100%; max-width: 400px; padding: 10px; font-size: 16px;
-      border: 1px solid #ccc; border-radius: 4px;
+      border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
     }
 
     #tab1, #tab2 { position: relative; }
     #tab1::after, #tab2::after{
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--flag-h);
       background: linear-gradient(90deg,#F7C948 0 33.33%,#1F3FBF 33.33% 66.66%,#CE1126 66.66% 100%);
       pointer-events: none;
     }
 
-    #enviarPropuestaBtn, #enviarPropuestaBtnMobile{ background: #4E2AA6 !important; color: #fff !important; }
+    #enviarPropuestaBtn, #enviarPropuestaBtnMobile{ background: var(--brand) !important; color: #fff !important; }
     #enviarPropuestaBtn:hover, #enviarPropuestaBtnMobile:hover{ opacity: .95; }
 
     .consent-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: start; margin-bottom: 16px; }
@@ -69,23 +71,23 @@
 
     .stats-banner{
       max-width: 900px; margin: 0 auto 20px; padding: 16px 20px; background:#fff;
-      border:2px solid #4E2AA6; border-radius:12px; text-align:center;
+      border:2px solid var(--brand); border-radius:12px; text-align:center;
       box-shadow: 0 6px 20px rgba(0,0,0,.12); position:relative;
     }
     .stats-banner::after{
-      content:""; position:absolute; left:0; right:0; bottom:0; height: 6px;
+      content:""; position:absolute; left:0; right:0; bottom:0; height: var(--flag-h);
       background: linear-gradient(90deg,#F7C948 0 33.33%,#1F3FBF 33.33% 66.66%,#CE1126 66.66% 100%);
       border-bottom-left-radius:10px; border-bottom-right-radius:10px;
     }
     .stats-line{ display:flex; gap:10px; justify-content:center; align-items:baseline; flex-wrap:wrap; font-size:1.1rem; color:#111; }
-    .count{ font-size:2.2rem; font-weight:800; color:#4E2AA6; min-width:3ch; display:inline-block; }
+    .count{ font-size:2.2rem; font-weight:800; color:var(--brand); min-width:3ch; display:inline-block; }
     .stats-sub{ margin-top:6px; font-size:.95rem; color:#444; }
 
     .mobile-inline-stats{ display:none; }
     @media screen and (max-width:600px){
       .mobile-inline-stats{
         display:flex; gap:8px; justify-content:center; align-items:baseline;
-        margin-top:12px; padding:10px 12px; border:1px solid #4E2AA6;
+        margin-top:12px; padding:10px 12px; border:1px solid var(--brand);
         border-radius:10px; background:#fff; box-shadow: 0 4px 12px rgba(0,0,0,.08);
         font-size:1.05rem; color:#111;
       }
@@ -297,7 +299,7 @@
             </select>
           </div>
 
-          <!-- Propuesta (idéntica a la original) -->
+          <!-- Propuesta -->
           <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
           <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
 
@@ -423,7 +425,7 @@
       }catch{ if (bannerEl) bannerEl.textContent='—'; if (mobileEl) mobileEl.textContent='—'; }
     }
 
-    // ===== Departamento -> Municipios (muestra recortada; puedes ampliar) =====
+    // ===== Departamento -> Municipios (recortado; amplía si quieres) =====
     const CO_MUNICIPIOS = {
       "Amazonas": ["Leticia","Puerto Nariño"],
       "Antioquia": ["Medellín","Bello","Envigado","Itagüí","Rionegro"],
@@ -484,8 +486,11 @@
         captchaDesktopId = grecaptcha.render('captchaDesktop', {
           sitekey: window.recaptchaSiteKey,
           size: sizeDesktop,
-          theme: 'light'
+          theme: 'light',
+          callback: () => document.dispatchEvent(new Event('recaptcha-changed-desktop')),
+          'expired-callback': () => document.dispatchEvent(new Event('recaptcha-changed-desktop'))
         });
+        window.captchaDesktopId = captchaDesktopId; // debug helper
       }
 
       const me = document.getElementById('captchaMobile');
@@ -493,8 +498,11 @@
         captchaMobileId = grecaptcha.render('captchaMobile', {
           sitekey: window.recaptchaSiteKey,
           size: sizeMobile,
-          theme: 'light'
+          theme: 'light',
+          callback: () => document.dispatchEvent(new Event('recaptcha-changed-mobile')),
+          'expired-callback': () => document.dispatchEvent(new Event('recaptcha-changed-mobile'))
         });
+        window.captchaMobileId = captchaMobileId; // debug helper
       }
     }
 
@@ -513,7 +521,8 @@
         buttonId, loadingId, responseId,
         habeasId = null, moreInfoId = null,
         getCaptchaToken = () => '',
-        resetCaptcha = () => {}
+        resetCaptcha = () => {},
+        captchaChangedEvent = ''
       } = cfg;
 
       const nombres   = document.getElementById(nombresId);
@@ -570,6 +579,10 @@
       if (habeas) habeas.addEventListener('change', check);
       check(); setTimeout(check, 150);
 
+      if (captchaChangedEvent) {
+        document.addEventListener(captchaChangedEvent, check);
+      }
+
       depto.addEventListener('change', () => populateMunicipios(depto, municipio));
       populateMunicipios(depto, municipio);
 
@@ -577,6 +590,9 @@
         respBox.innerHTML = '';
         loading.style.display = 'block';
         try {
+          const token = getCaptchaToken();
+          console.log('[recaptcha] token length:', token?.length || 0);
+
           const payload = {
             nombres: nombres.value.trim(),
             apellidos: apellidos.value.trim(),
@@ -590,7 +606,7 @@
             propuesta: textarea.value.trim(),
             habeas: habeas ? habeas.checked : null,
             more_info: moreInfo ? moreInfo.checked : null,
-            recaptcha_token: getCaptchaToken()
+            recaptcha_token: token                 // 👈 exact field name Lambda expects
           };
 
           const res = await fetch(SUBMIT_ENDPOINT, {
@@ -598,7 +614,14 @@
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (!res.ok) throw new Error('HTTP ' + res.status);
+
+          let data = null;
+          try { data = await res.json(); } catch {}
+
+          if (!res.ok || (data && data.ok === false)) {
+            const msg = (data && (data.error || data.message)) || `HTTP ${res.status}`;
+            throw new Error(msg);
+          }
 
           loading.style.display = 'none';
           respBox.innerHTML = '<p><b>¡Gracias! Hemos recibido tu propuesta.</b></p>';
@@ -623,7 +646,7 @@
         } catch (err) {
           loading.style.display = 'none';
           console.error(err);
-          respBox.innerHTML = '<p style="color:red;">Hubo un error al enviar la propuesta. Intenta de nuevo.</p>';
+          respBox.innerHTML = `<p style="color:red;">Hubo un error al enviar la propuesta: ${err.message || 'Intenta de nuevo.'}</p>`;
           resetCaptcha();
         }
       };
@@ -656,7 +679,8 @@
       habeasId: 'habeas_data',
       moreInfoId: 'more_info',
       getCaptchaToken: ()=>getDesktopCaptchaToken(),
-      resetCaptcha:    ()=>resetDesktopCaptcha()
+      resetCaptcha:    ()=>resetDesktopCaptcha(),
+      captchaChangedEvent: 'recaptcha-changed-desktop'
     });
 
     // Mobile
@@ -678,7 +702,8 @@
       habeasId: 'habeas_data_mobile',
       moreInfoId: 'more_info_mobile',
       getCaptchaToken: ()=>getMobileCaptchaToken(),
-      resetCaptcha:    ()=>resetMobileCaptcha()
+      resetCaptcha:    ()=>resetMobileCaptcha(),
+      captchaChangedEvent: 'recaptcha-changed-mobile'
     });
 
     // Contador inicial
