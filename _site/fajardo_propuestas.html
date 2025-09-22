@@ -425,50 +425,84 @@
       }catch{ if (bannerEl) bannerEl.textContent='—'; if (mobileEl) mobileEl.textContent='—'; }
     }
 
-    // ===== Departamento -> Municipios (recortado; amplía si quieres) =====
-    const CO_MUNICIPIOS = {
+    // ===== Departamento -> Municipios (FULL list loader) =====
+    // Tries two public sources; falls back to a small built-in sample if both fail.
+    const MUNICIPIOS_SOURCES = [
+      // formato: [{ "departamento": "Antioquia", "ciudades": ["Medellín", ...] }, ...]
+      'https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.json',
+      // formato alterno: [{ "departamento": "Antioquia", "municipios": ["Medellín", ...] }, ...]
+      'https://raw.githubusercontent.com/marcovega/colombia-json/master/municipios-colombia.json'
+    ];
+
+    // small fallback to keep the form usable offline
+    const FALLBACK_MAP = {
       "Amazonas": ["Leticia","Puerto Nariño"],
       "Antioquia": ["Medellín","Bello","Envigado","Itagüí","Rionegro"],
-      "Arauca": ["Arauca","Saravena"],
-      "Atlántico": ["Barranquilla","Soledad","Malambo","Puerto Colombia"],
       "Bogotá": ["Bogotá"],
-      "Bolívar": ["Cartagena","Turbaco","Arjona"],
-      "Boyacá": ["Tunja","Duitama","Sogamoso","Chiquinquirá"],
-      "Caldas": ["Manizales","Villamaría","Chinchiná"],
-      "Caquetá": ["Florencia","San Vicente del Caguán"],
-      "Casanare": ["Yopal","Aguazul","Villanueva"],
-      "Cauca": ["Popayán","Santander de Quilichao","Puerto Tejada"],
-      "Cesar": ["Valledupar","Aguachica","Bosconia"],
-      "Chocó": ["Quibdó","Istmina"],
-      "Córdoba": ["Montería","Lorica","Sahagún"],
-      "Cundinamarca": ["Soacha","Zipaquirá","Chía","Facatativá","Girardot"],
-      "Guainía": ["Inírida"],
-      "Guaviare": ["San José del Guaviare"],
-      "Huila": ["Neiva","Pitalito","Garzón"],
-      "La Guajira": ["Riohacha","Maicao","Uribia"],
-      "Magdalena": ["Santa Marta","Ciénaga","Fundación"],
-      "Meta": ["Villavicencio","Granada","Acacías"],
-      "Nariño": ["Pasto","Tumaco","Ipiales"],
-      "Norte de Santander": ["Cúcuta","Ocaña","Pamplona"],
-      "Putumayo": ["Mocoa","Puerto Asís"],
-      "Quindío": ["Armenia","Calarcá","La Tebaida"],
-      "Risaralda": ["Pereira","Dosquebradas","La Virginia"],
-      "San Andrés y Providencia": ["San Andrés","Providencia"],
-      "Santander": ["Bucaramanga","Floridablanca","Girón","Barrancabermeja"],
-      "Sucre": ["Sincelejo","Corozal","Sampués"],
-      "Tolima": ["Ibagué","Espinal","Melgar"],
       "Valle del Cauca": ["Cali","Palmira","Buenaventura","Tuluá","Buga"],
-      "Vaupés": ["Mitú"],
-      "Vichada": ["Puerto Carreño"],
       "Exterior": ["Exterior / No aplica"]
     };
+
+    let MUNICIPIOS_MAP = Object.assign({}, FALLBACK_MAP); // will be replaced when real data loads
+
+    function normalizeDepto(name){
+      if (!name) return name;
+      // Unify common variations to match your <select> options
+      const map = {
+        "Bogotá D.C.": "Bogotá",
+        "Bogota": "Bogotá",
+        "San Andrés y Providencia": "San Andrés y Providencia",
+        "Archipiélago de San Andrés, Providencia y Santa Catalina": "San Andrés y Providencia",
+      };
+      return map[name] || name;
+    }
+
+    function buildMapFromColombiaJson(arr){
+      const map = {};
+      arr.forEach(entry=>{
+        const dep = normalizeDepto(entry.departamento || entry.dpto || entry.Departamento || entry.name);
+        const list = entry.ciudades || entry.municipios || entry.cities || entry.towns || [];
+        if (!dep || !Array.isArray(list)) return;
+        map[dep] = (map[dep] || []).concat(list).sort((a,b)=>a.localeCompare(b,'es'));
+      });
+      // Ensure "Exterior" stays present
+      map["Exterior"] = ["Exterior / No aplica"];
+      return map;
+    }
+
+    async function loadMunicipiosOnce(){
+      for (const url of MUNICIPIOS_SOURCES){
+        try{
+          const res = await fetch(url, { headers:{ 'Accept':'application/json' }});
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (Array.isArray(data)){
+            const built = buildMapFromColombiaJson(data);
+            if (Object.keys(built).length > 20){ // sanity threshold
+              MUNICIPIOS_MAP = built;
+              console.log('[municipios] loaded from', url, 'departamentos:', Object.keys(MUNICIPIOS_MAP).length);
+              break;
+            }
+          }
+        }catch(e){ /* try next */ }
+      }
+      // After loading, re-populate both selects (desktop & mobile) in case user had picked a depto already
+      const d1 = document.getElementById('departamentoInput');
+      const m1 = document.getElementById('municipioInput');
+      const d2 = document.getElementById('departamentoInputMobile');
+      const m2 = document.getElementById('municipioInputMobile');
+      if (d1 && m1) populateMunicipios(d1, m1);
+      if (d2 && m2) populateMunicipios(d2, m2);
+    }
+
     function populateMunicipios(deptoSelect, muniSelect){
       const depto = deptoSelect.value;
       muniSelect.innerHTML = '';
       const ph = document.createElement('option'); ph.value=''; ph.textContent='Municipio de residencia *';
       muniSelect.appendChild(ph);
       if (!depto) return;
-      (CO_MUNICIPIOS[depto]||[]).forEach(m=>{
+      const list = (MUNICIPIOS_MAP[depto] || []);
+      list.forEach(m=>{
         const opt=document.createElement('option'); opt.value=m; opt.textContent=m; muniSelect.appendChild(opt);
       });
       if (depto==='Exterior' && muniSelect.options.length>1) muniSelect.value = muniSelect.options[1].value;
@@ -606,7 +640,7 @@
             propuesta: textarea.value.trim(),
             habeas: habeas ? habeas.checked : null,
             more_info: moreInfo ? moreInfo.checked : null,
-            recaptcha_token: token                 // 👈 exact field name Lambda expects
+            recaptcha_token: token
           };
 
           const res = await fetch(SUBMIT_ENDPOINT, {
@@ -708,6 +742,8 @@
 
     // Contador inicial
     loadProposalCountOnce();
+    // Carga de municipios (completa) al inicio
+    loadMunicipiosOnce();
 
     // ---------- Enviar correos (fire-and-forget) ----------
     async function sendEmails() {
