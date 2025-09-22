@@ -38,160 +38,62 @@
       #tab2 { display: none; }
     }
 
-    /* ÚNICA versión de la regla del contador */
-    .char-counter{
-      font-size:12px;
-      color:#555;
-      margin:5px 0 12px;
-    }
+    .char-counter{ font-size:12px; color:#555; margin:5px 0 12px; }
     .char-counter.invalid{ color:#dc2626; }
 
-    .header {
-      background-color: #111827;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+    .header { background: #4E2AA6; color: #fff; padding: 20px 0; text-align: center; margin-bottom: 30px; }
     .header h1 { margin: 0; font-size: 2.5em; font-weight: bold; }
     .header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
 
-    .header-image { width: 100%; max-width: 100%; height: auto; display: block; }
-
     .optional-label { color: #666; font-size: 0.8em; margin-left: 4px; }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-      max-width: 400px;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 400px; }
 
     select {
-      width: 100%;
-      max-width: 400px;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    :root{
-      --brand: #4E2AA6;   /* purple */
-      --flag-h: 6px;      /* stripe height */
-    }
-
-    .header{
-      background: var(--brand);
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
-      margin-bottom: 30px;
+      width: 100%; max-width: 400px; padding: 10px; font-size: 16px;
+      border: 1px solid #ccc; border-radius: 4px;
     }
 
     #tab1, #tab2 { position: relative; }
     #tab1::after, #tab2::after{
-      content: "";
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      height: var(--flag-h);
-      background: linear-gradient(90deg,
-        #F7C948 0 33.33%,
-        #1F3FBF 33.33% 66.66%,
-        #CE1126 66.66% 100%
-      );
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+      background: linear-gradient(90deg,#F7C948 0 33.33%,#1F3FBF 33.33% 66.66%,#CE1126 66.66% 100%);
       pointer-events: none;
     }
 
-    #enviarPropuestaBtn,
-    #enviarPropuestaBtnMobile{
-      background: var(--brand) !important;
-      color: #fff !important;
-    }
-    #enviarPropuestaBtn:hover,
-    #enviarPropuestaBtnMobile:hover{
-      opacity: .95;
-    }
-    
-    .form-group input,
-    .form-group select { flex: 1; }
+    #enviarPropuestaBtn, #enviarPropuestaBtnMobile{ background: #4E2AA6 !important; color: #fff !important; }
+    #enviarPropuestaBtn:hover, #enviarPropuestaBtnMobile:hover{ opacity: .95; }
 
-    .consent-grid {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 6px 10px;
-      align-items: start;
-      margin-bottom: 16px;
-    }
+    .consent-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: start; margin-bottom: 16px; }
+    .consent-grid input[type="checkbox"] { margin-top: 4px; margin-left: 0; justify-self: start; }
+    .consent-grid label { text-align: left; display: block; }
 
-    .consent-grid input[type="checkbox"] {
-      margin-top: 4px;
-      margin-left: 0;
-      justify-self: start;
-    }
-    .consent-grid label {
-      text-align: left;
-      display: block;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      max-width: 400px;
-      box-sizing: border-box;
-    }
-
-    /* Banner de estadísticas (desktop + general) */
     .stats-banner{
-      max-width: 900px;
-      margin: 0 auto 20px;
-      padding: 16px 20px;
-      background:#fff;
-      border:2px solid var(--brand);
-      border-radius:12px;
-      text-align:center;
-      box-shadow: 0 6px 20px rgba(0,0,0,.12);
-      position:relative;
+      max-width: 900px; margin: 0 auto 20px; padding: 16px 20px; background:#fff;
+      border:2px solid #4E2AA6; border-radius:12px; text-align:center;
+      box-shadow: 0 6px 20px rgba(0,0,0,.12); position:relative;
     }
     .stats-banner::after{
-      content:"";
-      position:absolute; left:0; right:0; bottom:0;
-      height: var(--flag-h);
+      content:""; position:absolute; left:0; right:0; bottom:0; height: 6px;
       background: linear-gradient(90deg,#F7C948 0 33.33%,#1F3FBF 33.33% 66.66%,#CE1126 66.66% 100%);
       border-bottom-left-radius:10px; border-bottom-right-radius:10px;
     }
-    .stats-line{
-      display:flex; gap:10px; justify-content:center; align-items:baseline;
-      flex-wrap:wrap; font-size:1.1rem; color:#111;
-    }
-    .count{
-      font-size:2.2rem; font-weight:800; color:var(--brand);
-      min-width:3ch; display:inline-block;
-    }
+    .stats-line{ display:flex; gap:10px; justify-content:center; align-items:baseline; flex-wrap:wrap; font-size:1.1rem; color:#111; }
+    .count{ font-size:2.2rem; font-weight:800; color:#4E2AA6; min-width:3ch; display:inline-block; }
     .stats-sub{ margin-top:6px; font-size:.95rem; color:#444; }
 
-    /* Contador inline específico para móvil (debajo del botón) */
     .mobile-inline-stats{ display:none; }
     @media screen and (max-width:600px){
       .mobile-inline-stats{
-        display:flex;
-        gap:8px;
-        justify-content:center;
-        align-items:baseline;
-        margin-top:12px;
-        padding:10px 12px;
-        border:1px solid var(--brand);
-        border-radius:10px;
-        background:#fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,.08);
-        font-size:1.05rem;
-        color:#111;
+        display:flex; gap:8px; justify-content:center; align-items:baseline;
+        margin-top:12px; padding:10px 12px; border:1px solid #4E2AA6;
+        border-radius:10px; background:#fff; box-shadow: 0 4px 12px rgba(0,0,0,.08);
+        font-size:1.05rem; color:#111;
       }
       .mobile-inline-stats .spark{ font-size:1.2rem; }
       .mobile-inline-stats .count{ font-size:1.8rem; }
     }
+
+    .captcha-box{ margin:6px 0 8px; }
   </style>
 </head>
 
@@ -219,24 +121,28 @@
         <h2>Comparte tu propuesta para Colombia Adelante</h2>
 
         <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-          <input type="text" id="nombreInput" placeholder="Nombre *" required aria-label="Nombre">
-          <input type="email" id="correoInput" placeholder="Correo *" required aria-label="Correo electrónico">
-
           <div class="form-group">
-            <input type="tel" id="telefonoInput" placeholder="Teléfono (opcional)" 
-                   inputmode="tel" autocomplete="tel" aria-label="Teléfono">
-            <input type="number" id="edadInput" placeholder="Edad (opcional)" min="18" max="120" aria-label="Edad">
-            
-            <select id="sexoInput" aria-label="Sexo">
-              <option value="">Sexo (opcional)</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
-              <option value="O">Otro</option>
-              <option value="N">Prefiero no decir</option>
+            <input type="text" id="nombresInput" placeholder="Nombres *" required aria-label="Nombres">
+            <input type="text" id="apellidosInput" placeholder="Apellidos *" required aria-label="Apellidos">
+
+            <input type="tel" id="telefonoInput" placeholder="Número de teléfono * (🇨🇴 321 123 4567)" inputmode="tel" autocomplete="tel" aria-label="Número de teléfono" required>
+
+            <select id="tipoDocInput" aria-label="Tipo de documento de identidad" required>
+              <option value="">Tipo de documento de identidad *</option>
+              <option value="CC">Cédula de ciudadanía (CC)</option>
+              <option value="CE">Cédula de extranjería (CE)</option>
+              <option value="PA">Pasaporte (PA)</option>
+              <option value="TI">Tarjeta de identidad (TI)</option>
+              <option value="PPT">Permiso por Protección Temporal (PPT)</option>
+              <option value="NIT">NIT</option>
             </select>
-            
-            <select id="regionInput" aria-label="Región">
-              <option value="">Región (opcional)</option>
+
+            <input type="text" id="numeroDocInput" placeholder="Número de documento *" aria-label="Número de documento" required>
+            <input type="email" id="correoInput" placeholder="Correo electrónico *" required aria-label="Correo electrónico">
+
+            <select id="departamentoInput" aria-label="Departamento o Exterior" required>
+              <option value="">Departamento o persona en el Exterior. *</option>
+              <option value="Exterior">Exterior</option>
               <option value="Amazonas">Amazonas</option>
               <option value="Antioquia">Antioquia</option>
               <option value="Arauca">Arauca</option>
@@ -271,8 +177,21 @@
               <option value="Vaupés">Vaupés</option>
               <option value="Vichada">Vichada</option>
             </select>
+
+            <select id="municipioInput" aria-label="Municipio de residencia" required>
+              <option value="">Municipio de residencia *</option>
+            </select>
+
+            <select id="comoAyudarInput" aria-label="Cómo quieres ayudar" required>
+              <option value="">Cuéntanos cómo quieres ayudar *</option>
+              <option value="Quiero recibir más información de Fajardo">1. Quiero recibir más información de Fajardo</option>
+              <option value="Quiero ser voluntario en el equipo de Fajardo">2. Quiero ser voluntario en el equipo de Fajardo</option>
+              <option value="Quiero donar">3. Quiero donar</option>
+              <option value="Ninguna de las anteriores">4. Ninguna de las anteriores</option>
+            </select>
           </div>
 
+          <!-- Propuesta (idéntica a la original) -->
           <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
           <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
 
@@ -281,6 +200,11 @@
             <div><label for="habeas_data">¿Autorizas el uso de datos personales de acuerdo a la ley de habeas data? <span style="color:red">*</span></label></div>
             <div><input type="checkbox" id="more_info"></div>
             <div><label for="more_info">¿Quisieras recibir más información sobre la campaña?</label></div>
+          </div>
+
+          <!-- Visible reCAPTCHA v2 (checkbox) -->
+          <div class="captcha-box">
+            <div id="captchaDesktop"></div>
           </div>
 
           <button type="button" id="enviarPropuestaBtn" style="background:#111827; color:white;">Enviar propuesta</button>
@@ -303,24 +227,28 @@
         <h2>Comparte tu propuesta para Colombia Adelante</h2>
 
         <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-          <input type="text" id="nombreInputMobile" placeholder="Nombre *" required aria-label="Nombre">
-          <input type="email" id="correoInputMobile" placeholder="Correo *" required aria-label="Correo electrónico">
-
           <div class="form-group">
-            <input type="tel" id="telefonoInputMobile" placeholder="Teléfono (opcional)" 
-                   inputmode="tel" autocomplete="tel" aria-label="Teléfono">
-            <input type="number" id="edadInputMobile" placeholder="Edad (opcional)" min="18" max="120" aria-label="Edad">
-            
-            <select id="sexoInputMobile" aria-label="Sexo">
-              <option value="">Sexo (opcional)</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
-              <option value="O">Otro</option>
-              <option value="N">Prefiero no decir</option>
+            <input type="text" id="nombresInputMobile" placeholder="Nombres *" required aria-label="Nombres">
+            <input type="text" id="apellidosInputMobile" placeholder="Apellidos *" required aria-label="Apellidos">
+
+            <input type="tel" id="telefonoInputMobile" placeholder="Número de teléfono * (🇨🇴 321 123 4567)" inputmode="tel" autocomplete="tel" aria-label="Número de teléfono" required>
+
+            <select id="tipoDocInputMobile" aria-label="Tipo de documento de identidad" required>
+              <option value="">Tipo de documento de identidad *</option>
+              <option value="CC">Cédula de ciudadanía (CC)</option>
+              <option value="CE">Cédula de extranjería (CE)</option>
+              <option value="PA">Pasaporte (PA)</option>
+              <option value="TI">Tarjeta de identidad (TI)</option>
+              <option value="PPT">Permiso por Protección Temporal (PPT)</option>
+              <option value="NIT">NIT</option>
             </select>
-            
-            <select id="regionInputMobile" aria-label="Región">
-              <option value="">Región (opcional)</option>
+
+            <input type="text" id="numeroDocInputMobile" placeholder="Número de documento *" aria-label="Número de documento" required>
+            <input type="email" id="correoInputMobile" placeholder="Correo electrónico *" required aria-label="Correo electrónico">
+
+            <select id="departamentoInputMobile" aria-label="Departamento o Exterior" required>
+              <option value="">Departamento o persona en el Exterior. *</option>
+              <option value="Exterior">Exterior</option>
               <option value="Amazonas">Amazonas</option>
               <option value="Antioquia">Antioquia</option>
               <option value="Arauca">Arauca</option>
@@ -355,8 +283,21 @@
               <option value="Vaupés">Vaupés</option>
               <option value="Vichada">Vichada</option>
             </select>
+
+            <select id="municipioInputMobile" aria-label="Municipio de residencia" required>
+              <option value="">Municipio de residencia *</option>
+            </select>
+
+            <select id="comoAyudarInputMobile" aria-label="Cómo quieres ayudar" required>
+              <option value="">Cuéntanos cómo quieres ayudar *</option>
+              <option value="Quiero recibir más información de Fajardo">1. Quiero recibir más información de Fajardo</option>
+              <option value="Quiero ser voluntario en el equipo de Fajardo">2. Quiero ser voluntario en el equipo de Fajardo</option>
+              <option value="Quiero donar">3. Quiero donar</option>
+              <option value="Ninguna de las anteriores">4. Ninguna de las anteriores</option>
+            </select>
           </div>
 
+          <!-- Propuesta (idéntica a la original) -->
           <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
           <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
 
@@ -367,9 +308,13 @@
             <div><label for="more_info_mobile">¿Quisieras recibir más información sobre la campaña?</label></div>
           </div>
 
+          <!-- Visible reCAPTCHA v2 (checkbox) -->
+          <div class="captcha-box">
+            <div id="captchaMobile"></div>
+          </div>
+
           <button type="button" id="enviarPropuestaBtnMobile" style="background:#111827; color:white;">Enviar propuesta</button>
 
-          <!-- Contador visible bajo el botón en móvil -->
           <div class="mobile-inline-stats" aria-live="polite">
             <span class="spark">✨</span>
             <span>Ya van</span>
@@ -441,322 +386,352 @@
     </div>
   </section>
 
-<script>
-  // ---------- Helpers comunes ----------
-  function unwrapResponse(rawText) {
-    let obj = JSON.parse(rawText);
-    if (obj && typeof obj.body === 'string') {
-      try { obj = JSON.parse(obj.body); } catch {}
+  <!-- =================== APP SCRIPT (logic) =================== -->
+  <script>
+    // ======= CONFIG: your backend URL that verifies reCAPTCHA and forwards =======
+    const SUBMIT_ENDPOINT = 'https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/submit';
+    // ============================================================================
+
+    // ---------- Helpers ----------
+    function unwrapResponse(rawText) {
+      let obj = JSON.parse(rawText);
+      if (obj && typeof obj.body === 'string') { try { obj = JSON.parse(obj.body); } catch {} }
+      return obj;
     }
-    return obj;
-  }
+    function fmtCO(n){ try { return new Intl.NumberFormat('es-CO').format(n); } catch { return String(n); } }
 
-  // ------- Contador (carga inicial usando el mismo endpoint de descargas) -------
-  function fmtCO(n){ try { return new Intl.NumberFormat('es-CO').format(n); } catch { return String(n); } }
-
-  async function loadProposalCountOnce(){
-    const bannerEl = document.getElementById('proposalCount');
-    const mobileEl = document.getElementById('proposalCountMobile');
-
-    try{
-      const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/download-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ file: 'proposal_counter' })
-      });
-
-      const raw = await res.text();
-      if (!res.ok) throw new Error('HTTP '+res.status+' '+raw);
-      const data = unwrapResponse(raw);
-
-      let count = null;
-
-      if (data && typeof data.url === 'string' && /^https?:\/\//.test(data.url)){
-        const res2 = await fetch(data.url, { headers: { 'Accept': 'application/json, text/plain' }});
-        const text = await res2.text();
-        try {
-          const obj = JSON.parse(text);
-          count = obj.total ?? obj.count ?? obj.proposals ?? null;
-        } catch {
-          const m = text.match(/\d+/);
-          if (m) count = parseInt(m[0], 10);
-        }
-      } else if (data){
-        count = data.total ?? data.count ?? data.proposals ?? null;
-      }
-
-      if (typeof count === 'number' && !Number.isNaN(count)){
-        if (bannerEl) bannerEl.textContent = fmtCO(count);
-        if (mobileEl) mobileEl.textContent = fmtCO(count);
-      } else {
-        if (bannerEl) bannerEl.textContent = '—';
-        if (mobileEl) mobileEl.textContent = '—';
-      }
-    }catch(e){
-      console.warn('No se pudo cargar el contador:', e);
-      if (bannerEl) bannerEl.textContent = '—';
-      if (mobileEl) mobileEl.textContent = '—';
-    }
-  }
-
-  // ---------- Enviar propuesta (form) ----------
-  function handleSubmit(
-    nombreId, correoId, propuestaId, buttonId, loadingId, responseId, counterId,
-    telefonoId, edadId, sexoId, regionId, habeasId = null, moreInfoId = null
-  ) {
-    const textarea = document.getElementById(propuestaId);
-    const counter = document.getElementById(counterId);
-    const button = document.getElementById(buttonId);
-    const nombreInput = document.getElementById(nombreId);
-    const correoInput = document.getElementById(correoId);
-    const telefonoInput = document.getElementById(telefonoId);
-    const edadInput = document.getElementById(edadId);
-    const sexoInput = document.getElementById(sexoId);
-    const regionInput = document.getElementById(regionId);
-
-    const habeas = habeasId ? document.getElementById(habeasId) : null;
-    const moreInfo = moreInfoId ? document.getElementById(moreInfoId) : null;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[0-9()+\-\s]{7,20}$/;
-
-    function checkFormValidity() {
-      const isNameValid = nombreInput.value.trim().length > 0;
-      const isEmailValid = emailRegex.test(correoInput.value.trim());
-      const propLength = textarea.value.trim().length;
-      const isPropValid = propLength >= 140 && propLength <= 10000;
-      const hasConsent = habeas ? habeas.checked : true;
-
-      button.disabled = !(isNameValid && isEmailValid && isPropValid && hasConsent);
-      return isNameValid && isEmailValid && isPropValid && hasConsent;
-    }
-
-    [nombreInput, correoInput].forEach(input => {
-      input.addEventListener('input', checkFormValidity);
-      input.addEventListener('change', checkFormValidity);
-    });
-
-    textarea.addEventListener('input', function() {
-      const length = this.value.trim().length;
-      if (length < 140) {
-        counter.innerHTML = `${length}/140 caracteres mínimos`;
-        counter.classList.add('invalid');
-      } else if (length > 10000) {
-        counter.innerHTML = `${length}/10000 caracteres (máximo excedido)`;
-        counter.classList.add('invalid');
-      } else {
-        counter.innerHTML = `${length}/10000 caracteres`;
-        counter.classList.remove('invalid');
-      }
-      checkFormValidity();
-    });
-
-    if (habeas) {
-      habeas.addEventListener('change', checkFormValidity);
-    }
-
-    checkFormValidity();
-    setTimeout(checkFormValidity, 150);
-
-    button.addEventListener('click', async () => {
-      const nombre = nombreInput.value.trim();
-      const correo = correoInput.value.trim();
-      const propuesta = textarea.value.trim();
-      const telefono = telefonoInput ? telefonoInput.value.trim() : '';
-      const edad = edadInput.value.trim();
-      const sexo = sexoInput.value.trim();
-      const region = regionInput.value.trim();
-      const respBox = document.getElementById(responseId);
-
-      if (habeas && !habeas.checked) {
-        respBox.innerHTML = '<p style="color:red;">Debes autorizar el uso de datos personales para continuar.</p>';
-        habeas.focus();
-        return;
-      }
-      if (!nombre) {
-        respBox.innerHTML = '<p style="color:red;">Por favor, ingresa tu nombre.</p>';
-        nombreInput.focus();
-        return;
-      }
-      if (!correo || !emailRegex.test(correo)) {
-        respBox.innerHTML = '<p style="color:red;">Por favor, ingresa un correo electrónico válido.</p>';
-        correoInput.focus();
-        return;
-      }
-      if (telefono && !phoneRegex.test(telefono)) {
-        respBox.innerHTML = '<p style="color:red;">Teléfono inválido. Usa solo números, espacios, +, -, () (7–20 caracteres).</p>';
-        if (telefonoInput) telefonoInput.focus();
-        return;
-      }
-      if (propuesta.length < 140) {
-        respBox.innerHTML = '<p style="color:red;">La propuesta debe tener al menos 140 caracteres.</p>';
-        textarea.focus();
-        return;
-      }
-      if (propuesta.length > 10000) {
-        respBox.innerHTML = '<p style="color:red;">La propuesta no puede exceder los 10000 caracteres.</p>';
-        textarea.focus();
-        return;
-      }
-
-      const loading = document.getElementById(loadingId);
-      respBox.innerHTML = '';
-      loading.style.display = 'block';
-
-      try {
-        const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            nombre,
-            correo,
-            telefono: telefono || null,
-            propuesta,
-            edad: edad || null,
-            sexo: sexo || null,
-            region: region || null,
-            habeas: habeas ? habeas.checked : null,
-            more_info: moreInfo ? moreInfo.checked : null
-          })
+    async function loadProposalCountOnce(){
+      const bannerEl = document.getElementById('proposalCount');
+      const mobileEl = document.getElementById('proposalCountMobile');
+      try{
+        const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/download-data', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ file: 'proposal_counter' })
         });
+        const raw = await res.text();
+        if (!res.ok) throw new Error('HTTP '+res.status+' '+raw);
+        const data = unwrapResponse(raw);
+        let count = null;
+        if (data && typeof data.url === 'string' && /^https?:\/\//.test(data.url)){
+          const res2 = await fetch(data.url, { headers: { 'Accept': 'application/json, text/plain' }});
+          const text = await res2.text();
+          try { const obj = JSON.parse(text); count = obj.total ?? obj.count ?? obj.proposals ?? null; }
+          catch { const m = text.match(/\d+/); if (m) count = parseInt(m[0], 10); }
+        } else if (data){ count = data.total ?? data.count ?? data.proposals ?? null; }
+        const set = (el,v)=>{ if(el) el.textContent = (typeof v==='number')?fmtCO(v):'—'; };
+        set(bannerEl,count); set(mobileEl,count);
+      }catch{ if (bannerEl) bannerEl.textContent='—'; if (mobileEl) mobileEl.textContent='—'; }
+    }
 
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        loading.style.display = 'none';
-        respBox.innerHTML = '<p><b>Muchas gracias por enviar la propuesta.</b></p>';
+    // ===== Departamento -> Municipios (muestra recortada; puedes ampliar) =====
+    const CO_MUNICIPIOS = {
+      "Amazonas": ["Leticia","Puerto Nariño"],
+      "Antioquia": ["Medellín","Bello","Envigado","Itagüí","Rionegro"],
+      "Arauca": ["Arauca","Saravena"],
+      "Atlántico": ["Barranquilla","Soledad","Malambo","Puerto Colombia"],
+      "Bogotá": ["Bogotá"],
+      "Bolívar": ["Cartagena","Turbaco","Arjona"],
+      "Boyacá": ["Tunja","Duitama","Sogamoso","Chiquinquirá"],
+      "Caldas": ["Manizales","Villamaría","Chinchiná"],
+      "Caquetá": ["Florencia","San Vicente del Caguán"],
+      "Casanare": ["Yopal","Aguazul","Villanueva"],
+      "Cauca": ["Popayán","Santander de Quilichao","Puerto Tejada"],
+      "Cesar": ["Valledupar","Aguachica","Bosconia"],
+      "Chocó": ["Quibdó","Istmina"],
+      "Córdoba": ["Montería","Lorica","Sahagún"],
+      "Cundinamarca": ["Soacha","Zipaquirá","Chía","Facatativá","Girardot"],
+      "Guainía": ["Inírida"],
+      "Guaviare": ["San José del Guaviare"],
+      "Huila": ["Neiva","Pitalito","Garzón"],
+      "La Guajira": ["Riohacha","Maicao","Uribia"],
+      "Magdalena": ["Santa Marta","Ciénaga","Fundación"],
+      "Meta": ["Villavicencio","Granada","Acacías"],
+      "Nariño": ["Pasto","Tumaco","Ipiales"],
+      "Norte de Santander": ["Cúcuta","Ocaña","Pamplona"],
+      "Putumayo": ["Mocoa","Puerto Asís"],
+      "Quindío": ["Armenia","Calarcá","La Tebaida"],
+      "Risaralda": ["Pereira","Dosquebradas","La Virginia"],
+      "San Andrés y Providencia": ["San Andrés","Providencia"],
+      "Santander": ["Bucaramanga","Floridablanca","Girón","Barrancabermeja"],
+      "Sucre": ["Sincelejo","Corozal","Sampués"],
+      "Tolima": ["Ibagué","Espinal","Melgar"],
+      "Valle del Cauca": ["Cali","Palmira","Buenaventura","Tuluá","Buga"],
+      "Vaupés": ["Mitú"],
+      "Vichada": ["Puerto Carreño"],
+      "Exterior": ["Exterior / No aplica"]
+    };
+    function populateMunicipios(deptoSelect, muniSelect){
+      const depto = deptoSelect.value;
+      muniSelect.innerHTML = '';
+      const ph = document.createElement('option'); ph.value=''; ph.textContent='Municipio de residencia *';
+      muniSelect.appendChild(ph);
+      if (!depto) return;
+      (CO_MUNICIPIOS[depto]||[]).forEach(m=>{
+        const opt=document.createElement('option'); opt.value=m; opt.textContent=m; muniSelect.appendChild(opt);
+      });
+      if (depto==='Exterior' && muniSelect.options.length>1) muniSelect.value = muniSelect.options[1].value;
+    }
 
-        // Limpieza de campos
-        nombreInput.value = '';
-        correoInput.value = '';
-        if (telefonoInput) telefonoInput.value = '';
-        textarea.value = '';
-        edadInput.value = '';
-        sexoInput.value = '';
-        regionInput.value = '';
-        if (habeas) habeas.checked = false;
-        if (moreInfo) moreInfo.checked = false;
+    // ---------- Visible reCAPTCHA v2 (checkbox) ----------
+    let captchaDesktopId = null, captchaMobileId = null;
 
-        counter.innerHTML = '0/140 caracteres mínimos';
-        counter.classList.add('invalid');
-        button.disabled = true;
+    function onCaptchaLoad(){
+      const sizeDesktop = 'normal';
+      const sizeMobile  = (window.matchMedia && window.matchMedia('(max-width:600px)').matches) ? 'compact' : 'normal';
 
-        // Sube el contador en caliente +1 (banner y móvil)
-        const bannerEl = document.getElementById('proposalCount');
-        const mobileEl = document.getElementById('proposalCountMobile');
-        const bump = (el) => {
-          if (!el) return;
-          const raw = el.textContent.replace(/\./g,'').trim();
-          const n = parseInt(raw, 10);
-          if (!Number.isNaN(n)) el.textContent = fmtCO(n + 1);
-        };
-        bump(bannerEl);
-        bump(mobileEl);
-
-      } catch (err) {
-        loading.style.display = 'none';
-        console.error(err);
-        respBox.innerHTML = '<p style="color:red;">Hubo un error al enviar la propuesta. Por favor, intenta de nuevo.</p>';
+      const de = document.getElementById('captchaDesktop');
+      if (de && !captchaDesktopId){
+        captchaDesktopId = grecaptcha.render('captchaDesktop', {
+          sitekey: window.recaptchaSiteKey,
+          size: sizeDesktop,
+          theme: 'light'
+        });
       }
+
+      const me = document.getElementById('captchaMobile');
+      if (me && !captchaMobileId){
+        captchaMobileId = grecaptcha.render('captchaMobile', {
+          sitekey: window.recaptchaSiteKey,
+          size: sizeMobile,
+          theme: 'light'
+        });
+      }
+    }
+
+    function getDesktopCaptchaToken(){ try { return grecaptcha.getResponse(captchaDesktopId) || ''; } catch { return ''; } }
+    function getMobileCaptchaToken(){  try { return grecaptcha.getResponse(captchaMobileId)  || ''; } catch { return ''; } }
+    function resetDesktopCaptcha(){    try { grecaptcha.reset(captchaDesktopId); } catch {} }
+    function resetMobileCaptcha(){     try { grecaptcha.reset(captchaMobileId);  } catch {} }
+
+    // ---------- Enviar propuesta ----------
+    function handleSubmitPlus(cfg){
+      const {
+        nombresId, apellidosId, telefonoId,
+        tipoDocId, numeroDocId, correoId,
+        deptoId, municipioId, comoAyudarId,
+        propuestaId, counterId,
+        buttonId, loadingId, responseId,
+        habeasId = null, moreInfoId = null,
+        getCaptchaToken = () => '',
+        resetCaptcha = () => {}
+      } = cfg;
+
+      const nombres   = document.getElementById(nombresId);
+      const apellidos = document.getElementById(apellidosId);
+      const telefono  = document.getElementById(telefonoId);
+      const tipoDoc   = document.getElementById(tipoDocId);
+      const numeroDoc = document.getElementById(numeroDocId);
+      const correo    = document.getElementById(correoId);
+      const depto     = document.getElementById(deptoId);
+      const municipio = document.getElementById(municipioId);
+      const como      = document.getElementById(comoAyudarId);
+      const textarea  = document.getElementById(propuestaId);
+      const counter   = document.getElementById(counterId);
+      const button    = document.getElementById(buttonId);
+      const loading   = document.getElementById(loadingId);
+      const respBox   = document.getElementById(responseId);
+      const habeas    = habeasId ? document.getElementById(habeasId) : null;
+      const moreInfo  = moreInfoId ? document.getElementById(moreInfoId) : null;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex = /^[0-9()+\-\s]{7,20}$/;
+
+      textarea.addEventListener('input', function() {
+        const length = this.value.trim().length;
+        if (length < 140) { counter.innerHTML = `${length}/140 caracteres mínimos`; counter.classList.add('invalid'); }
+        else if (length > 10000) { counter.innerHTML = `${length}/10000 caracteres (máximo excedido)`; counter.classList.add('invalid'); }
+        else { counter.innerHTML = `${length}/10000 caracteres`; counter.classList.remove('invalid'); }
+        check();
+      });
+
+      function check(){
+        const prop = textarea.value.trim();
+        const captchaOK = !!getCaptchaToken();
+        const ok =
+          nombres.value.trim() &&
+          apellidos.value.trim() &&
+          phoneRegex.test(telefono.value.trim()) &&
+          tipoDoc.value &&
+          numeroDoc.value.trim() &&
+          emailRegex.test(correo.value.trim()) &&
+          depto.value &&
+          municipio.value &&
+          como.value &&
+          prop.length >= 140 && prop.length <= 10000 &&
+          (habeas ? habeas.checked : true) &&
+          captchaOK;
+
+        button.disabled = !ok;
+        return ok;
+      }
+
+      [nombres, apellidos, telefono, tipoDoc, numeroDoc, correo, depto, municipio, como]
+        .forEach(el => { el.addEventListener('input', check); el.addEventListener('change', check); });
+      if (habeas) habeas.addEventListener('change', check);
+      check(); setTimeout(check, 150);
+
+      depto.addEventListener('change', () => populateMunicipios(depto, municipio));
+      populateMunicipios(depto, municipio);
+
+      const doSubmit = async () => {
+        respBox.innerHTML = '';
+        loading.style.display = 'block';
+        try {
+          const payload = {
+            nombres: nombres.value.trim(),
+            apellidos: apellidos.value.trim(),
+            telefono: telefono.value.trim(),
+            tipo_documento: tipoDoc.value.trim(),
+            numero_documento: numeroDoc.value.trim(),
+            correo: correo.value.trim(),
+            departamento: depto.value.trim(),
+            municipio: municipio.value.trim(),
+            como_quieres_ayudar: como.value.trim(),
+            propuesta: textarea.value.trim(),
+            habeas: habeas ? habeas.checked : null,
+            more_info: moreInfo ? moreInfo.checked : null,
+            recaptcha_token: getCaptchaToken()
+          };
+
+          const res = await fetch(SUBMIT_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+
+          loading.style.display = 'none';
+          respBox.innerHTML = '<p><b>¡Gracias! Hemos recibido tu propuesta.</b></p>';
+
+          [nombres, apellidos, telefono, numeroDoc, correo].forEach(el => el.value = '');
+          tipoDoc.value = ''; depto.value = '';
+          municipio.innerHTML = '<option value="">Municipio de residencia *</option>';
+          como.value = '';
+          textarea.value = '';
+          counter.innerHTML = '0/140 caracteres mínimos';
+          counter.classList.add('invalid');
+          if (habeas) habeas.checked = false;
+          if (moreInfo) moreInfo.checked = false;
+          button.disabled = true;
+
+          resetCaptcha();
+
+          const bump = (el) => { if(!el) return; const raw = el.textContent.replace(/\./g,'').trim(); const n = parseInt(raw,10); if(!Number.isNaN(n)) el.textContent = fmtCO(n+1); };
+          bump(document.getElementById('proposalCount'));
+          bump(document.getElementById('proposalCountMobile'));
+
+        } catch (err) {
+          loading.style.display = 'none';
+          console.error(err);
+          respBox.innerHTML = '<p style="color:red;">Hubo un error al enviar la propuesta. Intenta de nuevo.</p>';
+          resetCaptcha();
+        }
+      };
+
+      button.addEventListener('click', async () => {
+        if (!check()) {
+          respBox.innerHTML = '<p style="color:red;">Completa los campos obligatorios y marca el CAPTCHA.</p>';
+          return;
+        }
+        await doSubmit();
+      });
+    }
+
+    // Desktop
+    handleSubmitPlus({
+      nombresId: 'nombresInput',
+      apellidosId: 'apellidosInput',
+      telefonoId: 'telefonoInput',
+      tipoDocId: 'tipoDocInput',
+      numeroDocId: 'numeroDocInput',
+      correoId: 'correoInput',
+      deptoId: 'departamentoInput',
+      municipioId: 'municipioInput',
+      comoAyudarId: 'comoAyudarInput',
+      propuestaId: 'propuestaInput',
+      counterId: 'charCounter',
+      buttonId: 'enviarPropuestaBtn',
+      loadingId: 'loadingIcon',
+      responseId: 'propuestaResponseText',
+      habeasId: 'habeas_data',
+      moreInfoId: 'more_info',
+      getCaptchaToken: ()=>getDesktopCaptchaToken(),
+      resetCaptcha:    ()=>resetDesktopCaptcha()
     });
-  }
 
-  // Desktop
-  handleSubmit(
-    'nombreInput',
-    'correoInput',
-    'propuestaInput',
-    'enviarPropuestaBtn',
-    'loadingIcon',
-    'propuestaResponseText',
-    'charCounter',
-    'telefonoInput',
-    'edadInput',
-    'sexoInput',
-    'regionInput',
-    'habeas_data',
-    'more_info'
-  );
+    // Mobile
+    handleSubmitPlus({
+      nombresId: 'nombresInputMobile',
+      apellidosId: 'apellidosInputMobile',
+      telefonoId: 'telefonoInputMobile',
+      tipoDocId: 'tipoDocInputMobile',
+      numeroDocId: 'numeroDocInputMobile',
+      correoId: 'correoInputMobile',
+      deptoId: 'departamentoInputMobile',
+      municipioId: 'municipioInputMobile',
+      comoAyudarId: 'comoAyudarInputMobile',
+      propuestaId: 'propuestaInputMobile',
+      counterId: 'charCounterMobile',
+      buttonId: 'enviarPropuestaBtnMobile',
+      loadingId: 'loadingIconMobile',
+      responseId: 'propuestaResponseTextMobile',
+      habeasId: 'habeas_data_mobile',
+      moreInfoId: 'more_info_mobile',
+      getCaptchaToken: ()=>getMobileCaptchaToken(),
+      resetCaptcha:    ()=>resetMobileCaptcha()
+    });
 
-  // Mobile
-  handleSubmit(
-    'nombreInputMobile',
-    'correoInputMobile',
-    'propuestaInputMobile',
-    'enviarPropuestaBtnMobile',
-    'loadingIconMobile',
-    'propuestaResponseTextMobile',
-    'charCounterMobile',
-    'telefonoInputMobile',
-    'edadInputMobile',
-    'sexoInputMobile',
-    'regionInputMobile',
-    'habeas_data_mobile',
-    'more_info_mobile'
-  );
+    // Contador inicial
+    loadProposalCountOnce();
 
-  // Cargar contador al iniciar (banner + móvil)
-  loadProposalCountOnce();
-
-  // ---------- Enviar correos (fire-and-forget) ----------
-  async function sendEmails() {
-    const btn = document.getElementById('enviar-correos-btn');
-    const loading = document.getElementById('emailsLoading');
-    btn.disabled = true;
-    loading.style.display = 'inline-flex';
-
-    try {
-      await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/store-proposals/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ message: 'Trigger email lambda' })
-      });
-    } catch (err) {
-      console.error('Enviar correos error:', err);
-    } finally {
-      loading.style.display = 'none';
-      btn.disabled = false;
+    // ---------- Enviar correos (fire-and-forget) ----------
+    async function sendEmails() {
+      const btn = document.getElementById('enviar-correos-btn');
+      const loading = document.getElementById('emailsLoading');
+      btn.disabled = true; loading.style.display = 'inline-flex';
+      try {
+        await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/store-proposals/', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ message: 'Trigger email lambda' })
+        });
+      } catch (err) { console.error('Enviar correos error:', err); }
+      finally { loading.style.display = 'none'; btn.disabled = false; }
     }
-  }
-  document.getElementById('enviar-correos-btn').addEventListener('click', sendEmails);
+    document.getElementById('enviar-correos-btn').addEventListener('click', sendEmails);
 
-  // ---------- Descargas ----------
-  async function startDownload(fileParam, loadingId, buttonId) {
-    const loadingEl = document.getElementById(loadingId);
-    const btn = document.getElementById(buttonId);
-
-    loadingEl.style.display = 'block';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/download-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ file: fileParam })
-      });
-
-      const raw = await res.text();
-      if (!res.ok) { console.error('HTTP', res.status, raw); return; }
-      const data = unwrapResponse(raw);
-
-      const url = (data && typeof data.url === 'string') ? data.url.trim() : '';
-      if (!/^https:\/\/.+/.test(url)) { console.error('Respuesta sin URL válida:', data); return; }
-
-      const a = document.createElement('a');
-      a.href = url; a.rel = 'noopener'; a.target = '_self';
-      document.body.appendChild(a); a.click(); a.remove();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      loadingEl.style.display = 'none';
-      btn.disabled = false;
+    // ---------- Descargas ----------
+    async function startDownload(fileParam, loadingId, buttonId) {
+      const loadingEl = document.getElementById(loadingId);
+      const btn = document.getElementById(buttonId);
+      loadingEl.style.display = 'block'; btn.disabled = true;
+      try {
+        const res = await fetch('https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/download-data', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ file: fileParam })
+        });
+        const raw = await res.text();
+        if (!res.ok) { console.error('HTTP', res.status, raw); return; }
+        const data = unwrapResponse(raw);
+        const url = (data && typeof data.url === 'string') ? data.url.trim() : '';
+        if (!/^https:\/\/.+/.test(url)) { console.error('Respuesta sin URL válida:', data); return; }
+        const a = document.createElement('a'); a.href = url; a.rel='noopener'; a.target='_self';
+        document.body.appendChild(a); a.click(); a.remove();
+      } catch (e) { console.error(e); }
+      finally { loadingEl.style.display = 'none'; btn.disabled = false; }
     }
-  }
+    document.getElementById('download-proposals-btn')
+            .addEventListener('click', () => startDownload('proposals', 'downloadLoadingProposals', 'download-proposals-btn'));
+    document.getElementById('download-analysis-btn')
+            .addEventListener('click', () => startDownload('proposals_analyzed', 'downloadLoadingAnalysis', 'download-analysis-btn'));
+  </script>
 
-  document.getElementById('download-proposals-btn')
-          .addEventListener('click', () => startDownload('proposals', 'downloadLoadingProposals', 'download-proposals-btn'));
-
-  document.getElementById('download-analysis-btn')
-          .addEventListener('click', () => startDownload('proposals_analyzed', 'downloadLoadingAnalysis', 'download-analysis-btn'));
-</script>
+  <!-- ========== reCAPTCHA LOADER (place your SITE KEY below) ========== -->
+  <script>
+    // Paste your **visible v2 checkbox** site key here:
+    window.recaptchaSiteKey = '6LcGXtErAAAAAH91Ws-A18N3l4L4DyyR8zqGexNS';
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=onCaptchaLoad&render=explicit" async defer></script>
+  <!-- ================================================================ -->
 
 </body>
 </html>
