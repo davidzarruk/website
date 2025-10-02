@@ -6,7 +6,6 @@
   <title>Colombia Adelante - Enviar propuesta</title>
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/32x32.png">
 
-  <!-- ✅ Country picker (intl-tel-input) – cdnjs v17.0.19 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" defer></script>
@@ -198,7 +197,6 @@
             </select>
           </div>
 
-          <!-- Propuesta (idéntica a la original) -->
           <textarea id="propuestaInput" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
           <div id="charCounter" class="char-counter">0/140 caracteres mínimos</div>
 
@@ -209,7 +207,6 @@
             <div><label for="more_info">¿Quisieras recibir más información sobre la campaña?</label></div>
           </div>
 
-          <!-- Visible reCAPTCHA v2 (checkbox) -->
           <div class="captcha-box">
             <div id="captchaDesktop"></div>
           </div>
@@ -304,7 +301,6 @@
             </select>
           </div>
 
-          <!-- Propuesta -->
           <textarea id="propuestaInputMobile" placeholder="Propuesta (mínimo 140 caracteres) *" rows="4" required aria-label="Propuesta"></textarea>
           <div id="charCounterMobile" class="char-counter">0/140 caracteres mínimos</div>
 
@@ -315,7 +311,6 @@
             <div><label for="more_info_mobile">¿Quisieras recibir más información sobre la campaña?</label></div>
           </div>
 
-          <!-- Visible reCAPTCHA v2 (checkbox) -->
           <div class="captcha-box">
             <div id="captchaMobile"></div>
           </div>
@@ -340,7 +335,6 @@
     </tr>
   </table>
 
-  <!-- Internal tools notice -->
   <section id="internal-tools-note" style="max-width:900px;margin:24px auto 0;padding:16px 20px;border:1px solid #ffe08a;background:#fff7db;border-radius:8px;font-size:15px;line-height:1.5;color:#5b4a00;">
     <strong style="display:flex;align-items:center;gap:8px;font-size:16px;">
       🔒 Herramientas internas
@@ -355,7 +349,6 @@
     </ul>
   </section>
 
-  <!-- Enviar Correos (fire-and-forget) -->
   <section style="text-align:center; padding:40px 0; background:#f9f9f9;">
     <div class="dl-col">
       <button id="enviar-correos-btn" style="background:#0073e6; color:white;">
@@ -368,7 +361,6 @@
     </div>
   </section>
 
-  <!-- Descargas -->
   <section style="text-align:center; padding:40px 0;">
     <div class="dl-wrap">
       <div class="dl-col">
@@ -393,13 +385,9 @@
     </div>
   </section>
 
-  <!-- =================== APP SCRIPT (logic) =================== -->
   <script>
-    // ======= CONFIG: your backend URL that verifies reCAPTCHA and forwards =======
     const SUBMIT_ENDPOINT = 'https://mm295376bh.execute-api.us-east-1.amazonaws.com/prod/submit';
-    // ============================================================================
 
-    // ---------- Helpers ----------
     function unwrapResponse(rawText) {
       let obj = JSON.parse(rawText);
       if (obj && typeof obj.body === 'string') { try { obj = JSON.parse(obj.body); } catch {} }
@@ -430,7 +418,6 @@
       }catch{ if (bannerEl) bannerEl.textContent='—'; if (mobileEl) mobileEl.textContent='—'; }
     }
 
-    // ===== Departamento -> Municipios (recortado; amplía si quieres) =====
     const CO_MUNICIPIOS = {
       "Amazonas": ["Leticia","Puerto Nariño"],
       "Antioquia": ["Medellín","Bello","Envigado","Itagüí","Rionegro"],
@@ -479,7 +466,6 @@
       if (depto==='Exterior' && muniSelect.options.length>1) muniSelect.value = muniSelect.options[1].value;
     }
 
-    // ---------- Visible reCAPTCHA v2 (checkbox) ----------
     let captchaDesktopId = null, captchaMobileId = null;
 
     function onCaptchaLoad(){
@@ -516,7 +502,6 @@
     function resetDesktopCaptcha(){    try { grecaptcha.reset(captchaDesktopId); } catch {} }
     function resetMobileCaptcha(){     try { grecaptcha.reset(captchaMobileId);  } catch {} }
 
-    // ---------- Enviar propuesta ----------
     function handleSubmitPlus(cfg){
       const {
         nombresId, apellidosId, telefonoId,
@@ -714,7 +699,6 @@
     // Contador inicial
     loadProposalCountOnce();
 
-    // ---------- Enviar correos (fire-and-forget) ----------
     async function sendEmails() {
       const btn = document.getElementById('enviar-correos-btn');
       const loading = document.getElementById('emailsLoading');
@@ -729,7 +713,6 @@
     }
     document.getElementById('enviar-correos-btn').addEventListener('click', sendEmails);
 
-    // ---------- Descargas ----------
     async function startDownload(fileParam, loadingId, buttonId) {
       const loadingEl = document.getElementById(loadingId);
       const btn = document.getElementById(buttonId);
@@ -754,7 +737,6 @@
     document.getElementById('download-analysis-btn')
             .addEventListener('click', () => startDownload('proposals_analyzed', 'downloadLoadingAnalysis', 'download-analysis-btn'));
 
-    // ✅ Initialize intl-tel-input on both phone fields once scripts are loaded
     window.addEventListener('DOMContentLoaded', function(){
       function initIntlTel(id){
         var el = document.getElementById(id);
@@ -765,7 +747,6 @@
           nationalMode: false, // keep full international formatting when copying
           utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js'
         });
-        // keep placeholder synced with plugin’s example
         el.placeholder = iti.getNumberPlaceholder();
         el.addEventListener('countrychange', () => {
           el.placeholder = iti.getNumberPlaceholder();
@@ -776,13 +757,10 @@
     });
   </script>
 
-  <!-- ========== reCAPTCHA LOADER (place your SITE KEY below) ========== -->
   <script>
-    // Paste your **visible v2 checkbox** site key here:
     window.recaptchaSiteKey = '6LcGXtErAAAAAH91Ws-A18N3l4L4DyyR8zqGexNS';
   </script>
   <script src="https://www.google.com/recaptcha/api.js?onload=onCaptchaLoad&render=explicit" async defer></script>
-  <!-- ================================================================ -->
 
 </body>
 </html>
