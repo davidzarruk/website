@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Descargar propuestas</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/32x32.png">
+  <style>
+    :root{ --brand:#4E2AA6; }
+    body{
+      margin:0; min-height:100svh; display:grid; place-items:center; background:#f6f7fb;
+      font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; color:#111;
+    }
+    .wrap{
+      text-align:center; padding:28px; background:#fff; border-radius:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08); border:1px solid #eef0f6;
+    }
+    h1{ font-size:1.15rem; margin:0 0 16px; font-weight:700; color:#333; }
+    button{
+      padding:12px 22px; font-size:16px; border:none; border-radius:10px;
+      background:var(--brand); color:#fff; cursor:pointer; transition:opacity .15s ease;
+    }
+    button:hover{ opacity:.95; }
+    button[disabled]{ opacity:.7; cursor:not-allowed; }
+    .loading{
+      display:none; margin-top:12px; font-size:14px; color:#333;
+    }
+    .loading img{ vertical-align:middle; margin-right:8px; }
+    .hint{ margin-top:10px; font-size:12px; color:#666; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <h1>Descargar propuestas</h1>
+    <button id="download-proposals-btn">Descargar propuestas</button>
+    <div id="downloadLoadingProposals" class="loading">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGd4dWM1ZGJ1bzg2a2N0YzFkOGpmamk1Y2FxOXAyenRyd3Qyem1iNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KG4PMQ0jyimywxNt8i/giphy.gif" alt="Cargando" width="36">
+      Generando archivo...
+    </div>
+    <div id="msg" class="hint"></div>
+  </div>
+
+  <script>
+    const DOWNLOAD_ENDPOINT = 'https://mm295376bh.execute-api.us-east-1.amazonaws.com/internal/download-data';
+
+    function unwrapResponse(rawText){
+      let obj = null;
+      try { obj = JSON.parse(rawText); } catch { return null; }
+      if (obj && typeof obj.body === 'string') {
+        try { obj = JSON.parse(obj.body); } catch {}
+      }
+      return obj;
+    }
+
+    async function startDownload(){
+      const loadingEl = document.getElementById('downloadLoadingProposals');
+      const btn = document.getElementById('download-proposals-btn');
+      const msg = document.getElementById('msg');
+
+      msg.textContent = '';
+      loadingEl.style.display = 'block';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(DOWNLOAD_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ file: 'proposals' })
+        });
+
+        const raw = await res.text();
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + raw);
+
+        const data = unwrapResponse(raw) || {};
+        const url = (typeof data.url === 'string') ? data.url.trim() : '';
+
+        if (!/^https:\/\/.+/.test(url)) {
+          throw new Error('Respuesta sin URL válida');
+        }
+
+        // Dispara la descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_self';
+        a.rel = 'noopener';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+      } catch (e) {
+        console.error(e);
+        msg.textContent = 'Error al generar la descarga. Intenta de nuevo.';
+      } finally {
+        loadingEl.style.display = 'none';
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById('download-proposals-btn')
+            .addEventListener('click', startDownload);
+  </script>
+
+</body>
+</html>
